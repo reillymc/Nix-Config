@@ -7,6 +7,7 @@
 {
   imports = [
     ./waybar.nix
+    ./wlogout.nix
   ];
 
   options = {
@@ -574,6 +575,7 @@
       hyprpicker
       nerd-fonts.symbols-only
       overskride
+      wlogout
     ];
 
     dconf.settings = {

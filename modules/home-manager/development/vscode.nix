@@ -19,12 +19,285 @@
 
     programs.vscode = {
       enable = true;
-      extensions = with pkgs.vscode-extensions; [
-        ms-vscode-remote.remote-containers
-        jnoortheen.nix-ide
-      ];
+      profiles.default = {
+        extensions = with pkgs.vscode-extensions; [
+          ms-vscode-remote.remote-containers
+          jnoortheen.nix-ide
+          eamodio.gitlens
+          streetsidesoftware.code-spell-checker
+          vscode-icons-team.vscode-icons
+        ];
+        keybindings = [
+          {
+            "key" = "shift+alt+f";
+            "command" = "editor.action.formatDocument";
+            "when" =
+              "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly && !inCompositeEditor";
+          }
+          {
+            key = "ctrl+j";
+            command = "editor.action.joinLines";
+          }
+          {
+            key = "alt+left";
+            command = "workbench.action.navigateBack";
+            when = "canNavigateBack";
+          }
+          {
+            key = "alt+right";
+            command = "workbench.action.navigateForward";
+            when = "canNavigateForward";
+          }
+          {
+            key = "alt+a";
+            command = "editor.action.sortLinesAscending";
+          }
+          {
+            key = "alt+d";
+            command = "editor.action.sortLinesDescending";
+          }
+          {
+            key = "ctrl+shift+b";
+            command = "workbench.action.toggleAuxiliaryBar";
+          }
+          {
+            key = "ctrl+alt+s";
+            command = "workbench.action.files.saveWithoutFormatting";
+          }
+          {
+            key = "ctrl+shift+x";
+            command = "editor.action.deleteLines";
+            when = "textInputFocus && !editorReadonly";
+          }
+          {
+            key = "ctrl+shift+d";
+            command = "editor.action.selectHighlights";
+            when = "editorFocus";
+          }
+          {
+            key = "ctrl+alt+right";
+            command = "cursorWordPartRight";
+            when = "textInputFocus && !accessibilityModeEnabled";
+          }
+          {
+            key = "ctrl+alt+left";
+            command = "cursorWordPartLeft";
+            when = "textInputFocus && !accessibilityModeEnabled";
+          }
+          {
+            key = "ctrl+shift+alt+right";
+            command = "cursorWordPartRightSelect";
+            when = "textInputFocus && !accessibilityModeEnabled";
+          }
+          {
+            key = "ctrl+shift+alt+left";
+            command = "cursorWordPartLeftSelect";
+            when = "textInputFocus && !accessibilityModeEnabled";
+          }
+          {
+            key = "ctrl+alt+backspace";
+            command = "deleteWordPartLeft";
+            when = "editorTextFocus && !editorReadonly";
+          }
+          {
+            key = "ctrl+alt+delete";
+            command = "deleteWordPartRight";
+            when = "editorTextFocus && !editorReadonly";
+          }
+          {
+            key = "alt+shift+[";
+            command = "runCommands";
+            args.commands = [
+              "workbench.action.focusSideBar"
+              "workbench.action.decreaseViewSize"
+              "workbench.action.focusActiveEditorGroup"
+            ];
+          }
+          {
+            key = "alt+shift+]";
+            command = "runCommands";
+            args.commands = [
+              "workbench.action.focusSideBar"
+              "workbench.action.increaseViewSize"
+              "workbench.action.focusActiveEditorGroup"
+            ];
+          }
+          {
+            key = "alt+shift+'";
+            command = "runCommands";
+            args.commands = [
+              "workbench.action.terminal.focus"
+              "workbench.action.decreaseViewSize"
+              "workbench.action.focusActiveEditorGroup"
+            ];
+          }
+          {
+            key = "alt+shift+=";
+            command = "runCommands";
+            args.commands = [
+              "workbench.action.terminal.focus"
+              "workbench.action.increaseViewSize"
+              "workbench.action.focusActiveEditorGroup"
+            ];
+          }
+        ];
+        userSettings = {
+          "accessibility.signalOptions.volume" = 0;
+          "chat.commandCenter.enabled" = false;
+          "diffEditor.ignoreTrimWhitespace" = false;
+          "editor.dragAndDrop" = false;
+          "editor.formatOnSave" = true;
+          "editor.hover.delay" = 600;
+          "editor.occurrencesHighlight" = "multiFile";
+          "editor.snippetSuggestions" = "inline";
+          "editor.stickyTabStops" = true;
+          "editor.tabCompletion" = "onlySnippets";
+
+          "explorer.confirmDelete" = false;
+          "explorer.confirmDragAndDrop" = false;
+          "explorer.fileNesting.enabled" = true;
+          "explorer.fileNesting.expand" = false;
+          "explorer.fileNesting.patterns" = {
+            ".env" = "*.env, .env.*, .envrc, env.d.ts";
+            ".gitignore" = ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*";
+            "Makefile" = "*.mk";
+            "package.json" =
+              "package-lock.json, .browserslist*, .editorconfig, .eslint*, tsconfig.*, .node-version, .nodemon*, .npm*, .nvmrc, .pm2*, .pnp.*, .pnpm*, .prettier*, playwright.config.*, vitest.config.*, .stylelint*, .vscode*, bun.lockb, stylelint*, webpack*, biome*, babel*, .commitlint*";
+            "readme*" =
+              "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE*, License*, MAINTAINERS, Maintainers, RELEASE_NOTES*, Release_Notes*, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, copying*, credits, governance.md, history.md, license*, maintainers, release_notes*, security.md, sponsors*";
+            "Readme*" =
+              "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE*, License*, MAINTAINERS, Maintainers, RELEASE_NOTES*, Release_Notes*, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, copying*, credits, governance.md, history.md, license*, maintainers, release_notes*, security.md, sponsors*";
+            "README*" =
+              "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE*, License*, MAINTAINERS, Maintainers, RELEASE_NOTES*, Release_Notes*, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, copying*, credits, governance.md, history.md, license*, maintainers, release_notes*, security.md, sponsors*";
+            "vite.config.*" =
+              "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*";
+            "*.cs" = "$(capture).*.cs";
+            "*.css" = "$(capture).css.map, $(capture).*.css";
+            "*.js" = "$(capture).js.map, $(capture).*.js, $(capture)_*.js";
+            "*.jsx" =
+              "$(capture).js, $(capture).*.jsx, $(capture)_*.js, $(capture)_*.jsx, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts";
+            "*.md" = "$(capture).*";
+            "*.ts" = "$(capture).js, $(capture).d.ts.map, $(capture).*.ts, $(capture)_*.js, $(capture)_*.ts";
+            "*.tsx" =
+              "$(capture).ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts";
+          };
+
+          "extensions.ignoreRecommendations" = true;
+          "files.insertFinalNewline" = true;
+
+          "git.confirmSync" = false;
+          "git.decorations.enabled" = true;
+          "git.enableSmartCommit" = true;
+          "git.mergeEditor" = true;
+          "git.replaceTagsWhenPull" = true;
+
+          "testing.automaticallyOpenTestResults" = "neverOpen";
+          "testing.openTesting" = "neverOpen";
+
+          "update.mode" = "none";
+
+          "window.commandCenter" = false;
+          "window.confirmSaveUntitledWorkspace" = false;
+          "window.customMenuBarAltFocus" = false;
+          "window.customTitleBarVisibility" = "never";
+          "window.menuBarVisibility" = "hidden";
+          "window.restoreWindows" = "none";
+          "window.title" = "\${dirty}\${activeEditorShort}\${separator}\${rootNameShort}\${separator}VSCode";
+          "window.titleBarStyle" = "native";
+
+          "workbench.activityBar.location" = "top";
+          "workbench.editorAssociations" = {
+            "git-rebase-todo" = "gitlens.rebase";
+          };
+          "workbench.iconTheme" = "vscode-icons";
+          "workbench.layoutControl.enabled" = false;
+          "workbench.layoutControl.type" = "toggles";
+          "workbench.secondarySideBar.defaultVisibility" = "hidden";
+          "workbench.tree.enableStickyScroll" = true;
+
+          "biome.suggestInstallingGlobally" = false;
+
+          "cSpell.language" = "en-GB";
+          "cSpell.userWords" = [
+            "clearable"
+            "cooldown"
+            "endregion"
+            "falsey"
+            "fractionalised"
+            "imgur"
+            "keychain"
+            "KHTML"
+            "redactable"
+            "reillymc"
+            "scrollable"
+          ];
+
+          "javascript.preferences.jsxAttributeCompletionStyle" = "braces";
+
+          "nix.enableLanguageServer" = true;
+          "nix.serverPath" = "nixd";
+          "nix.serverSettings" = {
+            nixd = {
+              formatting = {
+                command = [ "nixfmt" ];
+              };
+            };
+            "nixos" = {
+              "expr" =
+                "(builtins.getFlake \"/home/reilly/.dotfiles/flake.nix\").nixosConfigurations.terra.options"; # TODO: substitute active config name, and decouple hardcoded directory. This and instance below
+            };
+            "home-manager" = {
+              "expr" =
+                "(builtins.getFlake \"/home/reilly/.dotfiles/flake.nix\").nixosConfigurations.terra.options.home-manager.users.type.getSubOptions []";
+            };
+          };
+
+          "remote.SSH.enableAgentForwarding" = true;
+
+          "typescript.preferences.jsxAttributeCompletionStyle" = "auto";
+          "typescript.preferences.preferTypeOnlyAutoImports" = true;
+          "typescript.preferences.useAliasesForRenames" = false;
+
+          "vsicons.dontShowNewVersionMessage" = true;
+
+          "[nix]" = {
+            "editor.defaultFormatter" = "jnoortheen.nix-ide";
+          };
+          "[snippets]" = {
+            "editor.defaultFormatter" = "vscode.json-language-features";
+          };
+        };
+        languageSnippets = {
+          "typescriptreact" = {
+            "Function Component" = {
+              prefix = "fc";
+              body = [
+                "import { FC } from \"react\";"
+                ""
+                "interface \${TM_FILENAME_BASE/(.*)/\${1:/pascalcase}/}Props {"
+                ""
+                "}"
+                ""
+                "export const \${TM_FILENAME_BASE/(.*)/\${1:/pascalcase}/}: FC<\${TM_FILENAME_BASE/(.*)/\${1:/pascalcase}/}Props> = ({}) => {"
+                "    "
+                ""
+                "    return ("
+                "        $1"
+                "    );"
+                "};"
+                ""
+              ];
+              description = "Function Component";
+            };
+          };
+        };
+
+      };
     };
 
-    home.packages = [ pkgs.nixfmt-rfc-style ];
+    home.packages = with pkgs; [
+      nixfmt-rfc-style
+      nixd
+    ];
   };
 }

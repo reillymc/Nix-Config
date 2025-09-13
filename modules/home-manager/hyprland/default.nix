@@ -9,6 +9,7 @@
     ./waybar.nix
     ./wlogout.nix
     ./clipse.nix
+    ./rofi.nix
   ];
 
   options = {
@@ -463,11 +464,11 @@
         animations = {
           enabled = true;
           fade_in = {
-            duration = 300;
+            duration = 1000;
             bezier = "easeOutQuint";
           };
           fade_out = {
-            duration = 300;
+            duration = 1000;
             bezier = "easeOutQuint";
           };
         };
@@ -539,7 +540,9 @@
       networkmanagerapplet
       rofi-wayland
       hyprpicker
+      hyprpaper
       nerd-fonts.symbols-only
+      jetbrains-mono
       overskride
       swaynotificationcenter
     ];

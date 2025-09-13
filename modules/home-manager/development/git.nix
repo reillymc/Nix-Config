@@ -9,5 +9,5 @@
     enable = true;
   };
 
-  environment.systemPackages = [ pkgs.git ];
+  home.packages = [ pkgs.git ];
 }

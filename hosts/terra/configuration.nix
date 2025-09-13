@@ -14,7 +14,6 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
-    ../../modules/home-manager/default.nix
   ];
 
   # Bootloader.
@@ -55,8 +54,6 @@
     LC_TELEPHONE = "en_GB.UTF-8";
     LC_TIME = "en_GB.UTF-8";
   };
-
-  myhome.vscode.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -113,6 +110,11 @@
     };
   };
 
+
+  # TODO: control this with same variable as home manager hyprland
+  programs.hyprland.enable = true;
+  programs.hyprland.withUWSM = true;
+
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -124,6 +126,7 @@
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
+    pkgs.kitty
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -4,7 +4,10 @@
 {
   programs.waybar = {
     enable = true;
-    systemd.enable = true;
+    systemd = {
+      enable = true;
+      target = "hyprland-session.target";
+    };
     settings = [
       {
         layer = "top";
@@ -21,7 +24,6 @@
           "tray"
           "pulseaudio"
           "bluetooth"
-          "network"
           "custom/notification"
         ];
         "custom/nix" = {

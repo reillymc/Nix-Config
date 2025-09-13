@@ -8,6 +8,7 @@
   imports = [
     ./waybar.nix
     ./wlogout.nix
+    ./clipse.nix
   ];
 
   options = {
@@ -73,7 +74,7 @@
           "$mod, W, killactive"
           "$mod, Q, exec, kitty"
           "$mod, E, exec, uwsm app -- nautilus"
-          "$mod, T, exec, uwsm app -- blackbox" # TODO: use terminal variable
+          "$mod, T, exec, uwsm app -- ghostty" # TODO: use terminal variable
           "$mod SHIFT, left, movewindow, l"
           "$mod SHIFT, right, movewindow, r"
           "$mod SHIFT, up, movewindow, u"
@@ -95,6 +96,7 @@
               [
                 "$mod, code:1${toString i}, workspace, ${toString ws}"
                 "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+                "$mod SHIFT ALT, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
               ]
             ) 9
           )
@@ -126,7 +128,7 @@
         $mainMod = SUPER
 
         bind = $mainMod SHIFT, F, togglefloating, 
-        bind = $mainMod, V, exec, pkill kitty || uwsm app -- kitty --class clipse -e clipse
+        bind = $mainMod, V, exec, ~/.dotfiles/scripts/clipse.sh
         bind = $mainMod, J, togglesplit, # dwindle
 
         # Move focus with mainMod + arrow keys
@@ -134,42 +136,6 @@
         bind = $mainMod, right, movefocus, r #hy3:
         bind = $mainMod, up, movefocus, u #hy3:
         bind = $mainMod, down, movefocus, d #hy3:
-
-        # Switch workspaces with mainMod + [0-9]
-        bind = $mainMod, 1, workspace, 1
-        bind = $mainMod, 2, workspace, 2
-        bind = $mainMod, 3, workspace, 3
-        bind = $mainMod, 4, workspace, 4
-        bind = $mainMod, 5, workspace, 5
-        bind = $mainMod, 6, workspace, 6
-        bind = $mainMod, 7, workspace, 7
-        bind = $mainMod, 8, workspace, 8
-        bind = $mainMod, 9, workspace, 9
-        bind = $mainMod, 0, workspace, 10
-
-        # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        bind = $mainMod SHIFT, 1, movetoworkspace, 1
-        bind = $mainMod SHIFT, 2, movetoworkspace, 2
-        bind = $mainMod SHIFT, 3, movetoworkspace, 3
-        bind = $mainMod SHIFT, 4, movetoworkspace, 4
-        bind = $mainMod SHIFT, 5, movetoworkspace, 5
-        bind = $mainMod SHIFT, 6, movetoworkspace, 6
-        bind = $mainMod SHIFT, 7, movetoworkspace, 7
-        bind = $mainMod SHIFT, 8, movetoworkspace, 8
-        bind = $mainMod SHIFT, 9, movetoworkspace, 9
-        bind = $mainMod SHIFT, 0, movetoworkspace, 10
-
-        # Silently move active window to a workspace
-        bind = $mainMod SHIFT ALT, 1, movetoworkspacesilent, 1
-        bind = $mainMod SHIFT ALT, 2, movetoworkspacesilent, 2
-        bind = $mainMod SHIFT ALT, 3, movetoworkspacesilent, 3
-        bind = $mainMod SHIFT ALT, 4, movetoworkspacesilent, 4
-        bind = $mainMod SHIFT ALT, 5, movetoworkspacesilent, 5
-        bind = $mainMod SHIFT ALT, 6, movetoworkspacesilent, 6
-        bind = $mainMod SHIFT ALT, 7, movetoworkspacesilent, 7
-        bind = $mainMod SHIFT ALT, 8, movetoworkspacesilent, 8
-        bind = $mainMod SHIFT ALT, 9, movetoworkspacesilent, 9
-        bind = $mainMod SHIFT ALT, 0, movetoworkspacesilent, 10
 
         bind = $mainMod CTRL SHIFT, 1, movecurrentworkspacetomonitor, 0
         bind = $mainMod CTRL SHIFT, 2, movecurrentworkspacetomonitor, 1
@@ -272,13 +238,13 @@
 
         # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
         # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
-        windowrulev2 = opacity 0.8,class:(com.raggesilver.BlackBox)
+        windowrulev2 = opacity 0.8,class:(com.mitchellh.ghostty)
 
-        windowrulev2 = float, class:(clipse)
-        windowrulev2 = size 622 652, class:(clipse)
-        windowrulev2 = stayfocused, class:(clipse)
-        windowrulev2 = animation popin class:(clipse)
-        windowrulev2 = opacity 0.8,class:(clipse)
+        windowrulev2 = float, class:(com.my.clipboard)
+        windowrulev2 = size 622 652, class:(com.my.clipboard)
+        windowrulev2 = stayfocused, class:(com.my.clipboard)
+        windowrulev2 = animation popin class:(com.my.clipboard)
+        windowrulev2 = opacity 0.8,class:(com.my.clipboard)
 
         windowrulev2 = float, class:(org.gnome.NautilusPreviewer)
         windowrulev2 = size 1024 1440, class:(org.gnome.NautilusPreviewer)
@@ -575,7 +541,7 @@
       hyprpicker
       nerd-fonts.symbols-only
       overskride
-      wlogout
+      swaynotificationcenter
     ];
 
     dconf.settings = {

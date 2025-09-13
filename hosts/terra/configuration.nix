@@ -110,10 +110,11 @@
     };
   };
 
-
   # TODO: control this with same variable as home manager hyprland
-  programs.hyprland.enable = true;
-  programs.hyprland.withUWSM = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
 
   # Install firefox.
   programs.firefox.enable = true;

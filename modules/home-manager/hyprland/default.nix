@@ -538,7 +538,6 @@
 
     home.packages = with pkgs; [
       networkmanagerapplet
-      rofi-wayland
       hyprpicker
       hyprpaper
       nerd-fonts.symbols-only

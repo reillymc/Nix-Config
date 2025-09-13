@@ -2,15 +2,12 @@
   pkgs,
   config,
   lib,
-  inputs,
   ...
 }:
 {
-  # imports = [
-  #   ./monitors.nix
-  #   ./keymaps.nix
-  #   ./start.nix
-  # ];
+  imports = [
+    ./waybar.nix
+  ];
 
   options = {
     myhome.hyprland.enable = lib.mkEnableOption "enables hyprland";
@@ -26,6 +23,7 @@
 
     wayland.windowManager.hyprland = {
       enable = true;
+      systemd.enable = false;
       settings = {
         general = {
           gaps_in = 3;
@@ -107,7 +105,6 @@
         exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP PATH
         exec-once = systemctl --user start hyprpolkitagent
 
-        exec-once = uwsm app -- waybar
         exec-once = uwsm app -- hyprpaper
         exec-once = uwsm app -- clipse -listen
         exec-once = uwsm app -- swaync
@@ -575,6 +572,8 @@
       networkmanagerapplet
       rofi-wayland
       hyprpicker
+      nerd-fonts.symbols-only
+      overskride
     ];
 
     dconf.settings = {
@@ -582,5 +581,7 @@
         button-layout = ":";
       };
     };
+
+    fonts.fontconfig.enable = true;
   };
 }

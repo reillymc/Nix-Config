@@ -1,1 +1,7 @@
-{ imports = [ ./entertainment ]; }
+{
+  imports = [
+    ./entertainment
+    ./gnome
+    ./hyprland
+  ];
+}

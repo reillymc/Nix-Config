@@ -22,6 +22,7 @@
       profiles.default = {
         extensions = with pkgs.vscode-extensions; [
           ms-vscode-remote.remote-containers
+          ms-azuretools.vscode-containers
           jnoortheen.nix-ide
           eamodio.gitlens
           streetsidesoftware.code-spell-checker

@@ -106,7 +106,7 @@
 
       extraConfig = ''
         # Programs to be launched on start-up (will not be relaunched on Hyprland reload)
-        exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP PATH
+        exec-once = dbus-update-activation-environment --systemd PATH
         exec-once = systemctl --user start hyprpolkitagent
 
         exec-once = uwsm app -- hyprpaper
@@ -248,7 +248,7 @@
         windowrulev2 = opacity 0.8,class:(com.my.clipboard)
 
         windowrulev2 = float, class:(org.gnome.NautilusPreviewer)
-        windowrulev2 = size 1024 1440, class:(org.gnome.NautilusPreviewer)
+        windowrulev2 = size 1024 1024, class:(org.gnome.NautilusPreviewer)
 
         windowrulev2 = float, class:(org.gnome.Calculator)
 

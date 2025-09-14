@@ -57,6 +57,8 @@
   };
 
   services.tailscale.enable = true;
+  services.fwupd.enable = true;
+  services.flatpak.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.reilly = {
@@ -76,9 +78,6 @@
   };
 
   services.displayManager.gdm.enable = true;
-  services.gnome.core-apps.enable = true;
-  services.gnome.sushi.enable = true;
-  services.gnome.core-os-services.enable = true;
 
   mynixos.steam.enable = true;
   mynixos.hyprland.enable = true;
@@ -88,7 +87,15 @@
     bluez
     xdg-desktop-portal-gtk
     pkgs.firefoxpwa
+    bruno
+    papers
+    newsflash
+    picard
+    foliate
+    rclone
   ];
+
+  programs.localsend.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

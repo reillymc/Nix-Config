@@ -3,6 +3,15 @@
   pkgs,
   ...
 }:
+let
+  mynixos = {
+    steam.enable = true;
+    hyprland.enable = true;
+    docker.enable = true;
+    firewall.commonPorts.enable = true;
+    nautilus.enable = true;
+  };
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -74,7 +83,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs mynixos; };
     users = {
       "reilly" = import ./home.nix;
     };
@@ -82,10 +91,7 @@
 
   services.displayManager.gdm.enable = true;
 
-  mynixos.steam.enable = true;
-  mynixos.hyprland.enable = true;
-  mynixos.docker.enable = true;
-  mynixos.firewall.commonPorts.enable = true;
+  mynixos = mynixos;
 
   environment.systemPackages = with pkgs; [
     nautilus

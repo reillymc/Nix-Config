@@ -13,4 +13,15 @@
       ];
     };
   };
+
+  programs.bash = {
+    enable = true;
+  };
+
+  programs.readline = {
+    enable = true;
+    extraConfig = ''
+      set completion-ignore-case on
+    '';
+  };
 }

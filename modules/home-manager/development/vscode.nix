@@ -139,6 +139,17 @@
               "workbench.action.focusActiveEditorGroup"
             ];
           }
+          {
+            "key" = "ctrl+c";
+            "command" = "workbench.action.terminal.copySelection";
+            "when" =
+              "terminalTextSelectedInFocused || terminalFocus && terminalHasBeenCreated && terminalTextSelected || terminalFocus && terminalProcessSupported && terminalTextSelected || terminalFocus && terminalTextSelected && terminalTextSelectedInFocused || terminalHasBeenCreated && terminalTextSelected && terminalTextSelectedInFocused || terminalProcessSupported && terminalTextSelected && terminalTextSelectedInFocused";
+          }
+          {
+            "key" = "ctrl+v";
+            "command" = "workbench.action.terminal.paste";
+            "when" = "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported";
+          }
         ];
         userSettings = {
           "accessibility.signalOptions.volume" = 0;
@@ -151,7 +162,6 @@
           "editor.snippetSuggestions" = "inline";
           "editor.stickyTabStops" = true;
           "editor.tabCompletion" = "onlySnippets";
-
           "explorer.confirmDelete" = false;
           "explorer.confirmDragAndDrop" = false;
           "explorer.fileNesting.enabled" = true;
@@ -180,21 +190,16 @@
             "*.tsx" =
               "$(capture).ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts";
           };
-
           "extensions.ignoreRecommendations" = true;
           "files.insertFinalNewline" = true;
-
           "git.confirmSync" = false;
           "git.decorations.enabled" = true;
           "git.enableSmartCommit" = true;
           "git.mergeEditor" = true;
           "git.replaceTagsWhenPull" = true;
-
           "testing.automaticallyOpenTestResults" = "neverOpen";
           "testing.openTesting" = "neverOpen";
-
           "update.mode" = "none";
-
           "window.commandCenter" = false;
           "window.confirmSaveUntitledWorkspace" = false;
           "window.customMenuBarAltFocus" = false;
@@ -203,7 +208,6 @@
           "window.restoreWindows" = "none";
           "window.title" = "\${dirty}\${activeEditorShort}\${separator}\${rootNameShort}\${separator}VSCode";
           "window.titleBarStyle" = "native";
-
           "workbench.activityBar.location" = "top";
           "workbench.editorAssociations" = {
             "git-rebase-todo" = "gitlens.rebase";
@@ -213,9 +217,7 @@
           "workbench.layoutControl.type" = "toggles";
           "workbench.secondarySideBar.defaultVisibility" = "hidden";
           "workbench.tree.enableStickyScroll" = true;
-
           "biome.suggestInstallingGlobally" = false;
-
           "cSpell.language" = "en-GB";
           "cSpell.userWords" = [
             "clearable"
@@ -230,9 +232,7 @@
             "reillymc"
             "scrollable"
           ];
-
           "javascript.preferences.jsxAttributeCompletionStyle" = "braces";
-
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = "nixd";
           "nix.serverSettings" = {
@@ -250,15 +250,12 @@
                 "(builtins.getFlake \"/home/reilly/.dotfiles/flake.nix\").nixosConfigurations.terra.options.home-manager.users.type.getSubOptions []";
             };
           };
-
           "remote.SSH.enableAgentForwarding" = true;
-
           "typescript.preferences.jsxAttributeCompletionStyle" = "auto";
           "typescript.preferences.preferTypeOnlyAutoImports" = true;
           "typescript.preferences.useAliasesForRenames" = false;
-
+          "redhat.telemetry.enabled" = false;
           "vsicons.dontShowNewVersionMessage" = true;
-
           "[nix]" = {
             "editor.defaultFormatter" = "jnoortheen.nix-ide";
           };

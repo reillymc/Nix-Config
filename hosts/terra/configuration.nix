@@ -85,6 +85,7 @@
   mynixos.steam.enable = true;
   mynixos.hyprland.enable = true;
   mynixos.docker.enable = true;
+  mynixos.firewall.commonPorts.enable = true;
 
   environment.systemPackages = with pkgs; [
     nautilus

@@ -4,5 +4,6 @@
     ./gnome
     ./hyprland
     ./utilities
+    ./development
   ];
 }

@@ -66,6 +66,7 @@
     description = "Reilly MacKenzie-Cree";
     extraGroups = [
       "networkmanager"
+      "docker" # TODO: manage within docker module
       "wheel"
     ];
   };
@@ -81,6 +82,7 @@
 
   mynixos.steam.enable = true;
   mynixos.hyprland.enable = true;
+  mynixos.docker.enable = true;
 
   environment.systemPackages = with pkgs; [
     nautilus
@@ -107,5 +109,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }

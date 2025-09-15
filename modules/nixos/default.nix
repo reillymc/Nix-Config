@@ -3,5 +3,6 @@
     ./entertainment
     ./gnome
     ./hyprland
+    ./utilities
   ];
 }

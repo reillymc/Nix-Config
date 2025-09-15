@@ -29,6 +29,8 @@
 
   hardware.bluetooth.enable = true;
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   # Set your time zone.
   time.timeZone = "Europe/London";
 

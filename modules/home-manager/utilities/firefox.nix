@@ -5,7 +5,6 @@
 {
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts = [ pkgs.firefoxpwa ];
     profiles.default = {
       id = 0;
       name = "default";

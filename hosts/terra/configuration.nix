@@ -97,7 +97,6 @@ in
     nautilus
     bluez
     xdg-desktop-portal-gtk
-    pkgs.firefoxpwa
     bruno
     papers
     newsflash

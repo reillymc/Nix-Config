@@ -10,6 +10,7 @@ let
     docker.enable = true;
     firewall.commonPorts.enable = true;
     nautilus.enable = true;
+    rclone.enable = true;
   };
 in
 {
@@ -102,7 +103,14 @@ in
     newsflash
     picard
     foliate
-    rclone
+    libreoffice
+    vlc
+    via
+    obsidian
+  ];
+
+  services.udev.packages = with pkgs; [
+    via
   ];
 
   programs.localsend.enable = true;

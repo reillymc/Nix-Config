@@ -12,7 +12,6 @@
 
   myhome.vscode.enable = true;
   myhome.hyprland.enable = true;
-  myhome.obsidian.enable = true;
 
   home.pointerCursor = {
     gtk.enable = true;

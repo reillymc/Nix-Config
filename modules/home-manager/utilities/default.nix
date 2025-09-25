@@ -3,5 +3,6 @@
     ./firefox.nix
     ./nautilus.nix
     ./rclone.nix
+    ./gammastep.nix
   ];
 }

@@ -10,6 +10,7 @@
     ./wlogout.nix
     ./clipse.nix
     ./rofi.nix
+    ./swaync.nix
   ];
 
   options = {
@@ -543,7 +544,6 @@
       nerd-fonts.symbols-only
       jetbrains-mono
       overskride
-      swaynotificationcenter
     ];
 
     dconf.settings = {

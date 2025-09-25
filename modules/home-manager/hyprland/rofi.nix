@@ -8,10 +8,10 @@
     package = pkgs.rofi-wayland; # TODO: remove when rofi 2.0.0 is available (native wayland support merged)
     modes = [ "drun" ];
     font = "JetBrains Mono 10";
-    # plugins = [
-    #   pkgs.rofi-emoji
-    #   pkgs.rofi-calc
-    # ];
+    plugins = with pkgs; [
+      rofi-emoji
+      rofi-calc
+    ];
     extraConfig = {
       show-icons = true;
       sorting-method = "normal";

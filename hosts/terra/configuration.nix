@@ -121,6 +121,12 @@ in
 
   services.logind.settings.Login.HandlePowerKey = "suspend";
 
+  # M720 and USB hub wake from suspend
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="19f5", ATTRS{idProduct}=="3247", ATTR{power/wakeup}="enabled"
+    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="1a40", ATTRS{idProduct}=="0101", ATTR{power/wakeup}="enabled"
+  '';
+
   programs.localsend.enable = true;
 
   # Allow unfree packages

@@ -119,6 +119,10 @@ in
     via
   ];
 
+  services.logind = {
+    powerKey = "suspend";
+  };
+
   programs.localsend.enable = true;
 
   # Allow unfree packages

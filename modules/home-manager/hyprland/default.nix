@@ -111,13 +111,9 @@
         exec-once = systemctl --user start hyprpolkitagent
 
         exec-once = uwsm app -- hyprpaper
-        exec-once = uwsm app -- clipse -listen
-        exec-once = uwsm app -- swaync
         exec-once = uwsm app -- nm-applet # Used by proton VPN
         exec-once = uwsm app -- darkman run
         exec-once = uwsm app -- kdeconnectd
-        exec-once = uwsm app -- gammastep-indicator
-        exec-once = uwsm app -- libinput-gestures
 
         exec-once = uwsm app -- ~/.dotfiles/scripts/startup.sh
 

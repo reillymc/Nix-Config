@@ -5,6 +5,7 @@
   ...
 }:
 {
+  imports = [ ./thumbnailers.nix ];
 
   options = {
     # TODO: control this with same variable as home manager hyprland

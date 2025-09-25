@@ -46,6 +46,7 @@ in
   networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true;
+  hardware.i2c.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -115,6 +116,9 @@ in
     vlc
     via
     obsidian
+    pwvucontrol
+    ddcutil
+    libnotify
   ];
 
   services.udev.packages = with pkgs; [

@@ -11,6 +11,12 @@ let
     firewall.commonPorts.enable = true;
     nautilus.enable = true;
     rclone.enable = true;
+    hardware.logitech = {
+      enable = true;
+      device = {
+        m720.enable = true;
+      };
+    };
   };
 in
 {

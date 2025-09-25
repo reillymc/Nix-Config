@@ -5,5 +5,6 @@
     ./hyprland
     ./utilities
     ./development
+    ./hardware
   ];
 }

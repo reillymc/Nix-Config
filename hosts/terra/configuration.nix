@@ -119,9 +119,7 @@ in
     via
   ];
 
-  services.logind = {
-    powerKey = "suspend";
-  };
+  services.logind.settings.Login.HandlePowerKey = "suspend";
 
   programs.localsend.enable = true;
 

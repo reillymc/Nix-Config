@@ -92,8 +92,17 @@ in
     ];
   };
 
+  specialisation.light.configuration = {
+    home-manager.extraSpecialArgs.theme = "light";
+  };
+  specialisation.dark.configuration = {
+  };
+
   home-manager = {
-    extraSpecialArgs = { inherit inputs mynixos; };
+    extraSpecialArgs = {
+      inherit inputs mynixos;
+      theme = "dark";
+    };
     users = {
       "reilly" = import ./home.nix;
     };
@@ -144,6 +153,76 @@ in
     options = "--delete-older-than 60d";
   };
   nix.optimise.automatic = true;
+
+  systemd.services.switchToDarkMode = {
+    description = "Switch to dark mode theme";
+    serviceConfig = {
+      ExecStart = "/nix/var/nix/profiles/system/specialisation/dark/bin/switch-to-configuration switch";
+      Type = "oneshot";
+      User = "root";
+    };
+  };
+
+  systemd.services.switchToLightMode = {
+    description = "Switch to light mode theme";
+    serviceConfig = {
+      ExecStart = "/nix/var/nix/profiles/system/specialisation/light/bin/switch-to-configuration switch";
+      Type = "oneshot";
+      User = "root";
+    };
+  };
+
+  systemd.timers.switchToDarkMode = {
+    description = "Timer to switch to dark mode";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 18:30:00";
+      Persistent = true;
+    };
+  };
+
+  systemd.timers.switchToLightMode = {
+    description = "Timer to switch to light mode";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 08:00:00";
+      Persistent = true;
+    };
+  };
+
+  systemd.services.switchToDarkModeNonRoot = {
+    description = "Switch to dark mode theme";
+    serviceConfig = {
+      ExecStart = "hyprctl setcursor Bibata-Modern-Ice 24";
+      Type = "oneshot";
+    };
+  };
+
+  systemd.services.switchToLightModeNonRoot = {
+    description = "Switch to light mode theme";
+    serviceConfig = {
+      ExecStart = "hyprctl setcursor Bibata-Modern-Classic 24";
+      Type = "oneshot";
+    };
+  };
+
+  systemd.timers.switchToDarkModeNonRoot = {
+    description = "Timer to switch to dark mode";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 18:30:00";
+      Persistent = true;
+    };
+  };
+
+  systemd.timers.switchToLightModeNonRoot = {
+    description = "Timer to switch to light mode";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 08:00:00";
+      Persistent = true;
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

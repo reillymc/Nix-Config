@@ -5,7 +5,7 @@
   programs.ghostty = {
     enable = true;
     settings = {
-      theme = "dark:Adwaita-dark,light:Adwaita";
+      theme = "dark:Adwaita Dark,light:Adwaita";
       resize-overlay = "never";
       keybind = [
         "ctrl+v=paste_from_clipboard"

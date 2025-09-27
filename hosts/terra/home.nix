@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{
+  pkgs,
+  theme,
+  ...
+}:
 
 {
   imports = [
@@ -15,8 +19,9 @@
 
   home.pointerCursor = {
     gtk.enable = true;
+    hyprcursor.enable = true;
     package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
+    name = if theme == "light" then "Bibata-Modern-Classic" else "Bibata-Modern-Ice";
     size = 16;
   };
 

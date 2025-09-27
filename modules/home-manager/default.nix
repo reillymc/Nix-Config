@@ -11,6 +11,7 @@
     ./utilities
     ./entertainment
     ./web-apps.nix
+    ./theme.nix
   ];
 
   options = {

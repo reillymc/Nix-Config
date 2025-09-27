@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  configDir,
   ...
 }:
 let
@@ -197,7 +198,7 @@ in
         name = app.name;
         type = "Application";
         exec = ''${pkgs.firefox}/bin/firefox -no-remote --profile "${config.home.homeDirectory}/.mozilla/firefox/${app.profile}" --class "${app.id}" --name "${app.name}" --new-window "${app.url}"'';
-        icon = "${config.home.homeDirectory}/.dotfiles/resources/icons/${app.icon}";
+        icon = "${configDir}/resources/icons/${app.icon}";
         categories = [ "X-Internet" ];
         settings = {
           Keywords = "WebApp";

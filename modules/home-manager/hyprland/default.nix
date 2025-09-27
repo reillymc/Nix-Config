@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  configDir,
   ...
 }:
 {
@@ -111,11 +112,9 @@
         exec-once = systemctl --user start hyprpolkitagent
 
         exec-once = uwsm app -- hyprpaper
-        exec-once = uwsm app -- nm-applet # Used by proton VPN
-        exec-once = uwsm app -- darkman run
         exec-once = uwsm app -- kdeconnectd
 
-        exec-once = uwsm app -- ~/.dotfiles/scripts/startup.sh
+        exec-once = uwsm app -- ${configDir}/scripts/startup.sh
 
         exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhy3.so"
 
@@ -126,7 +125,7 @@
         $mainMod = SUPER
 
         bind = $mainMod SHIFT, F, togglefloating, 
-        bind = $mainMod, V, exec, ~/.dotfiles/scripts/clipse.sh
+        bind = $mainMod, V, exec, ${configDir}/scripts/clipse.sh
         bind = $mainMod, J, togglesplit, # dwindle
 
         # Move focus with mainMod + arrow keys
@@ -172,14 +171,14 @@
         bindm = $mainMod ALT, mouse:272, resizewindow
 
         # Custom binds
-        bind = $mainMod, C, exec, ~/.dotfiles/scripts/search.sh
+        bind = $mainMod, C, exec, ${configDir}/scripts/search.sh
         bind = $mainMod, F, fullscreen
         bind = $mainMod ALT, F, fullscreenstate, -1 2
         bind = $mainMod, ESCAPE, exec, pidof hyprlock || hyprlock
         # bind = $mainMod, ESCAPE, exec, swaylock
-        bind = $mainMod CTRL, ESCAPE, exec, uwsm app -- ~/.dotfiles/scripts/wlogout.sh
+        bind = $mainMod CTRL, ESCAPE, exec, uwsm app -- ${configDir}/scripts/wlogout.sh
 
-        bindr = $mainMod, SUPER_L, exec, ~/.dotfiles/scripts/launcher.sh
+        bindr = $mainMod, SUPER_L, exec, ${configDir}/scripts/launcher.sh
 
         bindel = , XF86AudioRaiseVolume, exec, uwsm app -- wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+
         bindel = , XF86AudioLowerVolume, exec, uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-
@@ -195,18 +194,18 @@
         bindl = SHIFT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld next
         bindl = ALT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld previous
 
-        bind = ,XF86MonBrightnessDown,exec, uwsm app -- ~/.dotfiles/scripts/displayBrightnessMin.sh
-        bind = ,XF86MonBrightnessUp, exec, uwsm app -- ~/.dotfiles/scripts/displayBrightnessMax.sh
+        bind = ,XF86MonBrightnessDown,exec, uwsm app -- ${configDir}/scripts/displayBrightnessMin.sh
+        bind = ,XF86MonBrightnessUp, exec, uwsm app -- ${configDir}/scripts/displayBrightnessMax.sh
 
-        bind = ALT_R, F1, exec, uwsm app -- ~/.dotfiles/scripts/restartWaybar.sh
-        # bind = ALT_R, F1, exec, ~/.dotfiles/scripts/toggleSecondaryMonitors.sh
+        bind = ALT_R, F1, exec, uwsm app -- ${configDir}/scripts/restartWaybar.sh
+        # bind = ALT_R, F1, exec, ${configDir}/scripts/toggleSecondaryMonitors.sh
 
         # Note: using QMK keyboard mic key is bound to F20 (XF86AudioMicMute) on layer 2 and F21 (XF86TouchpadOn) on layer 3
-        bind = , XF86AudioMicMute, exec, uwsm app -- ~/.dotfiles/scripts/toggleMicrophone.sh
-        bind = SHIFT, XF86AudioMute, exec, uwsm app -- ~/.dotfiles/scripts/toggleAudioOutput.sh
+        bind = , XF86AudioMicMute, exec, uwsm app -- ${configDir}/scripts/toggleMicrophone.sh
+        bind = SHIFT, XF86AudioMute, exec, uwsm app -- ${configDir}/scripts/toggleAudioOutput.sh
 
-        # bind = $mainMod, M, exec, uwsm app -- ~/.dotfiles/scripts/secondaryMonitorsOn.sh
-        # bind = $mainMod SHIFT, M, exec, uwsm app -- ~/.dotfiles/scripts/secondaryMonitorsOff.sh
+        # bind = $mainMod, M, exec, uwsm app -- ${configDir}/scripts/secondaryMonitorsOn.sh
+        # bind = $mainMod SHIFT, M, exec, uwsm app -- ${configDir}/scripts/secondaryMonitorsOff.sh
 
         bind = $mainMod, mouse:274, killactive
 
@@ -227,7 +226,7 @@
 
         bind = $mainMod, P, exec, hyprpicker -a
         # bind = $mainMod, L, layoutmsg, swapwithmaster master
-        bind = $mainMod, L, exec, uwsm app -- ~/.dotfiles/scripts/toggleLayout.sh
+        bind = $mainMod, L, exec, uwsm app -- ${configDir}/scripts/toggleLayout.sh
 
         bind=$mainMod,z,exec,hyprctl keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor | awk '/^float.*/ {print $2 + 0.08}')    
         bind=$mainMod SHIFT,z,exec,hyprctl keyword cursor:zoom_factor 1.0
@@ -514,7 +513,7 @@
             valign = "center";
           }
           {
-            text = "cmd[update:1000] ~/.dotfiles/scripts/lockdown.sh $ATTEMPTS";
+            text = "cmd[update:1000] ${configDir}/scripts/lockdown.sh $ATTEMPTS";
           }
         ];
       };

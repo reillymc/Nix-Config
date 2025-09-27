@@ -102,6 +102,7 @@ in
     extraSpecialArgs = {
       inherit inputs mynixos;
       theme = "dark";
+      configDir = "/home/reilly/Projects/Nix-Config";
     };
     users = {
       "reilly" = import ./home.nix;

@@ -1,5 +1,6 @@
 {
   pkgs,
+  configDir,
   ...
 }:
 {
@@ -30,6 +31,6 @@
       #   sorting-method = "name";
       # };
     };
-    theme = "/home/reilly/.dotfiles/resources/rofi_theme.rasi";
+    theme = "${configDir}/resources/rofi_theme.rasi";
   };
 }

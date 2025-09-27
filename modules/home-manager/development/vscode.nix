@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  configDir,
   ...
 }:
 {
@@ -242,12 +243,11 @@
               };
             };
             "nixos" = {
-              "expr" =
-                "(builtins.getFlake \"/home/reilly/.dotfiles/flake.nix\").nixosConfigurations.terra.options"; # TODO: substitute active config name, and decouple hardcoded directory. This and instance below
+              "expr" = "(builtins.getFlake \"${configDir}/flake.nix\").nixosConfigurations.terra.options"; # TODO: substitute active config name, and decouple hardcoded directory. This and instance below
             };
             "home-manager" = {
               "expr" =
-                "(builtins.getFlake \"/home/reilly/.dotfiles/flake.nix\").nixosConfigurations.terra.options.home-manager.users.type.getSubOptions []";
+                "(builtins.getFlake \"${configDir}/flake.nix\").nixosConfigurations.terra.options.home-manager.users.type.getSubOptions []";
             };
           };
           "remote.SSH.enableAgentForwarding" = true;

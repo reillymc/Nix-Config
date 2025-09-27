@@ -8,8 +8,14 @@
     latitude = 55.57; # TODO: make configurable
     longitude = 3.11;
     temperature = {
-      day = 5500;
+      day = 6500;
       night = 3200;
+    };
+    settings = {
+      general = {
+        elevation-high = -6;
+        elevation-low = -12;
+      };
     };
   };
 }

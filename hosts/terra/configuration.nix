@@ -133,6 +133,7 @@ in
     pwvucontrol
     ddcutil
     libnotify
+    sshfs
   ];
 
   services.udev.packages = with pkgs; [

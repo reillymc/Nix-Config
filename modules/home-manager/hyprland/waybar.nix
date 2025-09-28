@@ -1,6 +1,6 @@
 {
   pkgs,
-  configDir,
+  config,
   ...
 }:
 {
@@ -31,7 +31,7 @@
         "custom/nix" = {
           format = "  ";
           tooltip = false;
-          on-click = "${configDir}/scripts/wlogout.sh";
+          on-click = "${config.scripts.logoutMenu}";
         };
         "hyprland/workspaces" = {
           format = "{name}";
@@ -72,8 +72,8 @@
           scroll-step = 5;
           max-volume = 100;
           on-click = "pavucontrol";
-          on-click-right = "${configDir}/scripts/toggleAudioOutput.sh";
-          on-click-middle = "${configDir}/scripts/toggleMicrophone.sh";
+          on-click-right = "${config.scripts.cycleAudioOutput}";
+          on-click-middle = "${config.scripts.toggleMicrophone}";
           format-source = "";
           format-source-muted = "";
           format-icons = {
@@ -96,7 +96,6 @@
           tooltip-format = "{device_enumerate}";
           tooltip-format-enumerate-connected = "{device_alias}  {device_address}";
           on-click = "overskride";
-          on-click-middle = "${configDir}/scripts/toggleBluetoothPower.sh";
         };
         network = {
           format = "{essid}";

@@ -2,7 +2,6 @@
   pkgs,
   config,
   lib,
-  configDir,
   ...
 }:
 let
@@ -16,163 +15,10 @@ let
 
   wallpapers = builtins.map (mon: "${mon.output},~/.cache/wallpaper") config.myhome.monitors;
 
-  toggleMicrophone = pkgs.writeShellScriptBin "toggleMicrophone" "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-
   lockdown = pkgs.writeShellScriptBin "lockdown" ''
     if (($1 > 3)); then
       hyprctl dispatch exit
     fi
-  '';
-
-  cycleAudioOutput = pkgs.writeShellScriptBin "cycleAudioOutput" ''
-    SOUND="${configDir}/resources/sounds/audioOutputToggle.ogg"
-
-    declare -a AUDIO_DEVICES=(
-      "bluez_output.94_DB_56_D5_A1_18.1"  # Bluetooth Headphones # TODO: make configurable
-      "bluez_output.6C_5C_3D_39_AD_2A.1"  # Bluetooth Speakers
-    )
-
-    notify_and_play_sound() {
-      local label="$1"
-      notify-send "$label Activated" --hint=int:transient:1
-      pw-play "$SOUND" &
-    }
-
-    get_current_sink_id() {
-      wpctl status -n | awk '
-        $2 == "*" {
-          sub(/\./, "", $3)
-          print $3
-          exit
-        }
-      '
-    }
-
-    get_sink_name_by_id() {
-      local id="$1"
-      wpctl status -n | awk -v id="$id" '
-        $3 == id"." { print $4; exit }
-      '
-    }
-
-    get_sink_id_by_name() {
-      local name="$1"
-      wpctl status -n | awk -v n="$name" '
-        $0 ~ n {
-          for (i = 1; i <= NF; i++) {
-            if ($i ~ /^[0-9]+\.$/) {
-              sub(/\./, "", $i)
-              print $i
-              exit
-            }
-          }
-        }
-      '
-    }
-
-    connect_bluetooth_if_needed() {
-      local sink_name="$1"
-
-      if [[ "$sink_name" =~ ^bluez_output\.([0-9A-Fa-f_]+)\. ]]; then
-        local mac_underscored="''\${BASH_REMATCH[1]}"
-        local bt_mac="''\${mac_underscored//_/':'}"
-
-        echo "Attempting to connect to Bluetooth device: $bt_mac"
-
-        if ! bluetoothctl info "$bt_mac" | grep -q "Connected: yes"; then
-          echo -e "connect $bt_mac\nquit" | bluetoothctl > /dev/null
-        fi
-
-        for i in {1..10}; do
-          if bluetoothctl info "$bt_mac" | grep -q "Connected: yes"; then
-            echo "Bluetooth device connected."
-            break
-          fi
-          echo "Waiting for Bluetooth connection... ($i/10)"
-          sleep 1
-        done
-
-        local timeout=20
-        local elapsed=0
-        while [[ $elapsed -lt $timeout ]]; do
-          local sink_id
-          sink_id=$(get_sink_id_by_name "$sink_name")
-
-          if [[ -n "$sink_id" && "$sink_id" =~ ^[1-9][0-9]*$ ]]; then
-            echo "Audio sink available: $sink_name (ID: $sink_id)"
-            return 0
-          fi
-
-          echo "Waiting for sink to register... ($elapsed/$timeout)"
-          sleep 1
-          ((elapsed++))
-        done
-
-        echo "Sink $sink_name not found after waiting. Current sinks:"
-        wpctl status -n
-
-        return 1
-      fi
-
-      return 0
-    }
-
-    cycle_audio_devices() {
-      local current_id current_name index=-1 next_index next_name next_id
-      current_id=$(get_current_sink_id)
-
-      if [[ -z "$current_id" ]]; then
-        notify-send "Could not determine current default sink"
-        exit 1
-      fi
-
-      current_name=$(get_sink_name_by_id "$current_id")
-
-      local device_count="''\${#AUDIO_DEVICES[@]}"
-      for (( i=0; i < $device_count; i++ )); do
-        if [[ "''\${AUDIO_DEVICES[$i]}" == "$current_name" ]]; then
-          index=$i
-          break
-        fi
-      done
-
-      if [[ $index -eq -1 ]]; then
-        index=0
-      fi
-
-      for (( offset=1; offset <= $device_count; offset++ )); do
-        next_index=$(( (index + offset) % $device_count ))
-        next_name="''\${AUDIO_DEVICES[$next_index]}"
-
-        echo "Attempting to switch to: $next_name"
-
-        if ! connect_bluetooth_if_needed "$next_name"; then
-          echo "Bluetooth connection failed for: $next_name"
-          continue
-        fi
-
-        next_id=$(get_sink_id_by_name "$next_name")
-
-        if [[ -z "$next_id" || ! "$next_id" =~ ^[1-9][0-9]*$ ]]; then
-          echo "Sink ID invalid or not found for: $next_name (got: '$next_id')"
-          wpctl status -n
-          continue
-        fi
-
-        if wpctl set-default "$next_id"; then
-          notify_and_play_sound "$next_name"
-          return 0
-        else
-          echo "Failed to switch to sink ID $next_id for $next_name"
-          continue
-        fi
-      done
-
-      notify-send "Failed to switch to any audio device"
-      exit 1
-    }
-
-    cycle_audio_devices
   '';
 
   displayBrightness = pkgs.writeShellScriptBin "displayBrightness" ''
@@ -234,8 +80,50 @@ let
     notify "$future"
 
   '';
-in
 
+  toggleLayout = pkgs.writeShellScriptBin "toggleLayout" ''
+    layout=$(hyprctl -j getoption general:layout | grep '"str"' | sed -E 's/.*"str": ?"([^"]+)".*/\1/')
+    case "$layout" in
+      dwindle) hyprctl keyword general:layout master ;;
+      master)  hyprctl keyword general:layout dwindle ;;
+    esac
+  '';
+
+  startup = pkgs.writeShellScriptBin "startup" ''
+    # Get the current hour in 24-hour format (e.g., 06, 14, etc.)
+    current_hour=$(date +%H)
+
+    # Convert to an integer (to avoid issues with leading zeros)
+    current_hour=$((10#$current_hour))
+
+    # Set brightness to full if it's between 6 AM (6) and 6 PM (18)
+    if [ "$current_hour" -ge 6 ] && [ "$current_hour" -lt 18 ]; then
+      ${displayBrightness}/bin/displayBrightness max
+    fi
+
+    # Waybar fails to start if started too early, so delay and restart service
+    sleep 3
+    systemctl --user restart waybar # Workaround for waybar systemd service failing to start at launch
+  '';
+
+  search = pkgs.writeShellScriptBin "search" ''
+    # Requires wl-clipboard, TODO: possibly extract to module where this is handled (if that approach taken for scripts)
+    firefox --new-tab https://www.google.com/search?q="$(wl-paste --primary)"
+  '';
+
+  launcher = pkgs.writeShellScriptBin "launcher" ''
+    pkill rofi || rofi -show drun -config ~/.config/rofi/config.rasi
+  '';
+
+  clipboardManager = pkgs.writeShellScriptBin "clipboardManager" ''
+    output=$(hyprctl dispatch killwindow class:com.my.clipboard 2>&1)
+    status=$?
+
+    if [[ $status -ne 0 || "$output" == *"no window found"* ]]; then
+        uwsm app -- ghostty --class=com.my.clipboard -e clipse
+    fi
+  '';
+in
 {
   imports = [
     ./waybar.nix
@@ -243,6 +131,7 @@ in
     ./clipse.nix
     ./rofi.nix
     ./swaync.nix
+    ./audio.nix
   ];
 
   options = {
@@ -344,11 +233,8 @@ in
 
         exec-once = uwsm app -- hyprpaper
         exec-once = uwsm app -- kdeconnectd
-
-        exec-once = uwsm app -- ${configDir}/scripts/startup.sh
-
+        exec-once = ${startup}/bin/startup
         exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhy3.so"
-
 
 
         # See https://wiki.hyprland.org/Configuring/Binds/
@@ -356,7 +242,7 @@ in
         $mainMod = SUPER
 
         bind = $mainMod SHIFT, F, togglefloating, 
-        bind = $mainMod, V, exec, ${configDir}/scripts/clipse.sh
+        bind = $mainMod, V, exec, ${clipboardManager}/bin/clipboardManager
         bind = $mainMod, J, togglesplit, # dwindle
 
         # Move focus with mainMod + arrow keys
@@ -402,14 +288,14 @@ in
         bindm = $mainMod ALT, mouse:272, resizewindow
 
         # Custom binds
-        bind = $mainMod, C, exec, ${configDir}/scripts/search.sh
+        bind = $mainMod, C, exec, ${search}/bin/search
         bind = $mainMod, F, fullscreen
         bind = $mainMod ALT, F, fullscreenstate, -1 2
         bind = $mainMod, ESCAPE, exec, pidof hyprlock || hyprlock
         # bind = $mainMod, ESCAPE, exec, swaylock
-        bind = $mainMod CTRL, ESCAPE, exec, uwsm app -- ${configDir}/scripts/wlogout.sh
+        bind = $mainMod CTRL, ESCAPE, exec, uwsm app -- ${config.scripts.logoutMenu}
 
-        bindr = $mainMod, SUPER_L, exec, ${configDir}/scripts/launcher.sh
+        bindr = $mainMod, SUPER_L, exec, ${launcher}/bin/launcher
 
         bindel = , XF86AudioRaiseVolume, exec, uwsm app -- wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+
         bindel = , XF86AudioLowerVolume, exec, uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-
@@ -431,8 +317,8 @@ in
         bind = SHIFT,XF86MonBrightnessUp, exec, uwsm app -- ${displayBrightness}/bin/displayBrightness increase
 
         # Note: using QMK keyboard mic key is bound to F20 (XF86AudioMicMute) on layer 2 and F21 (XF86TouchpadOn) on layer 3
-        bind = , XF86AudioMicMute, exec, uwsm app -- ${toggleMicrophone}/bin/toggleMicrophone
-        bind = SHIFT, XF86AudioMute, exec, uwsm app -- ${cycleAudioOutput}/bin/cycleAudioOutput
+        bind = , XF86AudioMicMute, exec, uwsm app -- ${config.scripts.toggleMicrophone}
+        bind = SHIFT, XF86AudioMute, exec, uwsm app -- ${config.scripts.cycleAudioOutput}
 
         bind = $mainMod, mouse:274, killactive
 
@@ -453,7 +339,7 @@ in
 
         bind = $mainMod, P, exec, hyprpicker -a
         # bind = $mainMod, L, layoutmsg, swapwithmaster master
-        bind = $mainMod, L, exec, uwsm app -- ${configDir}/scripts/toggleLayout.sh
+        bind = $mainMod, L, exec, ${toggleLayout}/bin/toggleLayout
 
         bind=$mainMod,z,exec,hyprctl keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor | awk '/^float.*/ {print $2 + 0.08}')    
         bind=$mainMod SHIFT,z,exec,hyprctl keyword cursor:zoom_factor 1.0

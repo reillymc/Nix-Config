@@ -193,6 +193,7 @@
           };
           "extensions.ignoreRecommendations" = true;
           "files.insertFinalNewline" = true;
+          "git.autofetch" = true;
           "git.confirmSync" = false;
           "git.decorations.enabled" = true;
           "git.enableSmartCommit" = true;

@@ -55,6 +55,22 @@
     size = 16;
   };
 
+  programs.git = {
+    userName = "reillymc";
+    userEmail = "reilly@mackenzie-cree.net";
+    extraConfig = {
+      core = {
+        editor = "code --wait"; # Todo: make configurable
+      };
+      credential = {
+        helper = "store";
+      };
+      help = {
+        autocorrect = "prompt";
+      };
+    };
+  };
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.

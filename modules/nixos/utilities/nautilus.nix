@@ -28,10 +28,6 @@
       nautilus-python
     ];
 
-    environment.sessionVariables = {
-      NAUTILUS_EXTENSION_DIR = "/home/reilly/.local/share/nautilus-python"; # TODO: make user name dynamic
-    };
-
     programs.nautilus-open-any-terminal = {
       enable = false; # TODO: enable when env var conflict is fixed
       terminal = "ghostty"; # TODO: make dynamic based on terminal enabled

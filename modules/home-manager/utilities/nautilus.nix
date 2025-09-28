@@ -1,6 +1,7 @@
 {
   lib,
   mynixos,
+  config,
   ...
 }:
 let
@@ -68,6 +69,10 @@ let
 in
 {
   config = lib.mkIf mynixos.nautilus.enable {
+    home.sessionVariables = {
+      NAUTILUS_EXTENSION_DIR = "${config.home.homeDirectory}/.local/share/nautilus-python";
+    };
+
     home.file.".local/share/nautilus-python/extensions/code-nautilus.py" = {
       text = openInCodeScript;
       executable = true;

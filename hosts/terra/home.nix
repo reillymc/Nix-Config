@@ -14,6 +14,18 @@
   home.username = "reilly";
   home.homeDirectory = "/home/reilly";
 
+  myhome.monitors = [
+    {
+      output = "DP-1";
+      model = "eiq-495KCSUW";
+      resolution = "5120x1440";
+      refreshRate = 144;
+      position = "0x0";
+      scale = 1.0;
+      bitdepth = 10;
+    }
+  ];
+
   myhome.vscode.enable = true;
   myhome.hyprland.enable = true;
   myhome.rclone.remote = "b2-terra-crypt";

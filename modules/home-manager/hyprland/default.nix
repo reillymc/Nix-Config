@@ -6,6 +6,16 @@
   ...
 }:
 let
+  monitorConfigs = map (
+    mon:
+    let
+      bitdepthStr = if mon.bitdepth != null then ", bitdepth, ${toString mon.bitdepth}" else "";
+    in
+    "${mon.output}, ${mon.resolution}@${toString mon.refreshRate}, ${mon.position}, ${toString mon.scale}${bitdepthStr}"
+  ) config.myhome.monitors;
+
+  wallpapers = builtins.map (mon: "${mon.output},~/.cache/wallpaper") config.myhome.monitors;
+
   toggleMicrophone = pkgs.writeShellScriptBin "toggleMicrophone" "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
 
   lockdown = pkgs.writeShellScriptBin "lockdown" ''
@@ -13,6 +23,7 @@ let
       hyprctl dispatch exit
     fi
   '';
+
   cycleAudioOutput = pkgs.writeShellScriptBin "cycleAudioOutput" ''
     SOUND="${configDir}/resources/sounds/audioOutputToggle.ogg"
 
@@ -163,6 +174,66 @@ let
 
     cycle_audio_devices
   '';
+
+  displayBrightness = pkgs.writeShellScriptBin "displayBrightness" ''
+    step=50
+
+    # Bash array of monitors interpolated from Nix list
+    monitor_models=(
+      ${builtins.concatStringsSep "\n  " (map (mon: ''"${mon.model}"'') config.myhome.monitors)}
+    )
+
+    get_current_brightness() {
+      local monitor=$1
+      ddcutil get 10 --model "$monitor" | cut -d, -f1 | cut -d= -f2 | xargs
+    }
+
+    set_brightness() {
+      local monitor=$1
+      local value=$2
+      ddcutil set 10 --model "$monitor" "$value"
+    }
+
+    notify() {
+      local value=$1
+      notify-send "Brightness set to ''${value}%" --hint=int:transient:1
+    }
+
+    # Use first monitor as reference to get current brightness
+    reference_monitor="''\${monitor_models[0]}"
+    current=$(get_current_brightness "$reference_monitor")
+
+    case "$1" in
+      min)
+        if [ "$current" -eq 0 ]; then exit 0; fi
+        future=0
+        ;;
+      max)
+        if [ "$current" -eq 100 ]; then exit 0; fi
+        future=100
+        ;;
+      increase)
+        future=$((current + step))
+        if [ "$future" -gt 100 ]; then future=100; fi
+        if [ "$current" -eq "$future" ]; then exit 0; fi
+        ;;
+      decrease)
+        future=$((current - step))
+        if [ "$future" -lt 0 ]; then future=0; fi
+        if [ "$current" -eq "$future" ]; then exit 0; fi
+        ;;
+      *)
+        echo "Usage: $0 {min|max|increase|decrease}"
+        exit 1
+        ;;
+    esac
+
+    for monitor in "''\${monitor_models[@]}"; do
+      set_brightness "$monitor" "$future"
+    done
+    notify "$future"
+
+  '';
 in
 
 {
@@ -198,7 +269,7 @@ in
           layout = "dwindle"; # TODO: hy3
         };
 
-        monitor = "DP-1, 5120x1440@144, 0x0, 1, bitdepth, 10";
+        monitor = monitorConfigs;
 
         env = [
           "XCURSOR_SIZE,24"
@@ -354,8 +425,10 @@ in
         bindl = SHIFT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld next
         bindl = ALT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld previous
 
-        bind = ,XF86MonBrightnessDown,exec, uwsm app -- ${configDir}/scripts/displayBrightnessMin.sh
-        bind = ,XF86MonBrightnessUp, exec, uwsm app -- ${configDir}/scripts/displayBrightnessMax.sh
+        bind = ,XF86MonBrightnessDown,exec, uwsm app -- ${displayBrightness}/bin/displayBrightness min
+        bind = ,XF86MonBrightnessUp, exec, uwsm app -- ${displayBrightness}/bin/displayBrightness max
+        bind = SHIFT,XF86MonBrightnessDown,exec, uwsm app -- ${displayBrightness}/bin/displayBrightness decrease
+        bind = SHIFT,XF86MonBrightnessUp, exec, uwsm app -- ${displayBrightness}/bin/displayBrightness increase
 
         # Note: using QMK keyboard mic key is bound to F20 (XF86AudioMicMute) on layer 2 and F21 (XF86TouchpadOn) on layer 3
         bind = , XF86AudioMicMute, exec, uwsm app -- ${toggleMicrophone}/bin/toggleMicrophone
@@ -679,7 +752,7 @@ in
         ipc = "on";
         splash = false;
         preload = [ "~/.cache/wallpaper" ];
-        wallpaper = [ "DP-1,~/.cache/wallpaper" ]; # TODO: base on monitors variable
+        wallpaper = wallpapers;
       };
     };
 

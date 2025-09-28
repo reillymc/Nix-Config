@@ -77,7 +77,7 @@
     #
     # or
     #
-    #  /etc/profiles/per-user/reilly/etc/profile.d/hm-session-vars.sh
+    #  /etc/profiles/per-user/<user>/etc/profile.d/hm-session-vars.sh
     #
     home.sessionVariables = {
       # EDITOR = "emacs";

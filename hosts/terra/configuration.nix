@@ -46,6 +46,8 @@ in
     "flakes"
   ];
 
+  nix.settings.auto-optimise-store = true;
+
   # Enable networking
   networking.networkmanager.enable = true;
 

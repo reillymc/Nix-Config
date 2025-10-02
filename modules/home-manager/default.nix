@@ -12,6 +12,7 @@
     ./entertainment
     ./web-apps.nix
     ./theme.nix
+    ./scripts.nix
   ];
 
   options = {

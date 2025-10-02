@@ -6,7 +6,7 @@
 {
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland; # TODO: remove when rofi 2.0.0 is available (native wayland support merged)
+    package = pkgs.rofi;
     modes = [ "drun" ];
     font = "JetBrains Mono 10";
     plugins = with pkgs; [

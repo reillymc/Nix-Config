@@ -21,6 +21,10 @@ let
         m720.enable = true;
       };
     };
+    services.paperless = {
+      enable = true;
+      backupDir = "/home/reilly/Resources/Backups/Paperless";
+    };
   };
 in
 {

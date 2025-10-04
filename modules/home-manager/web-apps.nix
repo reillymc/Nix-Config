@@ -2,6 +2,8 @@
   config,
   pkgs,
   configDir,
+  mynixos,
+  lib,
   ...
 }:
 let
@@ -56,7 +58,17 @@ let
       url = "https://www.youtube.com/feed/subscriptions";
       icon = "youtube.png";
     }
+  ]
+  ++ lib.lists.optionals mynixos.services.paperless.enable [
+    {
+      id = "paperless";
+      profile = "paperless";
+      name = "Paperless";
+      url = "http://localhost:28981";
+      icon = "paperless.svg";
+    }
   ];
+
   # Common settings for all profiles (user.js settings
   webAppSettings = {
     "browser.tabs.inTitlebar" = 1; # Ensure tabs are drawn in the titlebar if needed
@@ -239,6 +251,11 @@ in
         settings = webAppSettingsYT;
         userChrome = userChromeYT;
         id = 6;
+      };
+      paperless = {
+        settings = webAppSettings;
+        userChrome = userChrome;
+        id = 3254;
       };
     };
   };

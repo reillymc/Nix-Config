@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  mynixos,
   lib,
   ...
 }:
@@ -134,11 +135,7 @@ in
     ./audio.nix
   ];
 
-  options = {
-    myhome.hyprland.enable = lib.mkEnableOption "enables hyprland";
-  };
-
-  config = lib.mkIf config.myhome.hyprland.enable {
+  config = lib.mkIf mynixos.hyprland.enable {
     # myhome.waybar.enable = lib.mkDefault false;
     # myhome.ags.enable = lib.mkDefault true;
     # myhome.astalshell.enable = lib.mkDefault true;
@@ -340,6 +337,7 @@ in
         bind = $mainMod, P, exec, hyprpicker -a
         # bind = $mainMod, L, layoutmsg, swapwithmaster master
         bind = $mainMod, L, exec, ${toggleLayout}/bin/toggleLayout
+        bind = $mainMod SHIFT, L, layoutmsg, swapwithmaster master
 
         bind=$mainMod,z,exec,hyprctl keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor | awk '/^float.*/ {print $2 + 0.08}')    
         bind=$mainMod SHIFT,z,exec,hyprctl keyword cursor:zoom_factor 1.0

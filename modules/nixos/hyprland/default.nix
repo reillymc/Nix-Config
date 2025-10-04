@@ -8,7 +8,6 @@
   imports = [ ./thumbnailers.nix ];
 
   options = {
-    # TODO: control this with same variable as home manager hyprland
     mynixos.hyprland.enable = lib.mkEnableOption "enables hyprland";
   };
 

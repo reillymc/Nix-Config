@@ -27,7 +27,6 @@
   ];
 
   myhome.vscode.enable = true;
-  myhome.hyprland.enable = true;
   myhome.rclone.remote = "b2-terra-crypt";
   myhome.rclone.filter = ''
     # Exclude

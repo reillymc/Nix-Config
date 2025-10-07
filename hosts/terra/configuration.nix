@@ -25,6 +25,7 @@ let
       enable = true;
       backupDir = "/home/reilly/Resources/Backups/Paperless";
     };
+    utilities.iosSideloaderEnv.enable = true;
   };
 in
 {
@@ -140,6 +141,8 @@ in
     ddcutil
     libnotify
     sshfs
+    qemu
+    quickemu
   ];
 
   services.udev.packages = with pkgs; [

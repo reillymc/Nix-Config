@@ -6,15 +6,17 @@
 }:
 
 let
+  version = "1.0.3";
+  pname = "spotify-adblock";
+
   spotify-adblock = pkgs.rustPlatform.buildRustPackage {
-    pname = "spotify-adblock";
-    version = "lastcommit at 2025-05-20";
+    inherit pname version;
     src = pkgs.fetchFromGitHub {
       owner = "abba23";
       repo = "spotify-adblock";
-      rev = "refs/heads/main";
+      rev = "v${version}";
       fetchSubmodules = false;
-      hash = "sha256-nwiX2wCZBKRTNPhmrurWQWISQdxgomdNwcIKG2kSQsE=";
+      sha256 = "sha256-UzpHAHpQx2MlmBNKm2turjeVmgp5zXKWm3nZbEo0mYE=";
     };
     cargoHash = "sha256-oGpe+kBf6kBboyx/YfbQBt1vvjtXd1n2pOH6FNcbF8M=";
 
@@ -57,13 +59,6 @@ in
 
   config = lib.mkIf config.mynixos.spotify.enable {
     environment.systemPackages =
-      if config.mynixos.spotify.adblock.enable then
-        [
-          spotifyPatched
-        ]
-      else
-        [
-          pkgs.spotify
-        ];
+      if config.mynixos.spotify.adblock.enable then [ spotifyPatched ] else [ pkgs.spotify ];
   };
 }

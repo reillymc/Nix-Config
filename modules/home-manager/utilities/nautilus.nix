@@ -77,5 +77,18 @@ in
       text = openInCodeScript;
       executable = true;
     };
+
+    gtk = {
+      enable = true;
+      gtk3.bookmarks = [
+        "file://${config.xdg.userDirs.documents} Documents"
+        "file://${config.home.homeDirectory}/Downloads Downloads"
+        "file://${config.xdg.userDirs.music} Music"
+        "file://${config.xdg.userDirs.pictures} Pictures"
+        "file://${config.home.homeDirectory}/Projects Projects"
+        "file://${config.home.homeDirectory}/Resources Resources"
+        "file://${config.xdg.userDirs.videos} Videos"
+      ];
+    };
   };
 }

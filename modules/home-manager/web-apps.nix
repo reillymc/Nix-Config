@@ -34,7 +34,7 @@ let
       id = "navidrome";
       profile = "navidrome";
       name = "Navidrome";
-      url = "http://silverserver:4533/app";
+      url = "http://silverserver:4533/app/";
       icon = "navidrome.png";
     }
     {

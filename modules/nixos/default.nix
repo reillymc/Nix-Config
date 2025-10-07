@@ -6,5 +6,6 @@
     ./utilities
     ./development
     ./hardware
+    ./services
   ];
 }

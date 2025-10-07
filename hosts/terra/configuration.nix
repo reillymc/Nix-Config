@@ -154,6 +154,16 @@ in
     ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="1a40", ATTRS{idProduct}=="0101", ATTR{power/wakeup}="enabled"
   '';
 
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "no"; # "yes", "without-password", "prohibit-password", "forced-commands-only", "no"
+    };
+  };
+
   programs.localsend.enable = true;
 
   # Allow unfree packages

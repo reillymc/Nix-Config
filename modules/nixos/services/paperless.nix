@@ -10,7 +10,7 @@ let
 
     EXPORT_DIR="/var/lib/paperless/export"
     ARCHIVE_NAME="paperless_export.tar.gz"
-    ARCHIVE_PATH="${config.mynixos.services.paperless.backupDir}/$ARCHIVE_NAME" # TODO: make variable
+    ARCHIVE_PATH="${config.mynixos.services.paperless.backupDir}/$ARCHIVE_NAME"
 
     # Create tar.gz archive
     tar -czvf "$ARCHIVE_PATH" -C "$EXPORT_DIR" .
@@ -35,6 +35,7 @@ in
         type = lib.types.str;
         description = "Directory to back up paperless data to.";
       };
+      openPort = lib.mkEnableOption "open firewall port for paperless web interface (28981)";
     };
   };
 
@@ -45,7 +46,11 @@ in
         enable = true;
         onCalendar = "13:00:00";
       };
-    };
+      port = 28981;
+    }
+    // (lib.optionalAttrs config.mynixos.services.paperless.openPort {
+      address = "0.0.0.0";
+    });
 
     # Hacky way to get backup into home folder for rclone backup. Ideally would run paperless as home manager module if it existed
     systemd.services."paperless-user-backup" = {
@@ -65,6 +70,16 @@ in
         OnCalendar = "*-*-* 13:05:00";
         Persistent = true;
       };
+    };
+
+    # Open firewall port for paperless web interface
+    networking.firewall = lib.mkIf config.mynixos.services.paperless.openPort {
+      allowedTCPPortRanges = [
+        {
+          from = 28981;
+          to = 28981;
+        }
+      ];
     };
   };
 }

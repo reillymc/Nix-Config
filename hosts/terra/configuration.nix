@@ -24,6 +24,7 @@ let
     services.paperless = {
       enable = true;
       backupDir = "/home/reilly/Resources/Backups/Paperless";
+      openPort = true;
     };
     utilities.iosSideloaderEnv.enable = true;
   };

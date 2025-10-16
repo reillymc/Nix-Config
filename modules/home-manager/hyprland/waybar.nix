@@ -47,7 +47,7 @@
           icon-size = 16;
         };
         clock = {
-          format = "{:%I:%M %p  %a %d/%m}";
+          format = "{:%H:%M, %a %d/%m}  ";
           tooltip-format = "<tt>{calendar}</tt>";
           calendar = {
             mode = "month";

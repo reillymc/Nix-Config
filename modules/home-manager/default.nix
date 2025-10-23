@@ -10,66 +10,68 @@
     ./hyprland
     ./utilities
     ./entertainment
-    ./web-apps.nix
+    ./web-apps
     ./theme.nix
     ./scripts.nix
   ];
 
   options = {
-    myhome.myUnfreePackages = lib.mkOption {
-      type = with lib.types; listOf str;
-      default = [ ];
-      description = "List of predicates to allow unfree packages. These will be merged, letting allowUnfreePredicate to be defined in a modular way";
-    };
+    myhome = {
+      myUnfreePackages = lib.mkOption {
+        type = with lib.types; listOf str;
+        default = [ ];
+        description = "List of predicates to allow unfree packages. These will be merged, letting allowUnfreePredicate to be defined in a modular way";
+      };
 
-    myhome.monitors = lib.mkOption {
-      type = lib.types.listOf (
-        lib.types.submodule {
-          options = {
-            output = lib.mkOption {
-              type = lib.types.str;
-              description = "Output name, e.g. DP-1";
-            };
+      monitors = lib.mkOption {
+        type = lib.types.listOf (
+          lib.types.submodule {
+            options = {
+              output = lib.mkOption {
+                type = lib.types.str;
+                description = "Output name, e.g. DP-1";
+              };
 
-            model = lib.mkOption {
-              type = lib.types.str;
-              description = "Monitor model name, e.g. eiq-495KCSUW";
-            };
+              model = lib.mkOption {
+                type = lib.types.str;
+                description = "Monitor model name, e.g. eiq-495KCSUW";
+              };
 
-            resolution = lib.mkOption {
-              type = lib.types.str;
-              default = "5120x1440";
-              description = "Resolution, e.g. 5120x1440";
-            };
+              resolution = lib.mkOption {
+                type = lib.types.str;
+                default = "5120x1440";
+                description = "Resolution, e.g. 5120x1440";
+              };
 
-            refreshRate = lib.mkOption {
-              type = lib.types.int;
-              default = 144;
-              description = "Refresh rate in Hz";
-            };
+              refreshRate = lib.mkOption {
+                type = lib.types.int;
+                default = 144;
+                description = "Refresh rate in Hz";
+              };
 
-            position = lib.mkOption {
-              type = lib.types.str;
-              default = "0x0";
-              description = "Monitor position, e.g. 0x0";
-            };
+              position = lib.mkOption {
+                type = lib.types.str;
+                default = "0x0";
+                description = "Monitor position, e.g. 0x0";
+              };
 
-            scale = lib.mkOption {
-              type = lib.types.float;
-              default = 1.0;
-              description = "Scale factor, e.g. 1.0";
-            };
+              scale = lib.mkOption {
+                type = lib.types.float;
+                default = 1.0;
+                description = "Scale factor, e.g. 1.0";
+              };
 
-            bitdepth = lib.mkOption {
-              type = lib.types.nullOr lib.types.int;
-              default = null;
-              description = "Optional bitdepth, e.g. 10. If null, omitted.";
+              bitdepth = lib.mkOption {
+                type = lib.types.nullOr lib.types.int;
+                default = null;
+                description = "Optional bitdepth, e.g. 10. If null, omitted.";
+              };
             };
-          };
-        }
-      );
-      default = [ ];
-      description = "List of monitor configurations";
+          }
+        );
+        default = [ ];
+        description = "List of monitor configurations";
+      };
     };
   };
 

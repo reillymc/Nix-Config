@@ -58,6 +58,17 @@
     - *
   '';
 
+  myhome.web-apps = {
+    enable = true;
+    immich.enable = true;
+    jellyfin.enable = true;
+    jellyseerr.enable = true;
+    messenger.enable = true;
+    navidrome.enable = true;
+    proton-mail.enable = true;
+    youtube.enable = true;
+  };
+
   home.pointerCursor = {
     gtk.enable = true;
     hyprcursor.enable = true;

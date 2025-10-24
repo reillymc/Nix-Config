@@ -46,7 +46,7 @@
 
     # Include
     + /Documents/**
-    + /Music/
+    + /Music/**
     + /Pictures/**
     + /Projects/**
     + /Resources/**

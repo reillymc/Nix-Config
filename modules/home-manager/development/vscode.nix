@@ -260,9 +260,20 @@
           "[nix]" = {
             "editor.defaultFormatter" = "jnoortheen.nix-ide";
           };
+          "[svg]" = {
+            "editor.defaultFormatter" = "jock.svg";
+          };
           "[snippets]" = {
             "editor.defaultFormatter" = "vscode.json-language-features";
           };
+          "scm.diffDecorationsGutterPattern" = {
+            "modified" = false;
+          };
+          "dev.containers.defaultExtensions" = [
+            "eamodio.gitlens"
+            "streetsidesoftware.code-spell-checker"
+          ];
+          "editor.linkedEditing" = true;
         };
         languageSnippets = {
           "typescriptreact" = {

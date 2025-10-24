@@ -23,64 +23,126 @@ let
     #tabbrowser-tabpanels,
     browser[type="content-primary"],
     browser[type="content"] > html {
-        background: #0f0f0f !important;
+      background: #0F0F0F !important;
     }
 
-    #TabsToolbar {
-        background: #0f0f0f !important;
+    :root {
+      --tab-border-radius: 9px !important;
+      --toolbox-bgcolor: #0F0F0F !important;
+      --toolbox-bgcolor-inactive: #0F0F0F !important;
+      --tab-min-height: 32px !important;
+      --tab-selected-bgcolor: #272727 !important;
+      --urlbar-box-bgcolor: transparent !important;
     }
 
-    /* Add space to drag window when tabs are full */
-    #personal-bookmarks {
-        margin-left: 84px !important;
+    #navigator-toolbox {
+      flex-direction: row-reverse !important;
+      border-bottom: none !important;
+      height: 48px
     }
 
-    /* Remove awkward space near window controls */
+    #toolbar-menubar {
+      display: none
+    }
+
     .titlebar-spacer {
-        width: 0px !important;
+      display: none;
     }
 
-    #alltabs-button {
-        display: none;
+    /* Move tabs into the main header space */
+    #TabsToolbar {
+      background-color: transparent;
+      border-bottom-width: 0xp;
+      align-items: center !important;
+      margin-right: 48px;
     }
 
-    .titlebar-buttonbox {
-        z-index: 0 !important;
+    /* Adjust the height for a compact look */
+    #TabsToolbar, #nav-bar {
+      --toolbar-height: 40px; /* Adjust this value for your preferred size */
     }
 
-    .tabbrowser-tab .tab-background {
-        background-color: #1d1d1d !important;
-        box-shadow: none !important;
+    /* Hide navigation bar items when tabs are active */
+    #urlbar-container:not(:focus-within) {
+      width: 0px !important;
+      opacity: 0 !important;
+      
+      .urlbar-background, #searchbar{
+        background-color: initial !important;
+      }
     }
 
-    .tabbrowser-tab[selected] .tab-background {
-        background-color: #444 !important;
+    #urlbar-container {
+      transition: width 0.25s;
+      transition-delay: 0.06s;
+        --toolbar-field-focus-border-color: #0F0F0F !important;
     }
 
-    .tabbrowser-tab:hover .tab-background {
-        background-color: #555 !important;
+    .urlbar[breakout] {
+      & > .urlbar-input-container {
+        width: 100%;
+        height: 100%;
+      }
     }
+
+    #urlbar[breakout][breakout-extend]:not([open]) > #urlbar-background {
+       box-shadow: none !important;
+    }
+
+
+    .page-action-buttons, tracking-protection-icon-container, identity-box {
+      display: none;
+    }
+
+
+    #nav-bar.browser-toolbar {
+      background-color:transparent !important;
+    }
+
+    .toolbarbutton-1 > image {
+      padding: var(--toolbarbutton-inner-padding) !important;
+      border-radius: var(--tab-border-radius) !important;
+    }
+
+    toolbar .toolbarbutton-1 {
+      padding: 0;
+    }
+
+    #PanelUI-button {
+      position: fixed;
+      right: 0;
+      top: 8px;
+    }
+
+    #PanelUI-menu-button > stack > image {
+      width: calc(2 * var(--toolbarbutton-inner-padding) + 16px) !important;
+      height: calc(2 * var(--toolbarbutton-inner-padding) + 16px);
+      padding: var(--toolbarbutton-inner-padding) !important;
+    }
+
+    #PanelUI-menu-button > stack {
+      border-radius: var(--tab-border-radius) !important;
+      padding: 0 !important;
+    }
+
+    #PanelUI-menu-button {
+      --toolbarbutton-inner-padding: calc((var(--tab-min-height) - 16px) / 2);
+    }
+
+    #forward-button, #back-button {
+      --toolbarbutton-inner-padding: calc((var(--tab-min-height) - 16px) / 2);
+    }
+
+
 
     .tabbrowser-tab {
-        color: #ddd !important;
-    }
-
-    .tabbrowser-tab[selected] {
-        color: white !important;
-    }
-
-    .tabbrowser-tab:hover {
-        color: white !important;
-    }
-
-    .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
+      &:not([pinned]) {
         max-width: 100% !important;
-    }
-
-    #tabbrowser-tabs[haspinnedtabs]:not([positionpinnedtabs])
-        > #tabbrowser-arrowscrollbox
-        > .tabbrowser-tab[first-visible-unpinned-tab] {
-        margin-inline-start: 0px !important;
+      }
+      
+       &:not([pinned], [fadein]) {
+        max-width: 0.1px !important;
+      }
     }
   '';
 

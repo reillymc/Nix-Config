@@ -142,8 +142,7 @@ in
     ddcutil
     libnotify
     sshfs
-    qemu
-    quickemu
+    protonvpn-gui
   ];
 
   services.udev.packages = with pkgs; [

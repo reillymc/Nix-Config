@@ -24,6 +24,7 @@ let
     ./apps/paperless.nix
     ./apps/proton-mail.nix
     ./apps/youtube.nix
+    ./apps/whatsapp.nix
   ];
 
   apps = map (

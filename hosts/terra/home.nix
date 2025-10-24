@@ -67,6 +67,7 @@
     navidrome.enable = true;
     proton-mail.enable = true;
     youtube.enable = true;
+    whatsapp.enable = true;
   };
 
   home.pointerCursor = {

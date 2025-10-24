@@ -43,6 +43,7 @@ let
 
   userChromeMinimal = ''
     #TabsToolbar, #identity-box, #tabbrowser-tabs, #TabsToolbar { display: none !important; }
+    #navigator-toolbox { visibility: collapse !important;}
     #nav-bar { visibility: collapse !important; }
   '';
 

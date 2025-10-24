@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   configDir,
   ...
 }:
@@ -12,8 +13,7 @@ let
     SOUND="${configDir}/resources/sounds/audioOutputToggle.ogg"
 
     declare -a AUDIO_DEVICES=(
-      "bluez_output.94_DB_56_D5_A1_18.1"  # Bluetooth Headphones # TODO: make configurable
-      "bluez_output.6C_5C_3D_39_AD_2A.1"  # Bluetooth Speakers
+      ${lib.concatStringsSep "\n" (map (d: "\"${d}\"") (config.myhome.audio.devices or [ ]))}
     )
 
     notify_and_play_sound() {
@@ -160,6 +160,13 @@ let
   '';
 in
 {
+
+  options.myhome.audio.devices = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    description = "List of preferred audio output devices to cycle through.";
+    default = [ ];
+  };
+
   options.scripts.toggleMicrophone = lib.mkOption {
     type = lib.types.str;
     description = "Microphone toggle script";

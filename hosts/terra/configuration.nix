@@ -17,9 +17,7 @@ let
     };
     hardware.logitech = {
       enable = true;
-      device = {
-        m720.enable = true;
-      };
+      device.m720.enable = true;
     };
     services.paperless = {
       enable = true;

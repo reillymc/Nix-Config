@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 let
@@ -9,12 +8,6 @@ let
   '';
 in
 {
-  options.scripts.logoutMenu = lib.mkOption {
-    type = lib.types.str;
-    description = "Show logout menu script";
-    default = "${logoutMenu}/bin/logoutMenu";
-  };
-
   config = {
     programs.wlogout = {
       enable = true;
@@ -77,5 +70,7 @@ in
         }
       '';
     };
+
+    home.packages = [ logoutMenu ];
   };
 }

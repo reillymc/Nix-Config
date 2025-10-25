@@ -91,7 +91,7 @@ let
   '';
 
   startup = pkgs.writeShellScriptBin "startup" ''
-    # Get the current hour in 24-hour format (e.g., 06, 14, etc.)
+    # Get the current hour in 24-hour format (e.g. 06, 14, etc.)
     current_hour=$(date +%H)
 
     # Convert to an integer (to avoid issues with leading zeros)
@@ -290,7 +290,7 @@ in
         bind = $mainMod ALT, F, fullscreenstate, -1 2
         bind = $mainMod, ESCAPE, exec, pidof hyprlock || hyprlock
         # bind = $mainMod, ESCAPE, exec, swaylock
-        bind = $mainMod CTRL, ESCAPE, exec, uwsm app -- ${config.scripts.logoutMenu}
+        bind = $mainMod CTRL, ESCAPE, exec, uwsm app -- logoutMenu
 
         bindr = $mainMod, SUPER_L, exec, ${launcher}/bin/launcher
 
@@ -314,8 +314,8 @@ in
         bind = SHIFT,XF86MonBrightnessUp, exec, uwsm app -- ${displayBrightness}/bin/displayBrightness increase
 
         # Note: using QMK keyboard mic key is bound to F20 (XF86AudioMicMute) on layer 2 and F21 (XF86TouchpadOn) on layer 3
-        bind = , XF86AudioMicMute, exec, uwsm app -- ${config.scripts.toggleMicrophone}
-        bind = SHIFT, XF86AudioMute, exec, uwsm app -- ${config.scripts.cycleAudioOutput}
+        bind = , XF86AudioMicMute, exec, uwsm app -- toggleMicrophone
+        bind = SHIFT, XF86AudioMute, exec, uwsm app -- cycleAudioOutput
 
         bind = $mainMod, mouse:274, killactive
 

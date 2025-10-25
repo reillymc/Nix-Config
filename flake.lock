@@ -1,5 +1,24 @@
 {
   "nodes": {
+    "docs": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./docs",
+        "type": "path"
+      },
+      "original": {
+        "path": "./docs",
+        "type": "path"
+      },
+      "parent": []
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -38,6 +57,7 @@
     },
     "root": {
       "inputs": {
+        "docs": "docs",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
       }

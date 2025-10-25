@@ -1,13 +1,15 @@
 # NixOS System Configuration
 
-My NixOS system configurations
+My NixOS system configurations. The project is broken up into `hosts` and modules. Hosts are a config set for each individual machine, while modules are resulable nix modules that are then composed into a machine config in hosts.
 
 ## Rebuilding
 
-`sudo nixos-rebuild switch --flake ~/Projects/Nix-Config/#terra`
+`sudo nixos-rebuild switch --flake ~/Projects/Nix-Config/#example`
 
 or alternatively, rebuild directly into light mode
-`sudo nixos-rebuild switch --flake ~/Projects/Nix-Config/#terra --specialisation light`
+`sudo nixos-rebuild switch --flake ~/Projects/Nix-Config/#example --specialisation light`
+
+Once the system is setup, the command `rebuild-switch` is added to the path for convenience. This handles rebuilding with the correct host specialisation.
 
 ## Switch themes
 
@@ -15,43 +17,12 @@ or alternatively, rebuild directly into light mode
 
 `sudo systemctl start switchToDarkMode.service`
 
-# Options
+## Documentation
 
-## Home (`myhome`)
+Custom options are documented within [NixOS Options](./docs/nixos-options.md) and [Home Options](./docs/home-options.md).
+[NixOS Options](./docs/nixos-options.md) are configured in a host's `configuration.nix`. They define system-level configuration.
+[Home Options](./docs/home-options.md) are configured in a host's `home.nix`/`<user>.nix` configuration. They define individual user configuration. They are not shared with the NixOS system configuration options (`mynixos`). When control is required across both domains, the configuration will be found in the NixOS system configuration and is passed into the home module.
 
-These options are configured in a host's `home.nix` configuration. They are not shared with the host NixOS system configuration options (`mynixos`). When control is required across both domains, the configuration will be found in the NixOS system configuration and is passed into the home module.
+### Generating docs
 
-### audio
-
-#### devices
-
-A list of audio outputs that should be actively used by the system, e.g. in audio output cycle script.
-The device is listed by the PipeWire node name. This value can be found using `wpctl`:
-
-1. Run `wpctl status` and find desired device. Note the numeric id.
-2. Run `wpctl inspect <numberic id>` and copy the value from the `node.name` property
-
-e.g.
-
-```nix
-[
-    "bluez_output.00_00_00_00_00_0.1"
-    "alsa_output.pci-0000_00_00.1.hdmi-stereo"
-]
-```
-
-### monitors
-
-A list of display outputs that should be actively used by the system, e.g. in hyprland's configuration. Each item should provide all the required keys, e.g.
-
-```nix
-{
-    output = "DP-1";
-    model = "eiq-495KCSUW";
-    resolution = "5120x1440";
-    refreshRate = 144;
-    position = "0x0";
-    scale = 1.0;
-    bitdepth = 10;
-}
-```
+The following command can be used to update the docs with modified options `nix build .#docs && cp -rf result/* ./docs/ && rm result`.

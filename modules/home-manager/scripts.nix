@@ -1,5 +1,6 @@
 {
   pkgs,
+  hostname,
   ...
 }:
 let
@@ -16,7 +17,7 @@ let
       specialisation="dark"
     fi
 
-    sudo nixos-rebuild switch --flake ~/Projects/Nix-Config/#terra --specialisation "$specialisation"  '';
+    sudo nixos-rebuild switch --flake ~/Projects/Nix-Config/#${hostname} --specialisation "$specialisation"  '';
 
 in
 {

@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  hostname,
   ...
 }:
 let
@@ -43,7 +44,7 @@ in
 
   boot.initrd.luks.devices."luks-42d04de4-1b56-431b-b6e8-21277e8b3e94".device =
     "/dev/disk/by-uuid/42d04de4-1b56-431b-b6e8-21277e8b3e94";
-  networking.hostName = "terra";
+  networking.hostName = hostname;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -110,7 +111,7 @@ in
 
   home-manager = {
     extraSpecialArgs = {
-      inherit inputs mynixos;
+      inherit inputs mynixos hostname;
       theme = "dark";
       configDir = "/home/reilly/Projects/Nix-Config";
     };

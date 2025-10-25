@@ -31,7 +31,7 @@
         "custom/nix" = {
           format = "  ";
           tooltip = false;
-          on-click = "${config.scripts.logoutMenu}";
+          on-click = "logoutMenu";
         };
         "hyprland/workspaces" = {
           format = "{name}";
@@ -72,8 +72,8 @@
           scroll-step = 5;
           max-volume = 100;
           on-click = "pavucontrol";
-          on-click-right = "${config.scripts.cycleAudioOutput}";
-          on-click-middle = "${config.scripts.toggleMicrophone}";
+          on-click-right = "cycleAudioOutput";
+          on-click-middle = "toggleMicrophone";
           format-source = "";
           format-source-muted = "";
           format-icons = {

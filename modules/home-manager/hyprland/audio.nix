@@ -160,21 +160,8 @@ let
   '';
 in
 {
-
-  options.myhome.audio.devices = lib.mkOption {
-    type = lib.types.listOf lib.types.str;
-    description = "List of preferred audio output devices to cycle through.";
-    default = [ ];
-  };
-
-  options.scripts.toggleMicrophone = lib.mkOption {
-    type = lib.types.str;
-    description = "Microphone toggle script";
-    default = "${toggleMicrophone}/bin/toggleMicrophone";
-  };
-  options.scripts.cycleAudioOutput = lib.mkOption {
-    type = lib.types.str;
-    description = "Audio output cycle script";
-    default = "${cycleAudioOutput}/bin/cycleAudioOutput";
-  };
+  home.packages = [
+    cycleAudioOutput
+    toggleMicrophone
+  ];
 }

@@ -258,6 +258,9 @@
           "typescript.preferences.useAliasesForRenames" = false;
           "redhat.telemetry.enabled" = false;
           "vsicons.dontShowNewVersionMessage" = true;
+          "[markdown]" = {
+            "editor.defaultFormatter" = "DavidAnson.vscode-markdownlint";
+          };
           "[nix]" = {
             "editor.defaultFormatter" = "jnoortheen.nix-ide";
           };

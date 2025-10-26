@@ -13,7 +13,7 @@
     };
     settings = {
       general = {
-        elevation-high = -6;
+        elevation-high = -9;
         elevation-low = -12;
       };
     };

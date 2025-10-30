@@ -31,6 +31,6 @@
       #   sorting-method = "name";
       # };
     };
-    theme = "${configDir}/resources/rofi_theme.rasi";
+    theme = "${configDir}/resources/rofi_theme.rasi"; # TODO: move into nix config
   };
 }

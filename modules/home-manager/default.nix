@@ -9,7 +9,6 @@
     ./development
     ./hyprland
     ./utilities
-    ./entertainment
     ./web-apps
     ./theme.nix
     ./scripts.nix

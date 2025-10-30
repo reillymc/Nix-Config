@@ -10,7 +10,7 @@ let
   toggleMicrophone = pkgs.writeShellScriptBin "toggleMicrophone" "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
 
   cycleAudioOutput = pkgs.writeShellScriptBin "cycleAudioOutput" ''
-    SOUND="${configDir}/resources/sounds/audioOutputToggle.ogg"
+    SOUND="${configDir}/resources/sounds/audioOutputToggle.ogg" # TODO: access bundled resource like webapp icons
 
     declare -a AUDIO_DEVICES=(
       ${lib.concatStringsSep "\n" (map (d: "\"${d}\"") (config.myhome.audio.devices or [ ]))}

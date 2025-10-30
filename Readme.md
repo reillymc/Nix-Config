@@ -11,6 +11,10 @@ or alternatively, rebuild directly into light mode
 
 Once the system is setup, the command `rebuild-switch` is added to the path for convenience. This handles rebuilding with the correct host specialisation.
 
+## Upgrading
+
+To upgrade dependency versions (`flake.lock`) file, run `nix flake update`.
+
 ## Switch themes
 
 `sudo systemctl start switchToLightMode.service`

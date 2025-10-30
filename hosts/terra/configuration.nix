@@ -9,7 +9,6 @@ let
     steam.enable = true;
     hyprland.enable = true;
     docker.enable = true;
-    firewall.commonPorts.enable = true;
     nautilus.enable = true;
     rclone.enable = true;
     spotify = {
@@ -23,7 +22,6 @@ let
     services.paperless = {
       enable = true;
       backupDir = "/home/reilly/Resources/Backups/Paperless";
-      openPort = true;
     };
     utilities.iosSideloaderEnv.enable = true;
   };
@@ -144,6 +142,7 @@ in
     libnotify
     sshfs
     protonvpn-gui
+    prismlauncher
   ];
 
   services.udev.packages = with pkgs; [
@@ -161,10 +160,12 @@ in
   services.openssh = {
     enable = true;
     ports = [ 22 ];
+    openFirewall = false;
+    passwordAuthentication = false;
     settings = {
       UseDns = true;
       X11Forwarding = false;
-      PermitRootLogin = "no"; # "yes", "without-password", "prohibit-password", "forced-commands-only", "no"
+      PermitRootLogin = "no";
     };
   };
 
@@ -179,6 +180,22 @@ in
     options = "--delete-older-than 60d";
   };
   nix.optimise.automatic = true;
+
+  networking.firewall = {
+    enable = true;
+    # Allow access to development ports over tailscale
+    interfaces."tailscale0".allowedTCPPortRanges = [
+      {
+        from = 8000;
+        to = 8002;
+      }
+      {
+        from = 3000;
+        to = 3002;
+      }
+    ];
+    checkReversePath = false; # Currently required for proton vpn to work
+  };
 
   systemd.services.switchToDarkMode = {
     description = "Switch to dark mode theme";

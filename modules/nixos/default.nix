@@ -4,7 +4,6 @@
     ./gnome
     ./hyprland
     ./utilities
-    ./development
     ./hardware
     ./services
   ];

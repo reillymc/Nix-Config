@@ -108,7 +108,7 @@ let
   '';
 
   search = pkgs.writeShellScriptBin "search" ''
-    # Requires wl-clipboard, TODO: possibly extract to module where this is handled (if that approach taken for scripts)
+    # Requires wl-clipboard, TODO: ensure dependency is handled independently of clipse
     firefox --new-tab https://www.google.com/search?q="$(wl-paste --primary)"
   '';
 
@@ -136,13 +136,6 @@ in
   ];
 
   config = lib.mkIf mynixos.hyprland.enable {
-    # myhome.waybar.enable = lib.mkDefault false;
-    # myhome.ags.enable = lib.mkDefault true;
-    # myhome.astalshell.enable = lib.mkDefault true;
-    # myhome.hyprland.split-workspaces.enable = lib.mkDefault true;
-    # myhome.keymap.enable = lib.mkDefault true;
-    # myhome.start.enable = lib.mkDefault true;
-
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.enable = false;

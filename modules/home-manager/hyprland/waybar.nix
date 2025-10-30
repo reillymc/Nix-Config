@@ -77,6 +77,7 @@
           format-source = "";
           format-source-muted = "";
           format-icons = {
+            # TODO: map from audio devices array additional icon variable
             "bluez_output.94_DB_56_D5_A1_18.1" = "";
             "alsa_output.pci-0000_00_1f.3.iec958-stereo" = "󰓃";
             default = [

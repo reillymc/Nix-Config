@@ -95,7 +95,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -136,7 +136,7 @@ list of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -157,7 +157,7 @@ null or signed integer
 ` null `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -173,7 +173,7 @@ Monitor model name, e\.g\. eiq-495KCSUW
 string
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -189,7 +189,7 @@ Output name, e\.g\. DP-1
 string
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -210,7 +210,7 @@ string
 ` "0x0" `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -231,7 +231,7 @@ signed integer
 ` 144 `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -252,7 +252,7 @@ string
 ` "5120x1440" `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -273,7 +273,7 @@ floating point number
 ` 1.0 `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -295,7 +295,7 @@ list of string
 ` [ ] `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager)
 
 
 
@@ -341,7 +341,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -362,7 +362,7 @@ string
 ` "s3-remote:" `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -388,7 +388,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/development/vscode\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/development/vscode.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/development/vscode\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/development/vscode.nix)
 
 
 
@@ -414,7 +414,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps)
 
 
 
@@ -440,7 +440,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/immich.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/immich.nix)
 
 
 
@@ -466,7 +466,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/jellyfin.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/jellyfin.nix)
 
 
 
@@ -492,7 +492,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/jellyseerr\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/jellyseerr.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/jellyseerr\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/jellyseerr.nix)
 
 
 
@@ -518,7 +518,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/messenger.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/messenger.nix)
 
 
 
@@ -544,7 +544,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/navidrome.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/navidrome.nix)
 
 
 
@@ -570,7 +570,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/proton-mail.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/proton-mail.nix)
 
 
 
@@ -596,7 +596,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/whatsapp.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/whatsapp.nix)
 
 
 
@@ -622,6 +622,6 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/home-manager/web-apps/apps/youtube.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/home-manager/web-apps/apps/youtube.nix)
 
 

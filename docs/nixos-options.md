@@ -85,33 +85,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/docker\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/docker.nix)
-
-
-
-## mynixos\.firewall\.commonPorts\.enable
-
-
-
-Whether to enable open common ports for development servers\.
-
-
-
-*Type:*
-boolean
-
-
-
-*Default:*
-` false `
-
-
-
-*Example:*
-` true `
-
-*Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/development/firewall\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/development/firewall.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/docker\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/docker.nix)
 
 
 
@@ -137,7 +111,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/gnome](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/gnome)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/gnome](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/gnome)
 
 
 
@@ -163,7 +137,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hardware/logitech](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hardware/logitech)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hardware/logitech](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hardware/logitech)
 
 
 
@@ -189,7 +163,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hardware/logitech/devices/m720\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hardware/logitech/devices/m720.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hardware/logitech/devices/m720\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hardware/logitech/devices/m720.nix)
 
 
 
@@ -210,7 +184,7 @@ list of string
 ` [ ] `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hardware/logitech](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hardware/logitech)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hardware/logitech](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hardware/logitech)
 
 
 
@@ -236,7 +210,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hyprland](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/hyprland)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hyprland](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/hyprland)
 
 
 
@@ -262,7 +236,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/nautilus\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/nautilus.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/nautilus\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/nautilus.nix)
 
 
 
@@ -288,7 +262,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/rclone\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/rclone.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/rclone\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/rclone.nix)
 
 
 
@@ -314,7 +288,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/services/paperless\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/services/paperless.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/services/paperless\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/services/paperless.nix)
 
 
 
@@ -330,7 +304,7 @@ Directory to back up paperless data to\.
 string
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/services/paperless\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/services/paperless.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/services/paperless\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/services/paperless.nix)
 
 
 
@@ -356,7 +330,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/services/paperless\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/services/paperless.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/services/paperless\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/services/paperless.nix)
 
 
 
@@ -382,7 +356,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/entertainment/spotify.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/entertainment/spotify.nix)
 
 
 
@@ -408,7 +382,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/entertainment/spotify.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/entertainment/spotify.nix)
 
 
 
@@ -434,7 +408,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/entertainment/steam\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/entertainment/steam.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/entertainment/steam\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/entertainment/steam.nix)
 
 
 
@@ -460,6 +434,6 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/ios-sideloader-env\.nix](file:///nix/store/9crbczigbrd2lxzrf8j2m7y8alwh8sn4-source/modules/nixos/utilities/ios-sideloader-env.nix)
+ - [/nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/ios-sideloader-env\.nix](file:///nix/store/082vf60ajh89s7467w1n5131sb484qln-source/modules/nixos/utilities/ios-sideloader-env.nix)
 
 

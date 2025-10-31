@@ -60,5 +60,9 @@ in
   config = lib.mkIf config.mynixos.spotify.enable {
     environment.systemPackages =
       if config.mynixos.spotify.adblock.enable then [ spotifyPatched ] else [ pkgs.spotify ];
+
+    mynixos.myUnfreePackages = [
+      "spotify"
+    ];
   };
 }

@@ -23,7 +23,13 @@ let
       enable = true;
       backupDir = "/home/reilly/Resources/Backups/Paperless";
     };
+    via.enable = true;
     utilities.iosSideloaderEnv.enable = true;
+
+    # Unfree packages that need to be allowed
+    myUnfreePackages = [
+      "obsidian"
+    ];
   };
 in
 {
@@ -103,16 +109,10 @@ in
     ];
   };
 
-  specialisation.light.configuration = {
-    home-manager.extraSpecialArgs.theme = "light";
-  };
-  specialisation.dark.configuration = {
-  };
-
   home-manager = {
     extraSpecialArgs = {
       inherit inputs mynixos hostname;
-      theme = "dark";
+      theme = "dark"; # Default, overridden by specialisations
       configDir = "/home/reilly/Projects/Nix-Config";
     };
     users = {
@@ -135,7 +135,6 @@ in
     foliate
     libreoffice
     vlc
-    via
     obsidian
     pwvucontrol
     ddcutil
@@ -143,10 +142,6 @@ in
     sshfs
     protonvpn-gui
     prismlauncher
-  ];
-
-  services.udev.packages = with pkgs; [
-    via
   ];
 
   services.logind.settings.Login.HandlePowerKey = "suspend";
@@ -161,8 +156,8 @@ in
     enable = true;
     ports = [ 22 ];
     openFirewall = false;
-    passwordAuthentication = false;
     settings = {
+      PasswordAuthentication = false;
       UseDns = true;
       X11Forwarding = false;
       PermitRootLogin = "no";
@@ -170,9 +165,6 @@ in
   };
 
   programs.localsend.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   nix.gc = {
     automatic = true;
@@ -195,76 +187,6 @@ in
       }
     ];
     checkReversePath = false; # Currently required for proton vpn to work
-  };
-
-  systemd.services.switchToDarkMode = {
-    description = "Switch to dark mode theme";
-    serviceConfig = {
-      ExecStart = "/nix/var/nix/profiles/system/specialisation/dark/bin/switch-to-configuration switch";
-      Type = "oneshot";
-      User = "root";
-    };
-  };
-
-  systemd.services.switchToLightMode = {
-    description = "Switch to light mode theme";
-    serviceConfig = {
-      ExecStart = "/nix/var/nix/profiles/system/specialisation/light/bin/switch-to-configuration switch";
-      Type = "oneshot";
-      User = "root";
-    };
-  };
-
-  systemd.timers.switchToDarkMode = {
-    description = "Timer to switch to dark mode";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 18:30:00";
-      Persistent = true;
-    };
-  };
-
-  systemd.timers.switchToLightMode = {
-    description = "Timer to switch to light mode";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 08:00:00";
-      Persistent = true;
-    };
-  };
-
-  systemd.services.switchToDarkModeNonRoot = {
-    description = "Switch to dark mode theme";
-    serviceConfig = {
-      ExecStart = "hyprctl setcursor Bibata-Modern-Ice 24";
-      Type = "oneshot";
-    };
-  };
-
-  systemd.services.switchToLightModeNonRoot = {
-    description = "Switch to light mode theme";
-    serviceConfig = {
-      ExecStart = "hyprctl setcursor Bibata-Modern-Classic 24";
-      Type = "oneshot";
-    };
-  };
-
-  systemd.timers.switchToDarkModeNonRoot = {
-    description = "Timer to switch to dark mode";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 18:30:00";
-      Persistent = true;
-    };
-  };
-
-  systemd.timers.switchToLightModeNonRoot = {
-    description = "Timer to switch to light mode";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 08:00:00";
-      Persistent = true;
-    };
   };
 
   # This value determines the NixOS release from which the default

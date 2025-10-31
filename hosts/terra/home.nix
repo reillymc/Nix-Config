@@ -84,9 +84,11 @@
   };
 
   programs.git = {
-    userName = "reillymc";
-    userEmail = "reilly@mackenzie-cree.net";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "reillymc";
+        email = "reilly@mackenzie-cree.net";
+      };
       core = {
         editor = "code --wait"; # Todo: make configurable
       };

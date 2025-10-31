@@ -1,9 +1,10 @@
 {
   imports = [
     ./docker.nix
+    ./ios-sideloader-env.nix
+    ./kdeconnect.nix
     ./nautilus.nix
     ./rclone.nix
-    ./kdeconnect.nix
-    ./ios-sideloader-env.nix
+    ./via.nix
   ];
 }

@@ -13,5 +13,10 @@
       enable = true;
       gamescopeSession.enable = true;
     };
+
+    mynixos.myUnfreePackages = [
+      "steam"
+      "steam-unwrapped"
+    ];
   };
 }

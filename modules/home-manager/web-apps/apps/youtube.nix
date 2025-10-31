@@ -133,16 +133,8 @@ let
       --toolbarbutton-inner-padding: calc((var(--tab-min-height) - 16px) / 2);
     }
 
-
-
-    .tabbrowser-tab {
-      &:not([pinned]) {
-        max-width: 100% !important;
-      }
-      
-       &:not([pinned], [fadein]) {
-        max-width: 0.1px !important;
-      }
+    .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
+    	max-width: 100% !important;
     }
   '';
 

@@ -652,5 +652,59 @@ in
     };
 
     fonts.fontconfig.enable = true;
+
+    systemd.user.services.switchToDarkCursor = {
+      Unit = {
+        Description = "Switch to dark cursor (hyprland)";
+      };
+      Service = {
+        ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Bibata-Modern-Ice 24";
+        Type = "oneshot";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+    };
+
+    systemd.user.services.switchToLightCursor = {
+      Unit = {
+        Description = "Switch to light cursor (hyprland)";
+      };
+      Service = {
+        ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Bibata-Modern-Classic 24";
+        Type = "oneshot";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+    };
+
+    systemd.user.timers.switchToDarkCursor = {
+      Unit = {
+        Description = "Timer to switch to dark cursor (hyprland)";
+      };
+      Timer = {
+        OnCalendar = "*-*-* 18:30:00";
+        Unit = "switchToDarkCursor.service";
+        Persistent = true;
+      };
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
+    };
+
+    systemd.user.timers.switchToLightCursor = {
+      Unit = {
+        Description = "Timer to switch to light cursor (hyprland)";
+      };
+      Timer = {
+        OnCalendar = "*-*-* 08:00:00";
+        Unit = "switchToLightCursor.service";
+        Persistent = true;
+      };
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
+    };
   };
 }

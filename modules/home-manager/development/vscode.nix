@@ -302,8 +302,17 @@
               description = "Function Component";
             };
           };
+          "typescript" = {
+            "Export" = {
+              "prefix" = "ex";
+              "body" = [
+                "export { $2 } from \"./$1\";"
+                ""
+              ];
+              "description" = "Module Index";
+            };
+          };
         };
-
       };
     };
 

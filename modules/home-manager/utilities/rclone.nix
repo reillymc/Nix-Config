@@ -55,7 +55,7 @@
         Description = "Timer to run rclone backup daily";
       };
       Timer = {
-        OnCalendar = "*-*-* 16:00:00";
+        OnCalendar = "*-*-* 18:00:00";
         Unit = "rclone-backup.service";
         Persistent = true;
       };

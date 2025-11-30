@@ -10,6 +10,8 @@
       keybind = [
         "ctrl+v=paste_from_clipboard"
         "performable:ctrl+c=copy_to_clipboard"
+        "performable:ctrl+t=new_tab"
+        "performable:ctrl+w=close_tab"
       ];
     };
   };

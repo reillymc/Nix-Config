@@ -1,7 +1,4 @@
 {
-  ...
-}:
-{
   specialisation.light.configuration = {
     home-manager.extraSpecialArgs.theme = "light";
   };
@@ -27,21 +24,4 @@
     };
   };
 
-  systemd.timers.switchToSystemDarkMode = {
-    description = "Timer to switch to system dark mode configuration";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 18:30:00";
-      Persistent = true;
-    };
-  };
-
-  systemd.timers.switchToSystemLightMode = {
-    description = "Timer to switch to system light mode configuration";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 08:00:00";
-      Persistent = true;
-    };
-  };
 }

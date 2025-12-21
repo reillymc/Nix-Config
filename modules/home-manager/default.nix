@@ -6,16 +6,15 @@
 
 {
   imports = [
-    ./options/display
-    ./options/audio
-    ./options/unfree-packages.nix
     ./development
+    ./display
     ./hyprland
+    ./options/audio
+    ./options/display
+    ./options/unfree-packages.nix
+    ./scripts.nix
     ./utilities
     ./web-apps
-    ./theme.nix
-    ./display-brightness.nix
-    ./scripts.nix
   ];
 
   config = {

@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   hostname,
   configDir,
@@ -9,8 +10,14 @@ let
     current_time=$(date +%H%M)
     current_time=$((10#$current_time))  # Force base-10
 
-    start=800   # No leading zero
-    end=1830
+    light_time="${config.myhome.display.theme.lightTime}"
+    dark_time="${config.myhome.display.theme.darkTime}"
+
+    start=''${light_time/:/}
+    end=''${dark_time/:/}
+
+    start=$((10#$start))
+    end=$((10#$end))
 
     if [[ "$current_time" -ge "$start" && "$current_time" -le "$end" ]]; then
       specialisation="light"
@@ -19,7 +26,6 @@ let
     fi
 
     sudo nixos-rebuild switch --flake ${configDir}#${hostname} --specialisation "$specialisation"  '';
-
 in
 {
   home.packages = [ rebuild-switch ];

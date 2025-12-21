@@ -31,8 +31,12 @@
       minTime = "22:45";
     };
     nightShift = {
-      maxTime = "08:00";
-      minTime = "21:30";
+      clearTime = "08:00";
+      shiftTime = "21:30";
+    };
+    theme = {
+      lightTime = "08:00";
+      darkTime = "16:00";
     };
   };
 

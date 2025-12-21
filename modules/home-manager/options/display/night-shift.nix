@@ -7,12 +7,12 @@
         nightShift = lib.mkOption {
           type = lib.types.submodule {
             options = {
-              maxTime = lib.mkOption {
+              clearTime = lib.mkOption {
                 type = lib.types.str;
                 description = "Time of day when 'day' (normal color temperature) starts (HH:MM).";
               };
 
-              minTime = lib.mkOption {
+              shiftTime = lib.mkOption {
                 type = lib.types.str;
                 description = "Time of day when 'night' (night shift temperature) window starts (HH:MM).";
               };

@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }:
 let
@@ -137,43 +138,30 @@ in
     };
   };
 
-  systemd.user.timers =
-    (
-      if
-        config.myhome.display.brightness.maxTime != null && config.myhome.display.brightness.maxTime != ""
-      then
-        {
-          displayBrightnessMax = {
-            Unit.Description = "timer for displayBrightness service";
-            Timer = {
-              Unit = "displayBrightness.service";
-              OnCalendar = "*-*-* ${config.myhome.display.brightness.maxTime}";
-              Persistent = false;
-            };
-            Install.WantedBy = [ "timers.target" ];
-          };
-        }
-      else
-        { }
-    )
-    // (
-      if
-        config.myhome.display.brightness.minTime != null && config.myhome.display.brightness.minTime != ""
-      then
-        {
-          displayBrightnessMin = {
-            Unit.Description = "timer for displayBrightness service";
-            Timer = {
-              Unit = "displayBrightness.service";
-              OnCalendar = "*-*-* ${config.myhome.display.brightness.minTime}";
-              Persistent = false;
-            };
-            Install.WantedBy = [ "timers.target" ];
-          };
-        }
-      else
-        { }
-    );
+  systemd.user.timers.displayBrightnessMax =
+    lib.mkIf (config.myhome.display.brightness.maxTime != null)
+      {
+
+        Unit.Description = "timer for displayBrightness service";
+        Timer = {
+          Unit = "displayBrightness.service";
+          OnCalendar = "*-*-* ${config.myhome.display.brightness.maxTime}:00";
+          Persistent = false;
+        };
+        Install.WantedBy = [ "timers.target" ];
+      };
+
+  systemd.user.timers.displayBrightnessMin =
+    lib.mkIf (config.myhome.display.brightness.minTime != null)
+      {
+        Unit.Description = "timer for displayBrightness service";
+        Timer = {
+          Unit = "displayBrightness.service";
+          OnCalendar = "*-*-* ${config.myhome.display.brightness.minTime}:00";
+          Persistent = false;
+        };
+        Install.WantedBy = [ "timers.target" ];
+      };
 
   home.packages = [ displayBrightness ];
 }

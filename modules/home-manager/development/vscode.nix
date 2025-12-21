@@ -278,6 +278,9 @@
             "streetsidesoftware.code-spell-checker"
           ];
           "editor.linkedEditing" = true;
+          "editor.selectionClipboard" = false; # enabled middle click cursor (disables paste)
+          "window.menuStyle" = "custom"; # native context menu is scaled too large
+          "remote.autoForwardPortsSource" = "hybrid"; # vscode keeps auto-setting this
         };
         languageSnippets = {
           "typescriptreact" = {

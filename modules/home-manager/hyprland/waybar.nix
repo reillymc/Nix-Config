@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   ...
 }:
 {
@@ -44,7 +43,7 @@
         "hyprland/window" = {
           format = "{title:.120}";
           icon = true;
-          icon-size = 16;
+          icon-size = 10;
         };
         clock = {
           format = "{:%H:%M, %a %d/%m}  ";
@@ -107,7 +106,7 @@
         };
         privacy = {
           icon-spacing = 10;
-          icon-size = 14;
+          icon-size = 10;
           transition-duration = 250;
           modules = [
             {
@@ -128,7 +127,8 @@
           ];
         };
         tray = {
-          spacing = 10;
+          spacing = 12;
+          icon-size = 12;
         };
         "custom/notification" = {
           format = "{icon}";
@@ -163,6 +163,12 @@
       .modules-right {
           padding-left: 12px;
           padding-right: 12px;
+          padding-bottom: 4px;
+      }
+
+
+      * {
+          margin-top: -1px;
       }
 
       #custom-nix,
@@ -179,11 +185,12 @@
       #pulseaudio,
       #custom-notification,
       #custom-mic {
+          padding-top: 0;
           color: #fff;
-          font-family: "JetBrains Mono", "Symbols Nerd Font Mono";
+          font-family: "JetBrains Mono", "Symbols Nerd Font Propo";
           font-weight: 800;
           font-size: 12px;
-          min-height: 8px;
+          min-height: 0px;
       }
 
       #clock {
@@ -200,7 +207,6 @@
       }
 
       #custom-nix {
-          font-size: 16px;
           transition: all 0.2s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       }
 
@@ -212,11 +218,18 @@
           box-shadow: none;
           text-shadow: none;
           border: none;
+          margin: 0;
+          padding-top: 2px;
           padding-bottom: 0;
-          padding-top: 0;
+          padding-left: 4px;
+          padding-right: 4px;
+          min-height: 0;
           color: #bbb;
-          font-weight: 600;
           transition: all 0.2s cubic-bezier(0.55, -0.68, 0.48, 1.682);
+      }
+
+      #workspaces label {
+          padding: 0;
       }
 
       #workspaces button.active {
@@ -230,8 +243,25 @@
           color: #fff;
       }
 
-      #tray > * {
+      #tray {
           opacity: 0.4;
+          margin-top: 2px;
+          padding-top: 2px;
+      }
+
+      #window>* {
+          margin-top: 1px;
+
+      }
+
+      #window label {
+          margin-top: 0px;
+
+      }
+
+      #custom-nix {
+          margin-top: 1px;
+          font-size: 11px;
       }
     '';
   };

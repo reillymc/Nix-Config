@@ -12,74 +12,14 @@ let
       bitdepthStr = if mon.bitdepth != null then ", bitdepth, ${toString mon.bitdepth}" else "";
     in
     "${mon.output}, ${mon.resolution}@${toString mon.refreshRate}, ${mon.position}, ${toString mon.scale}${bitdepthStr}"
-  ) config.myhome.monitors;
+  ) config.myhome.display.monitors;
 
-  wallpapers = builtins.map (mon: "${mon.output},~/.cache/wallpaper") config.myhome.monitors;
+  wallpapers = builtins.map (mon: "${mon.output},~/.cache/wallpaper") config.myhome.display.monitors;
 
   lockdown = pkgs.writeShellScriptBin "lockdown" ''
     if (($1 > 3)); then
       hyprctl dispatch exit
     fi
-  '';
-
-  displayBrightness = pkgs.writeShellScriptBin "displayBrightness" ''
-    step=50
-
-    # Bash array of monitors interpolated from Nix list
-    monitor_models=(
-      ${builtins.concatStringsSep "\n  " (map (mon: ''"${mon.model}"'') config.myhome.monitors)}
-    )
-
-    get_current_brightness() {
-      local monitor=$1
-      ddcutil get 10 --model "$monitor" | cut -d, -f1 | cut -d= -f2 | xargs
-    }
-
-    set_brightness() {
-      local monitor=$1
-      local value=$2
-      ddcutil set 10 --model "$monitor" "$value"
-    }
-
-    notify() {
-      local value=$1
-      notify-send "Brightness set to ''${value}%" --hint=int:transient:1
-    }
-
-    # Use first monitor as reference to get current brightness
-    reference_monitor="''\${monitor_models[0]}"
-    current=$(get_current_brightness "$reference_monitor")
-
-    case "$1" in
-      min)
-        if [ "$current" -eq 0 ]; then exit 0; fi
-        future=0
-        ;;
-      max)
-        if [ "$current" -eq 100 ]; then exit 0; fi
-        future=100
-        ;;
-      increase)
-        future=$((current + step))
-        if [ "$future" -gt 100 ]; then future=100; fi
-        if [ "$current" -eq "$future" ]; then exit 0; fi
-        ;;
-      decrease)
-        future=$((current - step))
-        if [ "$future" -lt 0 ]; then future=0; fi
-        if [ "$current" -eq "$future" ]; then exit 0; fi
-        ;;
-      *)
-        echo "Usage: $0 {min|max|increase|decrease}"
-        exit 1
-        ;;
-    esac
-
-    for monitor in "''\${monitor_models[@]}"; do
-      set_brightness "$monitor" "$future"
-    done
-    notify "$future"
-
   '';
 
   toggleLayout = pkgs.writeShellScriptBin "toggleLayout" ''
@@ -96,11 +36,6 @@ let
 
     # Convert to an integer (to avoid issues with leading zeros)
     current_hour=$((10#$current_hour))
-
-    # Set brightness to full if it's between 6 AM (6) and 6 PM (18)
-    if [ "$current_hour" -ge 6 ] && [ "$current_hour" -lt 18 ]; then
-      ${displayBrightness}/bin/displayBrightness max
-    fi
 
     # Waybar fails to start if started too early, so delay and restart service
     sleep 3
@@ -145,7 +80,7 @@ in
           gaps_out = 6;
           border_size = 0;
 
-          layout = "dwindle"; # TODO: hy3
+          layout = "master"; # TODO: hy3
         };
 
         monitor = monitorConfigs;
@@ -231,7 +166,7 @@ in
         # `wev` can be used to capture inputs to determine codes
         $mainMod = SUPER
 
-        bind = $mainMod SHIFT, F, togglefloating, 
+        bind = $mainMod CTRL SHIFT, F, togglefloating, 
         bind = $mainMod, V, exec, ${clipboardManager}/bin/clipboardManager
         bind = $mainMod, J, togglesplit, # dwindle
 
@@ -279,7 +214,8 @@ in
 
         # Custom binds
         bind = $mainMod, C, exec, ${search}/bin/search
-        bind = $mainMod, F, fullscreen
+        bind = $mainMod SHIFT, F, fullscreen
+        bind = $mainMod, F, fullscreenstate, 1 1
         bind = $mainMod ALT, F, fullscreenstate, -1 2
         bind = $mainMod, ESCAPE, exec, pidof hyprlock || hyprlock
         # bind = $mainMod, ESCAPE, exec, swaylock
@@ -301,10 +237,10 @@ in
         bindl = SHIFT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld next
         bindl = ALT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld previous
 
-        bind = ,XF86MonBrightnessDown,exec, uwsm app -- ${displayBrightness}/bin/displayBrightness min
-        bind = ,XF86MonBrightnessUp, exec, uwsm app -- ${displayBrightness}/bin/displayBrightness max
-        bind = SHIFT,XF86MonBrightnessDown,exec, uwsm app -- ${displayBrightness}/bin/displayBrightness decrease
-        bind = SHIFT,XF86MonBrightnessUp, exec, uwsm app -- ${displayBrightness}/bin/displayBrightness increase
+        bind = ,XF86MonBrightnessDown,exec, uwsm app -- displayBrightness min
+        bind = ,XF86MonBrightnessUp, exec, uwsm app -- displayBrightness max
+        bind = SHIFT,XF86MonBrightnessDown,exec, uwsm app -- displayBrightness decrease
+        bind = SHIFT,XF86MonBrightnessUp, exec, uwsm app -- displayBrightness increase
 
         # Note: using QMK keyboard mic key is bound to F20 (XF86AudioMicMute) on layer 2 and F21 (XF86TouchpadOn) on layer 3
         bind = , XF86AudioMicMute, exec, uwsm app -- toggleMicrophone
@@ -315,11 +251,11 @@ in
         bind = $mainMod, N, exec, swaync-client -t
 
         bind = , Print, exec, uwsm app -- hyprshot --mode region --output-folder "Pictures/Screenshots"
-        bind = SHIFT, Print, exec, uwsm app -- hyprshot --mode region --output-folder "Pictures/Screenshots" --clipboard-only
+        bind = SHIFT, Print, exec, uwsm app -- hyprshot --mode region --clipboard-only
         bind = $mainMod, Print, exec, uwsm app -- hyprshot --mode output --output-folder "Pictures/Screenshots"
         bind = CTRL, Print, exec, uwsm app -- hyprshot --mode window --output-folder "Pictures/Screenshots"
-        bind = CTRL SHIFT, Print, exec, uwsm app -- hyprshot --mode window --output-folder "Pictures/Screenshots" --clipboard-only
-        bind = $mainMod SHIFT, Print, exec, uwsm app -- hyprshot --mode output --output-folder "Pictures/Screenshots" --clipboard-only
+        bind = CTRL SHIFT, Print, exec, uwsm app -- hyprshot --mode window --clipboard-only
+        bind = $mainMod SHIFT, Print, exec, uwsm app -- hyprshot --mode output --clipboard-only
 
         bind = $mainMod, K, exec, hyprctl kill
 
@@ -344,15 +280,18 @@ in
         windowrulev2 = float, class:(com.my.clipboard)
         windowrulev2 = size 622 652, class:(com.my.clipboard)
         windowrulev2 = stayfocused, class:(com.my.clipboard)
-        windowrulev2 = animation popin class:(com.my.clipboard)
-        windowrulev2 = opacity 0.8,class:(com.my.clipboard)
+        windowrulev2 = animation popin, class:(com.my.clipboard)
+        windowrulev2 = opacity 0.8, class:(com.my.clipboard)
+        windowrulev2 = stayfocused, modal:1
+
+        windowrulev2 = opacity 1, initialTitle:Picture-in-Picture
 
         windowrulev2 = float, class:(org.gnome.NautilusPreviewer)
         windowrulev2 = size 1024 1024, class:(org.gnome.NautilusPreviewer)
 
         windowrulev2 = float, class:(org.gnome.Calculator)
 
-        # prevent hypridle locking screen when any program is fullscreen
+        # prevent hypridle locking screen when any program is fullscreen - TODO: only fullscreen - not fullscreen mode with waybar
         windowrulev2 = idleinhibit fullscreen, class:^(*)$
         windowrulev2 = idleinhibit fullscreen, title:^(*)$
         windowrulev2 = idleinhibit fullscreen, fullscreen:1
@@ -381,16 +320,16 @@ in
         # Remove borders when an application is maximised fullscreen (not complete fullscreen)
         workspace=f[1],rounding:false,bordersize:0,gapsout:0
 
-        workspace = m[DP-1]w[tv2], layoutopt:orientation:right
+        workspace = m[DP-3]w[tv2], layoutopt:orientation:right
         workspace = m[eDP-1]w[tv1], layoutopt:orientation:right
         workspace = m[eDP-1]w[tv2], layoutopt:orientation:right
 
-        workspace = m[eDP-1], layoutopt:wslayout-layout:dwindle
+        # workspace = m[eDP-1], layoutopt:wslayout-layout:master
 
 
-        workspace = w[t1], gapsout:6 1024, gapsin:0
+        workspace = w[t1]f[-1], gapsout:6 1024, gapsin:0
         workspace = w[tg1], gapsout:6 6, gapsin:0
-        workspace = f[1], gapsout:6 6, gapsin:0
+        # workspace = f[1], gapsout:6 6, gapsin:0
 
 
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
@@ -684,7 +623,7 @@ in
         Description = "Timer to switch to dark cursor (hyprland)";
       };
       Timer = {
-        OnCalendar = "*-*-* 18:30:00";
+        OnCalendar = "*-*-* 17:30:00";
         Unit = "switchToDarkCursor.service";
         Persistent = true;
       };
@@ -698,7 +637,7 @@ in
         Description = "Timer to switch to light cursor (hyprland)";
       };
       Timer = {
-        OnCalendar = "*-*-* 08:00:00";
+        OnCalendar = "*-*-* 08:30:00";
         Unit = "switchToLightCursor.service";
         Persistent = true;
       };

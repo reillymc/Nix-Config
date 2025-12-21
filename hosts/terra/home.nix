@@ -14,17 +14,27 @@
   home.username = "reilly";
   home.homeDirectory = "/home/reilly";
 
-  myhome.monitors = [
-    {
-      output = "DP-1";
-      model = "eiq-495KCSUW";
-      resolution = "5120x1440";
-      refreshRate = 144;
-      position = "0x0";
-      scale = 1.0;
-      bitdepth = 10;
-    }
-  ];
+  myhome.display = {
+    monitors = [
+      {
+        output = "DP-3";
+        model = "eiq-495KCSUW";
+        resolution = "5120x1440";
+        refreshRate = 120;
+        position = "0x0";
+        scale = 1.0;
+        bitdepth = 10;
+      }
+    ];
+    brightness = {
+      maxTime = "08:00";
+      minTime = "22:45";
+    };
+    nightShift = {
+      maxTime = "08:00";
+      minTime = "21:30";
+    };
+  };
 
   myhome.vscode.enable = true;
   myhome.rclone.remote = "b2-terra-crypt";
@@ -72,7 +82,7 @@
 
   myhome.audio.devices = [
     "bluez_output.94_DB_56_D5_A1_18.1" # Bluetooth Headphones
-    "alsa_output.pci-0000_0b_00.1.hdmi-stereo" # Speaker via monitor
+    "alsa_output.pci-0000_0e_00.1.hdmi-stereo" # Speaker via monitor
   ];
 
   home.pointerCursor = {

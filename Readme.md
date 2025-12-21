@@ -1,6 +1,6 @@
 # NixOS System Configuration
 
-My NixOS system configurations. The project is broken up into `hosts` and modules. Hosts are a config set for each individual machine, while modules are resulable nix modules that are then composed into a machine config in hosts.
+My NixOS system configurations. The project is broken up into `hosts` and modules. Hosts are a config set for each individual machine, while modules are reusable nix modules that are then composed into a machine config in hosts.
 
 ## Rebuilding
 

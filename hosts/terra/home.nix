@@ -24,6 +24,7 @@
         position = "0x0";
         scale = 1.0;
         bitdepth = 10;
+        isUltrawide = true;
       }
     ];
     brightness = {

@@ -1,10 +1,10 @@
 {
   lib,
   config,
-  mynixos,
   pkgs,
   ...
 }:
+
 let
   base = import ../base.nix { inherit lib config pkgs; };
 
@@ -14,17 +14,17 @@ let
     url = "http://localhost:28981";
     icon = "paperless.svg";
   };
+
+  cfg = config.mynixos.services.paperless or { enable = false; };
 in
 {
-  config = lib.mkIf mynixos.services.paperless.enable {
-    # Firefox profile definition
+  config = lib.mkIf cfg.enable {
     programs.firefox.profiles.${app.id} = {
       id = base.mkProfileId app.id;
       settings = base.webAppSettings;
       userChrome = base.userChromeMinimal;
     };
 
-    # XDG desktop entry definition
     xdg.desktopEntries.${app.id} = base.mkWebAppEntry app;
   };
 }

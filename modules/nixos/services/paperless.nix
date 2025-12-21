@@ -4,15 +4,17 @@
   pkgs,
   ...
 }:
+
 let
+  cfg = config.mynixos.services.paperless;
+
   paperless-bkp-script-unwrapped = pkgs.writeShellScriptBin "paperless-bkp-script" ''
     set -e
 
     EXPORT_DIR="/var/lib/paperless/export"
     ARCHIVE_NAME="paperless_export.tar.gz"
-    ARCHIVE_PATH="${config.mynixos.services.paperless.backupDir}/$ARCHIVE_NAME"
+    ARCHIVE_PATH="${cfg.backupDir}/$ARCHIVE_NAME"
 
-    # Create tar.gz archive
     tar -czvf "$ARCHIVE_PATH" -C "$EXPORT_DIR" .
 
     echo "Backup complete: $ARCHIVE_PATH"
@@ -28,18 +30,28 @@ let
   };
 in
 {
-  options = {
-    mynixos.services.paperless = {
-      enable = lib.mkEnableOption "enables paperless";
-      backupDir = lib.mkOption {
-        type = lib.types.str;
-        description = "Directory to back up paperless data to.";
-      };
-      openPort = lib.mkEnableOption "open firewall port for paperless web interface (28981)";
+  options.mynixos.services.paperless = {
+    enable = lib.mkEnableOption "Enable Paperless";
+
+    backupDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/backup/paperless";
+      example = "/srv/backup/paperless";
+      description = ''
+        Directory to back up Paperless data to.
+      '';
+    };
+
+    openPort = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Whether to open the firewall port (28981) for the Paperless web interface.
+      '';
     };
   };
 
-  config = lib.mkIf config.mynixos.services.paperless.enable {
+  config = lib.mkIf cfg.enable {
     services.paperless = {
       enable = true;
       exporter = {
@@ -48,11 +60,10 @@ in
       };
       port = 28981;
     }
-    // (lib.optionalAttrs config.mynixos.services.paperless.openPort {
+    // lib.optionalAttrs cfg.openPort {
       address = "0.0.0.0";
-    });
+    };
 
-    # Hacky way to get backup into home folder for rclone backup. Ideally would run paperless as home manager module if it existed
     systemd.services."paperless-user-backup" = {
       description = "Paperless backup handler";
       serviceConfig = {
@@ -72,8 +83,7 @@ in
       };
     };
 
-    # Open firewall port for paperless web interface
-    networking.firewall = lib.mkIf config.mynixos.services.paperless.openPort {
+    networking.firewall = lib.mkIf cfg.openPort {
       allowedTCPPortRanges = [
         {
           from = 28981;

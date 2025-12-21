@@ -327,7 +327,15 @@ in
         # workspace = m[eDP-1], layoutopt:wslayout-layout:master
 
 
-        workspace = w[t1]f[-1], gapsout:6 1024, gapsin:0
+        ${builtins.concatStringsSep "\n  " (
+          map (
+            mon:
+            ''workspace = w[t1]f[-1]m[${mon.output}], gapsout:6 ${
+              toString (if mon.isUltrawide then 1024 else 6)
+            }, gapsin:0''
+          ) config.myhome.display.monitors
+        )}
+        workspace = w[t1]m[n], gapsout:6 1024, gapsin:0
         workspace = w[tg1], gapsout:6 6, gapsin:0
         # workspace = f[1], gapsout:6 6, gapsin:0
 
@@ -618,12 +626,12 @@ in
       };
     };
 
-    systemd.user.timers.switchToDarkCursor = {
+    systemd.user.timers.switchToDarkCursor = lib.mkIf (config.myhome.display.theme.darkTime != null) {
       Unit = {
         Description = "Timer to switch to dark cursor (hyprland)";
       };
       Timer = {
-        OnCalendar = "*-*-* 17:30:00";
+        OnCalendar = "*-*-* ${config.myhome.display.theme.darkTime}:00";
         Unit = "switchToDarkCursor.service";
         Persistent = true;
       };
@@ -632,12 +640,12 @@ in
       };
     };
 
-    systemd.user.timers.switchToLightCursor = {
+    systemd.user.timers.switchToLightCursor = lib.mkIf (config.myhome.display.theme.lightTime != null) {
       Unit = {
         Description = "Timer to switch to light cursor (hyprland)";
       };
       Timer = {
-        OnCalendar = "*-*-* 08:30:00";
+        OnCalendar = "*-*-* ${config.myhome.display.theme.lightTime}:00";
         Unit = "switchToLightCursor.service";
         Persistent = true;
       };

@@ -47,6 +47,12 @@
                   default = null;
                   description = "Optional bitdepth, e.g. 10. If null, omitted.";
                 };
+
+                isUltrawide = lib.mkOption {
+                  type = lib.types.bool;
+                  default = false;
+                  description = "Whether the monitor is ultrawide or not.";
+                };
               };
             }
           );

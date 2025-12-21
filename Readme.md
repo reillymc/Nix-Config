@@ -30,3 +30,12 @@ Custom options are documented within [NixOS Options](./docs/nixos-options.md) an
 ### Generating docs
 
 The following command can be used to update the docs with modified options `nix build .#docs && cp -rf result/* ./docs/ && rm result`.
+
+## Tools
+
+- [nix-ld](https://github.com/nix-community/nix-ld): Run unpatched dynamic binaries on NixOS, [Guide](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/).
+
+## TODO
+
+- Secrets: [guide](https://guekka.github.io/nixos-server-2/), [example](https://github.com/Guekka/nixos-server/blob/2-tailscale/hosts/common/secrets.yaml)
+-

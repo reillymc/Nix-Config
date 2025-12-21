@@ -95,11 +95,64 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/audio/devices\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/audio/devices.nix)
 
 
 
-## myhome\.monitors
+## myhome\.display\.brightness
+
+
+
+Configuration for automatically adjusting monitor brightness on schedule\.
+
+
+
+*Type:*
+submodule
+
+
+
+*Default:*
+` { } `
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness.nix)
+
+
+
+## myhome\.display\.brightness\.maxTime
+
+
+
+Time of day when ‘day’ (max brightness) window starts (HH:MM)\.
+
+
+
+*Type:*
+string
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness.nix)
+
+
+
+## myhome\.display\.brightness\.minTime
+
+
+
+Time of day when ‘night’ (min brightness) window starts (HH:MM)\.
+
+
+
+*Type:*
+string
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness.nix)
+
+
+
+## myhome\.display\.monitors
 
 
 
@@ -136,11 +189,11 @@ list of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
 
 
 
-## myhome\.monitors\.\*\.bitdepth
+## myhome\.display\.monitors\.\*\.bitdepth
 
 
 
@@ -157,11 +210,11 @@ null or signed integer
 ` null `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
 
 
 
-## myhome\.monitors\.\*\.model
+## myhome\.display\.monitors\.\*\.model
 
 
 
@@ -173,11 +226,11 @@ Monitor model name, e\.g\. eiq-495KCSUW
 string
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
 
 
 
-## myhome\.monitors\.\*\.output
+## myhome\.display\.monitors\.\*\.output
 
 
 
@@ -189,11 +242,11 @@ Output name, e\.g\. DP-1
 string
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
 
 
 
-## myhome\.monitors\.\*\.position
+## myhome\.display\.monitors\.\*\.position
 
 
 
@@ -210,11 +263,11 @@ string
 ` "0x0" `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
 
 
 
-## myhome\.monitors\.\*\.refreshRate
+## myhome\.display\.monitors\.\*\.refreshRate
 
 
 
@@ -231,11 +284,11 @@ signed integer
 ` 144 `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
 
 
 
-## myhome\.monitors\.\*\.resolution
+## myhome\.display\.monitors\.\*\.resolution
 
 
 
@@ -252,11 +305,11 @@ string
 ` "5120x1440" `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
 
 
 
-## myhome\.monitors\.\*\.scale
+## myhome\.display\.monitors\.\*\.scale
 
 
 
@@ -273,7 +326,123 @@ floating point number
 ` 1.0 `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+
+
+
+## myhome\.display\.nightShift
+
+
+
+Configuration for automatically adjusting monitor temperature on schedule\.
+
+
+
+*Type:*
+submodule
+
+
+
+*Default:*
+` { } `
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift.nix)
+
+
+
+## myhome\.display\.nightShift\.clearTime
+
+
+
+Time of day when ‘day’ (normal color temperature) starts (HH:MM)\.
+
+
+
+*Type:*
+string
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift.nix)
+
+
+
+## myhome\.display\.nightShift\.shiftTime
+
+
+
+Time of day when ‘night’ (night shift temperature) window starts (HH:MM)\.
+
+
+
+*Type:*
+string
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift.nix)
+
+
+
+## myhome\.display\.theme
+
+
+
+Configuration for automatically switching system theme\.
+
+
+
+*Type:*
+submodule
+
+
+
+*Default:*
+` { } `
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme.nix)
+
+
+
+## myhome\.display\.theme\.darkTime
+
+
+
+Time of day to switch to dark theme (HH:MM)\.
+
+
+
+*Type:*
+null or string
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme.nix)
+
+
+
+## myhome\.display\.theme\.lightTime
+
+
+
+Time of day to switch to light theme (HH:MM)\.
+
+
+
+*Type:*
+null or string
+
+
+
+*Default:*
+` null `
+
+*Declared by:*
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme.nix)
 
 
 
@@ -295,7 +464,7 @@ list of string
 ` [ ] `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/unfree-packages\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/unfree-packages.nix)
 
 
 
@@ -341,7 +510,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -362,7 +531,7 @@ string
 ` "s3-remote:" `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -388,7 +557,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/development/vscode\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/development/vscode.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/development/vscode\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/development/vscode.nix)
 
 
 
@@ -414,7 +583,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps)
 
 
 
@@ -440,7 +609,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/immich.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/immich.nix)
 
 
 
@@ -466,7 +635,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/jellyfin.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyfin.nix)
 
 
 
@@ -492,7 +661,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/jellyseerr\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/jellyseerr.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyseerr\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyseerr.nix)
 
 
 
@@ -518,7 +687,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/messenger.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/messenger.nix)
 
 
 
@@ -544,7 +713,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/navidrome.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/navidrome.nix)
 
 
 
@@ -570,7 +739,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/proton-mail.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/proton-mail.nix)
 
 
 
@@ -596,7 +765,7 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/whatsapp.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/whatsapp.nix)
 
 
 
@@ -622,6 +791,6 @@ boolean
 ` true `
 
 *Declared by:*
- - [/nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/7zlhplscpzxzf4m3zlc000yj5zvinjbb-source/modules/home-manager/web-apps/apps/youtube.nix)
+ - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/youtube.nix)
 
 

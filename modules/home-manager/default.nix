@@ -1,10 +1,4 @@
 {
-  config,
-  lib,
-  ...
-}:
-
-{
   imports = [
     ./development
     ./display
@@ -18,9 +12,6 @@
   ];
 
   config = {
-    nixpkgs.config.allowUnfreePredicate =
-      pkg: builtins.elem (lib.getName pkg) config.myhome.myUnfreePackages;
-
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
   };

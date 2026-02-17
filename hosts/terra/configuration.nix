@@ -2,9 +2,14 @@
   inputs,
   pkgs,
   hostname,
+  nixpkgs-unstable,
   ...
 }:
 let
+  pkgs-unstable = import nixpkgs-unstable {
+    inherit (pkgs) system;
+    config = pkgs.config;
+  };
   mynixos = {
     steam.enable = true;
     hyprland.enable = true;
@@ -145,6 +150,7 @@ in
     sshfs
     protonvpn-gui
     prismlauncher
+    pkgs-unstable.zed-editor
   ];
 
   services.logind.settings.Login.HandlePowerKey = "suspend";

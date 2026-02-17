@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  options,
   ...
 }:
 {
@@ -22,5 +23,17 @@
   };
 
   config.nixpkgs.config.allowUnfreePredicate =
-    pkg: builtins.elem (lib.getName pkg) config.mynixos.myUnfreePackages;
+    let
+      allowedUnfreePackages =
+        config.mynixos.myUnfreePackages
+        ++ (
+          if options ? home-manager && options.home-manager ? users then
+            lib.concatMap (user: (user.myhome or { }).myUnfreePackages or [ ]) (
+              lib.attrValues config.home-manager.users
+            )
+          else
+            [ ]
+        );
+    in
+    pkg: builtins.elem (lib.getName pkg) allowedUnfreePackages;
 }

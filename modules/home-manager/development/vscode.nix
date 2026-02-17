@@ -173,7 +173,7 @@
             ".gitignore" = ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*";
             "Makefile" = "*.mk";
             "package.json" =
-              "package-lock.json, .browserslist*, .editorconfig, .eslint*, tsconfig.*, .node-version, .nodemon*, .npm*, .nvmrc, .pm2*, .pnp.*, .pnpm*, .prettier*, playwright.config.*, vitest.config.*, .stylelint*, .vscode*, bun.lockb, stylelint*, webpack*, biome*, babel*, .commitlint*";
+              "package-lock.json, .browserslist*, .editorconfig, .eslint*, tsconfig.*, .node-version, .nodemon*, .npm*, .nvmrc, .pm2*, .pnp.*, .pnpm*, .prettier*, playwright.config.*, vitest.config.*, .stylelint*, .vscode*, bun.lockb, stylelint*, webpack*, biome*, babel*, .commitlint*, .dependency-cruiser.js, knip.json";
             "readme*" =
               "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE*, License*, MAINTAINERS, Maintainers, RELEASE_NOTES*, Release_Notes*, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, copying*, credits, governance.md, history.md, license*, maintainers, release_notes*, security.md, sponsors*";
             "Readme*" =
@@ -182,6 +182,7 @@
               "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE*, License*, MAINTAINERS, Maintainers, RELEASE_NOTES*, Release_Notes*, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, copying*, credits, governance.md, history.md, license*, maintainers, release_notes*, security.md, sponsors*";
             "vite.config.*" =
               "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*";
+            "app.json" = "eas.json, expo-env.d.ts";
             "*.cs" = "$(capture).*.cs";
             "*.css" = "$(capture).css.map, $(capture).*.css";
             "*.js" = "$(capture).js.map, $(capture).*.js, $(capture)_*.js";
@@ -276,6 +277,7 @@
           "dev.containers.defaultExtensions" = [
             "eamodio.gitlens"
             "streetsidesoftware.code-spell-checker"
+            "google.geminicodeassist"
           ];
           "editor.linkedEditing" = true;
           "editor.selectionClipboard" = false; # enabled middle click cursor (disables paste)

@@ -116,6 +116,10 @@ in
           ];
         };
 
+        cursor = {
+          inactive_timeout = 5;
+        };
+
         # See https://wiki.hyprland.org/Configuring/Binds/
         "$mod" = "SUPER";
         bind = [
@@ -330,9 +334,9 @@ in
         ${builtins.concatStringsSep "\n  " (
           map (
             mon:
-            ''workspace = w[t1]f[-1]m[${mon.output}], gapsout:6 ${
+            "workspace = w[t1]f[-1]m[${mon.output}], gapsout:6 ${
               toString (if mon.isUltrawide then 1024 else 6)
-            }, gapsin:0''
+            }, gapsin:0"
           ) config.myhome.display.monitors
         )}
         workspace = w[t1]m[n], gapsout:6 1024, gapsin:0
@@ -590,6 +594,7 @@ in
       nerd-fonts.symbols-only
       jetbrains-mono
       overskride
+      adwaita-fonts
     ];
 
     dconf.settings = {

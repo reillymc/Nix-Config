@@ -25,6 +25,7 @@ let
     };
     via.enable = true;
     utilities.iosSideloaderEnv.enable = true;
+    theme.user = "reilly";
 
     # Unfree packages that need to be allowed
     myUnfreePackages = [
@@ -110,6 +111,8 @@ in
   };
 
   home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
     extraSpecialArgs = {
       inherit inputs mynixos hostname;
       theme = "dark"; # Default, overridden by specialisations

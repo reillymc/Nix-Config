@@ -2,6 +2,7 @@
   lib,
   theme,
   config,
+  pkgs,
   ...
 }:
 {
@@ -18,6 +19,22 @@
           color-scheme = "prefer-dark";
         };
       };
+
+  systemd.user.services.switchToSystemDarkMode = {
+    Unit.Description = "Switch to system dark mode configuration";
+    Service = {
+      ExecStart = "/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl start switchToSystemDarkMode.service";
+      Type = "oneshot";
+    };
+  };
+
+  systemd.user.services.switchToSystemLightMode = {
+    Unit.Description = "Switch to system light mode configuration";
+    Service = {
+      ExecStart = "/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl start switchToSystemLightMode.service";
+      Type = "oneshot";
+    };
+  };
 
   systemd.user.timers.switchToSystemDarkMode =
     lib.mkIf (config.myhome.display.theme.darkTime != null)

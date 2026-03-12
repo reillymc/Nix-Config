@@ -3,6 +3,7 @@
   config,
   mynixos,
   lib,
+  theme,
   ...
 }:
 let
@@ -14,7 +15,13 @@ let
     "${mon.output}, ${mon.resolution}@${toString mon.refreshRate}, ${mon.position}, ${toString mon.scale}${bitdepthStr}"
   ) config.myhome.display.monitors;
 
-  wallpapers = builtins.map (mon: "${mon.output},~/.cache/wallpaper") config.myhome.display.monitors;
+  wallpaperPath = if theme == "light" then "~/.cache/wallpaper" else "~/.cache/wallpaper-dark";
+
+  wallpapers = builtins.map (mon: {
+    monitor = mon.output;
+    path = wallpaperPath;
+    fit_mode = "cover";
+  }) config.myhome.display.monitors;
 
   lockdown = pkgs.writeShellScriptBin "lockdown" ''
     if (($1 > 3)); then
@@ -525,7 +532,7 @@ in
         };
         background = [
           {
-            path = "~/.cache/wallpaper";
+            path = wallpaperPath;
             blur_passes = 3;
             contrast = 0.8916;
             brightness = 0.8172;

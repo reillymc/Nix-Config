@@ -28,16 +28,16 @@
       }
     ];
     brightness = {
-      maxTime = "08:00";
+      maxTime = "07:30";
       minTime = "22:45";
     };
     nightShift = {
-      clearTime = "08:00";
+      clearTime = "07:30";
       shiftTime = "21:30";
     };
     theme = {
-      lightTime = "08:00";
-      darkTime = "16:00";
+      lightTime = "07:30";
+      darkTime = "17:00";
     };
   };
 
@@ -80,6 +80,7 @@
     jellyseerr.enable = true;
     messenger.enable = true;
     navidrome.enable = true;
+    paperless.enable = true;
     proton-mail.enable = true;
     youtube.enable = true;
     whatsapp.enable = true;

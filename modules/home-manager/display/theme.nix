@@ -20,6 +20,17 @@
         };
       };
 
+  gtk = {
+    enable = true;
+    colorScheme = theme;
+    gtk3.colorScheme = theme;
+    gtk4.colorScheme = theme;
+    theme = {
+      name = if theme == "light" then "Adwaita" else "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+  };
+
   systemd.user.services.switchToSystemDarkMode = {
     Unit.Description = "Switch to system dark mode configuration";
     Service = {

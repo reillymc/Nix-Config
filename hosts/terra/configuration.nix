@@ -91,6 +91,8 @@ in
     LC_TIME = "en_GB.UTF-8";
   };
 
+  i18n.inputMethod.enable = false;
+
   # Enable sound with pipewire.
   security.rtkit.enable = true;
   services.pipewire = {

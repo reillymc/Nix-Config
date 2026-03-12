@@ -283,6 +283,14 @@
           "editor.selectionClipboard" = false; # enabled middle click cursor (disables paste)
           "window.menuStyle" = "custom"; # native context menu is scaled too large
           "remote.autoForwardPortsSource" = "hybrid"; # vscode keeps auto-setting this
+          "json.schemaDownload.trustedDomains" = {
+            "https://schemastore.azurewebsites.net/" = true;
+            "https://raw.githubusercontent.com/" = true;
+            "https://www.schemastore.org/" = true;
+            "https://json.schemastore.org/" = true;
+            "https://json-schema.org/" = true;
+            "https://biomejs.dev" = true;
+          };
         };
         languageSnippets = {
           "typescriptreact" = {
@@ -322,7 +330,7 @@
     };
 
     home.packages = with pkgs; [
-      nixfmt-rfc-style
+      nixfmt
       nixd
     ];
   };

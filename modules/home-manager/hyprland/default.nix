@@ -125,6 +125,7 @@ in
 
         cursor = {
           inactive_timeout = 5;
+          no_hardware_cursors = true; # temporary workaround for cursor not changing to proper glyph after unstable switch
         };
 
         # See https://wiki.hyprland.org/Configuring/Binds/
@@ -286,47 +287,47 @@ in
 
         # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
         # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
-        windowrulev2 = opacity 0.8,class:(com.mitchellh.ghostty)
+        windowrule = opacity 0.8, match:class com.mitchellh.ghostty
 
-        windowrulev2 = float, class:(com.my.clipboard)
-        windowrulev2 = size 622 652, class:(com.my.clipboard)
-        windowrulev2 = stayfocused, class:(com.my.clipboard)
-        windowrulev2 = animation popin, class:(com.my.clipboard)
-        windowrulev2 = opacity 0.8, class:(com.my.clipboard)
-        windowrulev2 = stayfocused, modal:1
+        windowrule = float yes, match:class com.my.clipboard
+        windowrule = size 622 652, match:class com.my.clipboard
+        windowrule = stay_focused on, match:class com.my.clipboard
+        windowrule = animation popin, match:class com.my.clipboard
+        windowrule = opacity 0.8, match:class com.my.clipboard
+        windowrule = stay_focused on, match:modal true
 
-        windowrulev2 = opacity 1, initialTitle:Picture-in-Picture
+        windowrule = opacity 1, match:initial_title Picture-in-Picture
 
-        windowrulev2 = float, class:(org.gnome.NautilusPreviewer)
-        windowrulev2 = size 1024 1024, class:(org.gnome.NautilusPreviewer)
+        windowrule = float yes, match:class org.gnome.NautilusPreviewer
+        windowrule = size 1024 1024, match:class org.gnome.NautilusPreviewer
 
-        windowrulev2 = float, class:(org.gnome.Calculator)
+        windowrule = float yes, match:class org.gnome.Calculator
 
         # prevent hypridle locking screen when any program is fullscreen - TODO: only fullscreen - not fullscreen mode with waybar
-        windowrulev2 = idleinhibit fullscreen, class:^(*)$
-        windowrulev2 = idleinhibit fullscreen, title:^(*)$
-        windowrulev2 = idleinhibit fullscreen, fullscreen:1
+        windowrule = idle_inhibit fullscreen, match:class ^(.*)$
+        windowrule = idle_inhibit fullscreen, match:title ^(.*)$
+        windowrule = idle_inhibit fullscreen, match:fullscreen true
 
         # keep floating window always force focussed
-        # windowrulev2 = stayfocused, floating:1
+        # windowrule = stay_focused on, match:float true
 
-        layerrule = dimaround,rofi
-        layerrule = blur,rofi
-        layerrule = ignorealpha,rofi
+        layerrule = dim_around on,match:namespace rofi
+        layerrule = blur on,match:namespace rofi
+        layerrule = ignore_alpha 0,match:namespace rofi
 
-        layerrule = blur,logout_dialog
+        layerrule = blur on,match:namespace logout_dialog
 
-        # layerrule = blur,waybar
-        layerrule = ignorealpha,waybar
+        # layerrule = blur on,match:namespace waybar
+        layerrule = ignore_alpha 0,match:namespace waybar
 
         # Ignore maximize requests from apps. You'll probably like this.
-        windowrulev2 = suppressevent maximize, class:.*
+        windowrule = suppress_event maximize, match:class .*
 
         # Fix some dragging issues with XWayland
-        windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+        windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
 
-        windowrulev2 = float, title:^(Picture-in-Picture)$
-        windowrulev2 = pin, title:^(Picture-in-Picture)$ 
+        windowrule = float yes, match:title ^(Picture-in-Picture)$
+        windowrule = pin on, match:title ^(Picture-in-Picture)$ 
 
         # Remove borders when an application is maximised fullscreen (not complete fullscreen)
         workspace=f[1],rounding:false,bordersize:0,gapsout:0
@@ -340,10 +341,7 @@ in
 
         ${builtins.concatStringsSep "\n  " (
           map (
-            mon:
-            "workspace = w[t1]f[-1]m[${mon.output}], gapsout:6 ${
-              toString (if mon.isUltrawide then 1024 else 6)
-            }, gapsin:0"
+            mon: "workspace = w[t1]f[-1]m[${mon.output}], gapsout:6, gapsin:0"
           ) config.myhome.display.monitors
         )}
         workspace = w[t1]m[n], gapsout:6 1024, gapsin:0

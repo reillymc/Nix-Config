@@ -70,7 +70,7 @@
           tooltip = false;
           scroll-step = 5;
           max-volume = 100;
-          on-click = "pavucontrol";
+          on-click = "pwvucontrol";
           on-click-right = "cycleAudioOutput";
           on-click-middle = "toggleMicrophone";
           format-source = "";

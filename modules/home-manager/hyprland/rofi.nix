@@ -22,6 +22,7 @@
       kb-move-char-forward = "Control+f";
       kb-mode-next = "Right,Control+Tab";
       kb-mode-previous = "Left";
+      drun-match-fields = "name,generic,comment,categories,keywords";
       # timeout = {
       #   action = "kb-cancel";
       #   delay = 0;

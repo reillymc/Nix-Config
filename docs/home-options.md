@@ -81,13 +81,16 @@ list of string
 
 
 *Default:*
-` [ ] `
+
+```nix
+[ ]
+```
 
 
 
 *Example:*
 
-```
+```nix
 [
   "bluez_output.00_00_00_00_00_0.1"
   "alsa_output.pci-0000_00_00.1.hdmi-stereo"
@@ -95,7 +98,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/audio/devices\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/audio/devices.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/audio/devices\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/audio/devices.nix)
 
 
 
@@ -113,10 +116,13 @@ submodule
 
 
 *Default:*
-` { } `
+
+```nix
+{ }
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness.nix)
 
 
 
@@ -132,7 +138,7 @@ Time of day when ‘day’ (max brightness) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness.nix)
 
 
 
@@ -148,7 +154,7 @@ Time of day when ‘night’ (min brightness) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/brightness.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness.nix)
 
 
 
@@ -166,13 +172,16 @@ list of (submodule)
 
 
 *Default:*
-` [ ] `
+
+```nix
+[ ]
+```
 
 
 
 *Example:*
 
-```
+```nix
 ''
   [
     {
@@ -189,7 +198,7 @@ list of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -207,10 +216,37 @@ null or signed integer
 
 
 *Default:*
-` null `
+
+```nix
+null
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+
+
+
+## myhome\.display\.monitors\.\*\.isUltrawide
+
+
+
+Whether the monitor is ultrawide or not\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+*Declared by:*
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -226,7 +262,7 @@ Monitor model name, e\.g\. eiq-495KCSUW
 string
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -242,7 +278,7 @@ Output name, e\.g\. DP-1
 string
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -260,10 +296,13 @@ string
 
 
 *Default:*
-` "0x0" `
+
+```nix
+"0x0"
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -281,10 +320,13 @@ signed integer
 
 
 *Default:*
-` 144 `
+
+```nix
+144
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -302,10 +344,13 @@ string
 
 
 *Default:*
-` "5120x1440" `
+
+```nix
+"5120x1440"
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -323,10 +368,13 @@ floating point number
 
 
 *Default:*
-` 1.0 `
+
+```nix
+1.0
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -344,10 +392,13 @@ submodule
 
 
 *Default:*
-` { } `
+
+```nix
+{ }
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift.nix)
 
 
 
@@ -363,7 +414,7 @@ Time of day when ‘day’ (normal color temperature) starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift.nix)
 
 
 
@@ -379,7 +430,7 @@ Time of day when ‘night’ (night shift temperature) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/night-shift.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift.nix)
 
 
 
@@ -397,10 +448,13 @@ submodule
 
 
 *Default:*
-` { } `
+
+```nix
+{ }
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme.nix)
 
 
 
@@ -418,10 +472,13 @@ null or string
 
 
 *Default:*
-` null `
+
+```nix
+null
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme.nix)
 
 
 
@@ -439,10 +496,13 @@ null or string
 
 
 *Default:*
-` null `
+
+```nix
+null
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/display/theme.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme.nix)
 
 
 
@@ -461,10 +521,13 @@ list of string
 
 
 *Default:*
-` [ ] `
+
+```nix
+[ ]
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/unfree-packages\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/options/unfree-packages.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/unfree-packages\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/unfree-packages.nix)
 
 
 
@@ -483,7 +546,7 @@ string
 
 *Default:*
 
-```
+```nix
 ''
   # Exclude everything else
   - *
@@ -494,7 +557,7 @@ string
 
 *Example:*
 
-```
+```nix
 ''
   # Exclude
   - node_modules/
@@ -510,7 +573,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -528,10 +591,13 @@ string
 
 
 *Example:*
-` "s3-remote:" `
+
+```nix
+"s3-remote:"
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -549,15 +615,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/development/vscode\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/development/vscode.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/development/vscode\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/development/vscode.nix)
 
 
 
@@ -575,15 +647,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps)
 
 
 
@@ -601,15 +679,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/immich.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/immich.nix)
 
 
 
@@ -627,15 +711,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyfin.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyfin.nix)
 
 
 
@@ -653,15 +743,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyseerr\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/jellyseerr.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyseerr\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyseerr.nix)
 
 
 
@@ -679,15 +775,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/messenger.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/messenger.nix)
 
 
 
@@ -705,15 +807,53 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/navidrome.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/navidrome.nix)
+
+
+
+## myhome\.web-apps\.paperless\.enable
+
+
+
+Whether to enable Paperless web app\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+*Declared by:*
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/paperless\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/paperless.nix)
 
 
 
@@ -731,15 +871,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/proton-mail.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/proton-mail.nix)
 
 
 
@@ -757,15 +903,21 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/whatsapp.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/whatsapp.nix)
 
 
 
@@ -783,14 +935,20 @@ boolean
 
 
 *Default:*
-` false `
+
+```nix
+false
+```
 
 
 
 *Example:*
-` true `
+
+```nix
+true
+```
 
 *Declared by:*
- - [/nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/gp4rhiqqa79khhr3mg6dzx79f552604y-source/modules/home-manager/web-apps/apps/youtube.nix)
+ - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/youtube.nix)
 
 

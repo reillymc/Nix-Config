@@ -17,9 +17,9 @@ To upgrade dependency versions (`flake.lock`) file, run `nix flake update`.
 
 ## Switch themes
 
-`sudo systemctl start switchToLightMode.service`
+`sudo systemctl start switchToSystemLightMode.service`
 
-`sudo systemctl start switchToDarkMode.service`
+`sudo systemctl start switchToSystemDarkMode.service`
 
 ## Documentation
 

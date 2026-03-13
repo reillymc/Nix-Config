@@ -291,6 +291,7 @@
             "https://json-schema.org/" = true;
             "https://biomejs.dev" = true;
           };
+          "chat.viewSessions.orientation" = "stacked";
         };
         languageSnippets = {
           "typescriptreact" = {

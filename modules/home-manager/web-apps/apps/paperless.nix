@@ -4,7 +4,6 @@
   pkgs,
   ...
 }:
-
 let
   base = import ../base.nix { inherit lib config pkgs; };
 
@@ -14,11 +13,13 @@ let
     url = "http://localhost:28981";
     icon = "paperless.svg";
   };
-
-  cfg = config.mynixos.services.paperless or { enable = false; };
 in
 {
-  config = lib.mkIf cfg.enable {
+  options = {
+    myhome.web-apps.${app.id}.enable = lib.mkEnableOption "${app.name} web app";
+  };
+
+  config = lib.mkIf config.myhome.web-apps.${app.id}.enable {
     programs.firefox.profiles.${app.id} = {
       id = base.mkProfileId app.id;
       settings = base.webAppSettings;

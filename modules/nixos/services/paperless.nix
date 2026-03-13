@@ -7,17 +7,15 @@
 
 let
   cfg = config.mynixos.services.paperless;
+  port = 28981;
 
   paperless-bkp-script-unwrapped = pkgs.writeShellScriptBin "paperless-bkp-script" ''
     set -e
 
-    EXPORT_DIR="/var/lib/paperless/export"
-    ARCHIVE_NAME="paperless_export.tar.gz"
-    ARCHIVE_PATH="${cfg.backupDir}/$ARCHIVE_NAME"
-
-    tar -czvf "$ARCHIVE_PATH" -C "$EXPORT_DIR" .
-
-    echo "Backup complete: $ARCHIVE_PATH"
+    ${pkgs.coreutils}/bin/rm -rf ${cfg.backupDir}
+    ${pkgs.coreutils}/bin/cp -r /var/lib/paperless/export ${cfg.backupDir}
+    ${pkgs.coreutils}/bin/chown -R reilly:users ${cfg.backupDir}
+    echo "Backup complete"
   '';
 
   paperless-bkp-script = pkgs.symlinkJoin {
@@ -56,9 +54,9 @@ in
       enable = true;
       exporter = {
         enable = true;
-        onCalendar = "13:00:00";
+        onCalendar = "17:30:00";
       };
-      port = 28981;
+      port = port;
     }
     // lib.optionalAttrs cfg.openPort {
       address = "0.0.0.0";
@@ -78,18 +76,16 @@ in
       description = "Timer to run paperless backup handler";
       wantedBy = [ "timers.target" ];
       timerConfig = {
-        OnCalendar = "*-*-* 13:05:00";
+        OnCalendar = "*-*-* 17:35:00";
         Persistent = true;
       };
     };
 
-    networking.firewall = lib.mkIf cfg.openPort {
-      allowedTCPPortRanges = [
-        {
-          from = 28981;
-          to = 28981;
-        }
-      ];
-    };
+    networking.firewall.interfaces."tailscale0".allowedTCPPortRanges = lib.mkIf cfg.openPort [
+      {
+        from = port;
+        to = port;
+      }
+    ];
   };
 }

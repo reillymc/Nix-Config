@@ -28,15 +28,15 @@
       }
     ];
     brightness = {
-      maxTime = "07:30";
+      maxTime = "07:00";
       minTime = "22:45";
     };
     nightShift = {
-      clearTime = "07:30";
+      clearTime = "07:00";
       shiftTime = "21:30";
     };
     theme = {
-      lightTime = "07:30";
+      lightTime = "07:00";
       darkTime = "17:00";
     };
   };
@@ -171,6 +171,15 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
+  };
+
+  # Ensure Hyprland prefers the discrete GPU (amd-dgpu) but includes the
+  # integrated GPU (amd-igpu) as a fallback. These refer to the stable udev
+  # symlinks we create in the system configuration.
+  wayland.windowManager.hyprland.settings = {
+    env = [
+      "AQ_DRM_DEVICES,/dev/dri/amd-dgpu:/dev/dri/amd-igpu"
+    ];
   };
 
   # This value determines the Home Manager release that your configuration is

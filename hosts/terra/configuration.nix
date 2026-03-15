@@ -32,6 +32,7 @@ let
     via.enable = true;
     utilities.iosSideloaderEnv.enable = true;
     theme.user = "reilly";
+    ly.enable = true;
 
     # Unfree packages that need to be allowed
     myUnfreePackages = [
@@ -130,9 +131,6 @@ in
       "reilly" = import ./home.nix;
     };
   };
-
-  services.displayManager.gdm.enable = true;
-
   mynixos = mynixos;
 
   environment.systemPackages = with pkgs; [

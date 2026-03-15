@@ -12,6 +12,8 @@
   };
 
   config = lib.mkIf config.mynixos.hyprland.enable {
+    services.displayManager.defaultSession = "hyprland-uwsm";
+
     programs.hyprland = {
       enable = true;
       withUWSM = true;

@@ -173,12 +173,15 @@
     # EDITOR = "emacs";
   };
 
-  # Ensure Hyprland prefers the discrete GPU (amd-dgpu) but includes the
-  # integrated GPU (amd-igpu) as a fallback. These refer to the stable udev
+  # Ensure Hyprland prefers the discrete GPU (amd-dGPU) but includes the
+  # integrated GPU (amd-iGPU) as a fallback. These refer to the stable udev
   # symlinks we create in the system configuration.
+  # The opposite is also available, commented out - however hyprland on
+  # 5k ultrawide seems to suffer from poor performance when using the iGPU
   wayland.windowManager.hyprland.settings = {
     env = [
       "AQ_DRM_DEVICES,/dev/dri/amd-dgpu:/dev/dri/amd-igpu"
+      # "AQ_DRM_DEVICES,/dev/dri/amd-igpu:/dev/dri/amd-dgpu"
     ];
   };
 

@@ -6,7 +6,7 @@
   ...
 }:
 let
-  pkgs-unstable = import nixpkgs-unstable {
+  unstable = import nixpkgs-unstable {
     inherit (pkgs) system;
     config = pkgs.config;
   };
@@ -50,11 +50,21 @@ in
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
+  hardware.enableRedistributableFirmware = true;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 20;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelParams = [
+    "amd_pstate=guided"
+    "amdgpu.gpu_recovery=1"
+  ];
+  boot.initrd.systemd.enable = true;
+
+  boot.kernel.sysctl."kernel.sysrq" = 1;
 
   boot.initrd.luks.devices."luks-42d04de4-1b56-431b-b6e8-21277e8b3e94".device =
     "/dev/disk/by-uuid/42d04de4-1b56-431b-b6e8-21277e8b3e94";
@@ -158,8 +168,13 @@ in
 
   # M720 and USB hub wake from suspend
   services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="19f5", ATTRS{idProduct}=="3247", ATTR{power/wakeup}="enabled"
-    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="1a40", ATTRS{idProduct}=="0101", ATTR{power/wakeup}="enabled"
+    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="19f5", ATTRS{idProduct}=="3247", ATTR{power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="1a40", ATTRS{idProduct}=="0101", ATTR{power/wakeup}="disabled"
+    # Create stable symlinks for GPU cards so AQ_DRM_DEVICES can reference them
+    # Integrated GPU (Granite Ridge) -> /dev/dri/amd-igpu
+    KERNEL=="card*", KERNELS=="0000:0e:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/amd-igpu"
+    # Discrete GPU (Navi 48) -> /dev/dri/amd-dgpu
+    KERNEL=="card*", KERNELS=="0000:03:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/amd-dgpu"
   '';
 
   services.openssh = {

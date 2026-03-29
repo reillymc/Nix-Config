@@ -332,9 +332,10 @@ in
         # Remove borders when an application is maximised fullscreen (not complete fullscreen)
         workspace=f[1],rounding:false,bordersize:0,gapsout:0
 
-        workspace = m[DP-3]w[tv2], layoutopt:orientation:right
-        workspace = m[eDP-1]w[tv1], layoutopt:orientation:right
-        workspace = m[eDP-1]w[tv2], layoutopt:orientation:right
+        workspace = w[tv2], layoutopt:orientation:left
+
+        # TODO: for laptop, work out if requred and make configurable if so
+        # workspace = m[eDP-1]w[tv1], layoutopt:orientation:left
 
         # workspace = m[eDP-1], layoutopt:wslayout-layout:master
 
@@ -371,6 +372,8 @@ in
                 color = 0x1a1a1a1a
             }
         }
+
+        # debug:overlay = true
 
         # See https://wiki.hyprland.org/Configuring/Animations/ for more
         animations {

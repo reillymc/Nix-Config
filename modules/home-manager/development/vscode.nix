@@ -289,7 +289,8 @@
             "https://www.schemastore.org/" = true;
             "https://json.schemastore.org/" = true;
             "https://json-schema.org/" = true;
-            "https://biomejs.dev" = true;
+            "https://biomejs.dev/" = true;
+            "https://unpkg.com/" = true;
           };
           "chat.viewSessions.orientation" = "stacked";
         };

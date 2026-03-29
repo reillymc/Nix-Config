@@ -12,7 +12,7 @@ let
   paperless-bkp-script-unwrapped = pkgs.writeShellScriptBin "paperless-bkp-script" ''
     set -e
 
-    ${pkgs.coreutils}/bin/rm -rf ${cfg.backupDir}
+    # ${pkgs.coreutils}/bin/rm -rf ${cfg.backupDir} # Attempt to prevent rclone copying new file after each backup
     ${pkgs.coreutils}/bin/cp -r /var/lib/paperless/export ${cfg.backupDir}
     ${pkgs.coreutils}/bin/chown -R reilly:users ${cfg.backupDir}
     echo "Backup complete"

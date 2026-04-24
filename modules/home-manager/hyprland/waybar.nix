@@ -1,7 +1,14 @@
 {
   pkgs,
+  config,
+  lib,
   ...
 }:
+let
+  primaryMonitor = lib.head config.myhome.display.monitors;
+  primaryControl = primaryMonitor.control or null;
+  backlightDevice = if primaryControl == "ddcutil" then primaryMonitor.output else "intel_backlight";
+in
 {
   programs.waybar = {
     enable = true;
@@ -23,8 +30,10 @@
         modules-right = [
           "privacy"
           "tray"
+          "backlight"
           "pulseaudio"
           "bluetooth"
+          "battery"
           "custom/notification"
         ];
         "custom/nix" = {
@@ -129,6 +138,14 @@
         tray = {
           spacing = 12;
           icon-size = 12;
+        };
+        "backlight" = {
+          "device" = backlightDevice;
+          "format" = "{percent}% {icon}";
+          "format-icons" = [
+            ""
+            ""
+          ];
         };
         "custom/notification" = {
           format = "{icon}";

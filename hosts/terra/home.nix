@@ -25,6 +25,7 @@
         scale = 1.0;
         bitdepth = 10;
         isUltrawide = true;
+        control = "ddcutil";
       }
     ];
     brightness = {

@@ -5,30 +5,74 @@
   ...
 }:
 let
+  needsBrightnessctl = lib.any (mon: mon.control == "brightnessctl") config.myhome.display.monitors;
+
+  needsDdcutil = lib.any (mon: mon.control == "ddcutil") config.myhome.display.monitors;
+
   displayBrightness = pkgs.writeShellScriptBin "displayBrightness" ''
     MAX_TIME_STRING="${config.myhome.display.brightness.maxTime}"
     MIN_TIME_STRING="${config.myhome.display.brightness.minTime}"
     step=50
 
-    # Bash array of monitors interpolated from Nix list
-    monitor_models=(
-      ${builtins.concatStringsSep "\n  " (map (mon: ''"${mon.model}"'') config.myhome.display.monitors)}
+    # Bash array of monitors and control methods interpolated from Nix list
+    monitor_entries=(
+      ${builtins.concatStringsSep "\n  " (
+        map (
+          mon: ''"${mon.output}|${if mon.control != null then mon.control else ""}"''
+        ) config.myhome.display.monitors
+      )}
     )
 
+    is_internal_monitor() {
+      case "$1" in
+        eDP*|LVDS*|DSI*) return 0 ;;
+        *) return 1 ;;
+      esac
+    }
+
     get_current_brightness() {
-      local monitor=$1
+      local monitor="$1"
+      local control="$2"
+
+      if [ -z "$control" ]; then
+        if is_internal_monitor "$monitor"; then
+          control="brightnessctl"
+        else
+          control="ddcutil"
+        fi
+      fi
+
+      if [ "$control" = "brightnessctl" ]; then
+        if current=$(brightnessctl get 2>/dev/null) && max=$(brightnessctl max 2>/dev/null) && [ -n "$current" ] && [ -n "$max" ] && [ "$max" -gt 0 ]; then
+          echo $((current * 100 / max))
+          return
+        fi
+      fi
+
       ddcutil get 10 --model "$monitor" | cut -d, -f1 | cut -d= -f2 | xargs
     }
 
     set_brightness() {
-      local monitor=$1
-      local value=$2
-      ddcutil set 10 --model "$monitor" "$value"
-    }
+      local monitor="$1"
+      local control="$2"
+      local value="$3"
 
-    notify() {
-      local value=$1
-      notify-send "Brightness set to ''${value}%" --hint=int:transient:1
+      if [ -z "$control" ]; then
+        if is_internal_monitor "$monitor"; then
+          control="brightnessctl"
+        else
+          control="ddcutil"
+        fi
+      fi
+
+      if [ "$control" = "brightnessctl" ]; then
+        if max=$(brightnessctl max 2>/dev/null) && [ -n "$max" ] && [ "$max" -gt 0 ]; then
+          local target=$((value * max / 100))
+          brightnessctl set "$target" >/dev/null 2>&1 && return
+        fi
+      fi
+
+      ddcutil set 10 --model "$monitor" "$value"
     }
 
     # Helper: current time in minutes since midnight (00:00 -> 0)
@@ -57,8 +101,9 @@ let
     COOLDOWN_SECONDS=10
     STATE_FILE="/run/user/$(id -u)/displayBrightness.state"
 
-    reference_monitor="''\${monitor_models[0]}"
-    current=$(get_current_brightness "$reference_monitor")
+    reference_entry="$${monitor_entries[0]}"
+    IFS='|' read -r reference_monitor reference_control <<< "$reference_entry"
+    current=$(get_current_brightness "$reference_monitor" "$reference_control")
 
     ACTION="$1"
     if [ "$1" = "auto" ]; then
@@ -114,10 +159,10 @@ let
         ;;
     esac
 
-    for monitor in "''\${monitor_models[@]}"; do
-      set_brightness "$monitor" "$future"
+    for entry in "$${monitor_entries[@]}"; do
+      IFS='|' read -r monitor control <<< "$entry"
+      set_brightness "$monitor" "$control" "$future"
     done
-    notify "$future"
 
     if [ "${"ACTION:-"}" = "min" ] || [ "${"ACTION:-"}" = "max" ]; then
       now_ts=$(date +%s)
@@ -163,5 +208,9 @@ in
         Install.WantedBy = [ "timers.target" ];
       };
 
-  home.packages = [ displayBrightness ];
+  home.packages = [
+    displayBrightness
+  ]
+  ++ lib.optional needsBrightnessctl pkgs.brightnessctl
+  ++ lib.optional needsDdcutil pkgs.ddcutil;
 }

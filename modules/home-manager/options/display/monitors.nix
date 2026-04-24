@@ -53,6 +53,21 @@
                   default = false;
                   description = "Whether the monitor is ultrawide or not.";
                 };
+
+                control = lib.mkOption {
+                  type = lib.types.nullOr (
+                    lib.types.enum [
+                      "ddcutil"
+                      "brightnessctl"
+                    ]
+                  );
+                  default = null;
+                  description = ''
+                    Optional brightness control method for this monitor.
+                    Use "brightnessctl" for internal laptop panels and "ddcutil" for external DDC/CI monitors.
+                    If null, internal panels are auto-detected and will use brightnessctl.
+                  '';
+                };
               };
             }
           );

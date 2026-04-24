@@ -6,21 +6,31 @@
 }:
 let
   mynixos = {
+    steam.enable = true;
     hyprland.enable = true;
     docker.enable = true;
     nautilus.enable = true;
     rclone.enable = true;
-    # spotify = {
-    #   enable = true;
-    #   adblock.enable = true;
-    # };
+    spotify = {
+      enable = true;
+      adblock.enable = true;
+    };
     hardware.logitech = {
       enable = true;
-      device.m720.enable = true;
+      device.mx4.enable = true;
     };
+    theme.user = "reilly";
+    ly.enable = true;
+    utilities.iosSideloaderEnv.enable = true;
     # Unfree packages that need to be allowed
     myUnfreePackages = [
       "obsidian"
+      "broadcom-bt-firmware"
+      "b43-firmware"
+      "xow_dongle-firmware"
+      "facetimehd-calibration"
+      "facetimehd-firmware"
+      "xone-dongle-firmware"
     ];
   };
 in
@@ -33,6 +43,8 @@ in
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+  hardware.enableRedistributableFirmware = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -56,6 +68,8 @@ in
     "8250_dw"
   ];
   boot.kernelModules = [ "i2c-dev" ];
+  boot.loader.timeout = 1;
+  systemd.network.wait-online.enable = false;
 
   networking.hostName = hostname;
 
@@ -108,6 +122,8 @@ in
     LC_TIME = "en_GB.UTF-8";
   };
 
+  i18n.inputMethod.enable = false;
+
   # Enable sound with pipewire.
   security.rtkit.enable = true;
   services.pipewire = {
@@ -136,6 +152,8 @@ in
   };
 
   home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
     extraSpecialArgs = {
       inherit inputs mynixos hostname;
       theme = "dark"; # Default, overridden by specialisations
@@ -145,8 +163,6 @@ in
       "reilly" = import ./home.nix;
     };
   };
-
-  services.displayManager.gdm.enable = true;
 
   mynixos = mynixos;
 
@@ -170,7 +186,11 @@ in
     libinput-gestures
     iptsd
     wtype
+    comma
+    lutris
   ];
+
+  programs.nix-index.enable = true;
 
   services.logind.settings.Login.HandlePowerKey = "suspend";
 
@@ -226,13 +246,19 @@ in
   services.iptsd = {
     enable = true;
     config = {
-      Config = {
-        BlockOnPalm = true;
-        TouchThreshold = 20;
-        StabilityThreshold = 0.1;
+      Contacts = {
+        ActivationThreshold = 8; # Lower from default 24 (more sensitive)
+        DeactivationThreshold = 4; # Lower from default 20 (maintains drag contact)
       };
     };
   };
+
+  environment.etc."libinput/local-overrides.quirks".text = pkgs.lib.mkForce ''
+    [Touchpad Overrides]
+    MatchUdevType=touchpad
+    MatchName=*Microsoft Surface 045E:09AF Touchpad*
+    AttrPressureRange=1:0
+  '';
 
   nix.gc = {
     automatic = true;
@@ -240,8 +266,6 @@ in
     options = "--delete-older-than 60d";
   };
   nix.optimise.automatic = true;
-
-  nixpkgs.config.allowUnfree = true;
 
   networking.firewall = {
     enable = true;

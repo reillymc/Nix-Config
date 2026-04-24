@@ -63,6 +63,8 @@ in
     "amdgpu.gpu_recovery=1"
   ];
   boot.initrd.systemd.enable = true;
+  boot.loader.timeout = 1;
+  systemd.network.wait-online.enable = false;
 
   boot.kernel.sysctl."kernel.sysrq" = 1;
 

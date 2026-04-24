@@ -33,6 +33,12 @@
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@np" ];
           };
+          bing.metaData.hidden = true;
+          ecosia.metaData.hidden = true;
+          perplexity.metaData.hidden = true;
+          qwant.metaData.hidden = true;
+          wikipedia.metaData.hidden = true;
+          youtube.metaData.hidden = true;
         };
       };
 
@@ -42,6 +48,60 @@
         "sidebar.verticalTabs" = true;
         "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
       };
+    };
+
+    # Check about:policies#documentation for options.
+    policies = {
+
+      # Debloat
+      DisableFirefoxStudies = true;
+      DontCheckDefaultBrowser = true;
+      UserMessaging = {
+        ExtensionRecommendations = false;
+        UrlbarInterventions = false;
+        SkipOnboarding = true;
+        MoreFromMozilla = false;
+        FirefoxLabs = true;
+      };
+      FirefoxSuggest = {
+        WebSuggestions = false;
+        SponsoredSuggestions = false;
+        ImproveSuggest = false;
+        Locked = true;
+      };
+
+      # Security
+      AutofillAddressEnabled = false;
+      AutofillCreditCardEnabled = false;
+      PostQuantumKeyAgreementEnabled = true;
+
+      # Privacy
+      DisableTelemetry = true;
+      EnableTrackingProtection = {
+        Value = true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+      DisablePocket = true;
+      NetworkPrediction = false;
+
+      SearchEngines = {
+        Remove = [
+          "eBay"
+        ];
+        # Add = [
+        #   {
+        #     "Name" = "DuckDuckGo";
+        #     "URLTemplate" = "https://duckduckgo.com/?q={searchTerms}&ia=web&assist=false";
+        #     "IconURL" = "https://duckduckgo.com/favicon.ico";
+        #     "Alias" = "ddg";
+        #     "Description" = "Duckduckgo without AI integrations";
+        # ];
+        Default = "DuckDuckGo";
+      };
+      SearchSuggestEnabled = false;
+
     };
   };
 }

@@ -99,7 +99,21 @@ in
         input = {
           follow_mouse = 1;
           kb_layout = "us";
+          touchpad = {
+            natural_scroll = true;
+            clickfinger_behavior = true;
+            disable_while_typing = false;
+          };
         };
+
+        gesture = [
+          "3, pinch, fullscreen, maximise"
+          "3, swipe, scale: 1.25, resize"
+          "4, pinchin, dispatcher, exec, ${launcher}/bin/launcher"
+          "4, pinchout, dispatcher, exec, pkill rofi || hyprctl dispatch killactive"
+          "4, horizontal, workspace"
+          "4, vertical, special, magic"
+        ];
 
         misc = {
           force_default_wallpaper = 0;
@@ -254,6 +268,11 @@ in
         bind = SHIFT,XF86MonBrightnessDown,exec, uwsm app -- displayBrightness decrease
         bind = SHIFT,XF86MonBrightnessUp, exec, uwsm app -- displayBrightness increase
 
+        binde = ,XF86MonBrightnessDown, exec, brightnessctl -e s 10%-
+        binde = ,XF86MonBrightnessUp, exec, brightnessctl -e s +10%
+        binde = SHIFT,XF86MonBrightnessDown, exec, brightnessctl -e s 1%
+        binde = SHIFT,XF86MonBrightnessUp, exec, brightnessctl -e s +100%
+
         # Note: using QMK keyboard mic key is bound to F20 (XF86AudioMicMute) on layer 2 and F21 (XF86TouchpadOn) on layer 3
         bind = , XF86AudioMicMute, exec, uwsm app -- toggleMicrophone
         bind = SHIFT, XF86AudioMute, exec, uwsm app -- cycleAudioOutput
@@ -271,8 +290,6 @@ in
 
         bind = $mainMod, K, exec, hyprctl kill
 
-        binde = SHIFT,XF86MonBrightnessDown, exec, brightnessctl -e s 10%-
-        binde = SHIFT,XF86MonBrightnessUp, exec, brightnessctl -e s +10%
 
 
         bind = $mainMod, P, exec, hyprpicker -a
@@ -337,7 +354,7 @@ in
         # TODO: for laptop, work out if requred and make configurable if so
         # workspace = m[eDP-1]w[tv1], layoutopt:orientation:left
 
-        # workspace = m[eDP-1], layoutopt:wslayout-layout:master
+        workspace = m[eDP-1], layout:dwindle
 
 
         ${builtins.concatStringsSep "\n  " (

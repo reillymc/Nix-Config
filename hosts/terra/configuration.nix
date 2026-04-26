@@ -158,12 +158,12 @@ in
     vlc
     obsidian
     pwvucontrol
-    ddcutil
     libnotify
     sshfs
-    protonvpn-gui
+    proton-vpn
     prismlauncher
-    pkgs-unstable.zed-editor
+    comma
+    rapidraw
   ];
 
   services.logind.settings.Login.HandlePowerKey = "suspend";

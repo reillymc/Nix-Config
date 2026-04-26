@@ -192,7 +192,7 @@ in
         # `wev` can be used to capture inputs to determine codes
         $mainMod = SUPER
 
-        bind = $mainMod CTRL SHIFT, F, togglefloating, 
+        bind = $mainMod CTRL SHIFT, F, togglefloating,
         bind = $mainMod, V, exec, ${clipboardManager}/bin/clipboardManager
         bind = $mainMod, J, togglesplit, # dwindle
 
@@ -297,7 +297,7 @@ in
         bind = $mainMod, L, exec, ${toggleLayout}/bin/toggleLayout
         bind = $mainMod SHIFT, L, layoutmsg, swapwithmaster master
 
-        bind=$mainMod,z,exec,hyprctl keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor | awk '/^float.*/ {print $2 + 0.08}')    
+        bind=$mainMod,z,exec,hyprctl keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor | awk '/^float.*/ {print $2 + 0.08}')
         bind=$mainMod SHIFT,z,exec,hyprctl keyword cursor:zoom_factor 1.0
 
 
@@ -344,7 +344,7 @@ in
         windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
 
         windowrule = float yes, match:title ^(Picture-in-Picture)$
-        windowrule = pin on, match:title ^(Picture-in-Picture)$ 
+        windowrule = pin on, match:title ^(Picture-in-Picture)$
 
         # Remove borders when an application is maximised fullscreen (not complete fullscreen)
         workspace=f[1],rounding:false,bordersize:0,gapsout:0
@@ -368,12 +368,12 @@ in
 
 
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          
+
         # See https://wiki.hyprland.org/Configuring/Variables/#decoration for more
         decoration {
             rounding = 16
             inactive_opacity = 0.8
-            
+
             blur {
                 size = 12
                 passes = 2
@@ -417,7 +417,7 @@ in
             animation = fadeIn, 1, 2.05, almostLinear
             animation = fadeOut, 1, 1.46, almostLinear
             animation = fade, 1, 3.03, quick
-            
+
             animation = workspaces, 1, 2.5, easeOutQuintSpring, slide
             animation = workspacesIn, 1, 2, easeOutQuintSpring, slide
             animation = workspacesOut, 1, 2.5, easeOutQuintSpring, slide
@@ -447,7 +447,7 @@ in
             disable_splash_rendering = true
             disable_hyprland_logo = true
             # animate_manual_resizes = true
-        } 
+        }
 
         group {
             groupbar {

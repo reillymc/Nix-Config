@@ -8,6 +8,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     docs = {
       url = "path:./docs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +25,7 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
+      agenix,
       docs,
       ...
     }@inputs:
@@ -44,6 +50,7 @@
           modules = [
             ./hosts/${hostname}/configuration.nix
             home-manager.nixosModules.default
+            agenix.nixosModules.default
           ];
         }
       );

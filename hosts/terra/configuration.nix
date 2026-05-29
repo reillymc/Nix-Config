@@ -146,6 +146,7 @@ in
   mynixos = mynixos;
 
   environment.systemPackages = with pkgs; [
+    inputs.agenix.packages."${system}".default
     nautilus
     bluez
     xdg-desktop-portal-gtk

@@ -70,12 +70,9 @@ configuration {
 window {
     /* properties for window widget */
     transparency:                "real";
-    location:                    center;
-    anchor:                      center;
     fullscreen:                  false;
-    width:                       660px;
-    x-offset:                    0px;
-    y-offset:                    0px;
+    width:                       700;
+    height:                      50%;
 
     /* properties for all widgets */
     enabled:                     true;

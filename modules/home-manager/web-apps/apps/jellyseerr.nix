@@ -9,7 +9,7 @@ let
 
   app = {
     id = "jellyseerr";
-    name = "Jellyseerr";
+    name = "Seerr";
     url = "http://hupboard.home:5055";
     icon = "jellyseerr.svg";
   };

@@ -38,7 +38,7 @@
     };
     theme = {
       lightTime = "07:00";
-      darkTime = "17:00";
+      darkTime = "19:00";
     };
   };
 

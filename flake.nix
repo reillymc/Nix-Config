@@ -2,10 +2,10 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agenix = {
@@ -23,7 +23,7 @@
   outputs =
     {
       nixpkgs,
-      nixpkgs-unstable,
+      # nixpkgs-unstable,
       home-manager,
       agenix,
       docs,
@@ -45,7 +45,7 @@
           specialArgs = {
             inherit inputs;
             inherit hostname;
-            inherit nixpkgs-unstable;
+            # inherit nixpkgs-unstable;
           };
           modules = [
             ./hosts/${hostname}/configuration.nix

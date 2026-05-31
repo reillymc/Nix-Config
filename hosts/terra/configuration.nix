@@ -109,6 +109,18 @@ in
 
   i18n.inputMethod.enable = false;
 
+  security.polkit.enable = true;
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (
+        action.id == "org.freedesktop.login1.suspend" &&
+        subject.user == "reilly"
+      ) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
+
   # Enable sound with pipewire.
   security.rtkit.enable = true;
   services.pipewire = {

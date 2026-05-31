@@ -10,7 +10,7 @@ let
   app = {
     id = "navidrome";
     name = "Navidrome";
-    url = "http://silverserver:4533/app/";
+    url = "https://navidrome.homelab.reillymc.com/";
     icon = "navidrome.svg";
   };
 in

@@ -18,7 +18,7 @@ let
   appModules = [
     ./apps/immich.nix
     ./apps/jellyfin.nix
-    ./apps/jellyseerr.nix
+    ./apps/seerr.nix
     ./apps/messenger.nix
     ./apps/navidrome.nix
     ./apps/paperless.nix

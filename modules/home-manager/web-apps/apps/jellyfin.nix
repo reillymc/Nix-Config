@@ -10,7 +10,7 @@ let
   app = {
     id = "jellyfin";
     name = "Jellyfin";
-    url = "http://hupboard.home:8096/web";
+    url = "https://jellyfin.homelab.reillymc.com/web";
     icon = "jellyfin.svg";
   };
 in

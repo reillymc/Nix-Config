@@ -10,7 +10,7 @@ let
   app = {
     id = "paperless";
     name = "Paperless";
-    url = "http://localhost:28981";
+    url = "https://paperless.homelab.reillymc.com/";
     icon = "paperless.svg";
   };
 in

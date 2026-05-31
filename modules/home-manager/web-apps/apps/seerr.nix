@@ -10,8 +10,8 @@ let
   app = {
     id = "jellyseerr";
     name = "Seerr";
-    url = "http://hupboard.home:5055";
-    icon = "jellyseerr.svg";
+    url = "https://seerr.homelab.reillymc.com/";
+    icon = "seerr.svg";
   };
 in
 {

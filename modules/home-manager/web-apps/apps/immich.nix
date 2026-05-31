@@ -10,7 +10,7 @@ let
   app = {
     id = "immich";
     name = "Immich";
-    url = "http://silverserver:2283";
+    url = "https://immich.homelab.reillymc.com/";
     icon = "immich.svg";
   };
 in

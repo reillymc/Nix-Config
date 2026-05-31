@@ -17,7 +17,7 @@ let
 
   wallpaperPath = if theme == "light" then "~/.cache/wallpaper" else "~/.cache/wallpaper-dark";
 
-  wallpapers = builtins.map (mon: {
+  wallpapers = map (mon: {
     monitor = mon.output;
     path = wallpaperPath;
     fit_mode = "cover";
@@ -63,7 +63,7 @@ let
     status=$?
 
     if [[ $status -ne 0 || "$output" == *"no window found"* ]]; then
-        uwsm app -- ghostty --class=com.my.clipboard -e clipse
+        ghostty --class=com.my.clipboard -e clipse
     fi
   '';
 in
@@ -245,28 +245,28 @@ in
         bind = $mainMod ALT, F, fullscreenstate, -1 2
         bind = $mainMod, ESCAPE, exec, pidof hyprlock || hyprlock
         # bind = $mainMod, ESCAPE, exec, swaylock
-        bind = $mainMod CTRL, ESCAPE, exec, uwsm app -- logoutMenu
+        bind = $mainMod CTRL, ESCAPE, exec, logoutMenu
 
         bindr = $mainMod, SUPER_L, exec, ${launcher}/bin/launcher
 
-        bindel = , XF86AudioRaiseVolume, exec, uwsm app -- wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+
-        bindel = , XF86AudioLowerVolume, exec, uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-
-        bindel = SHIFT, XF86AudioRaiseVolume, exec, uwsm app -- wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
-        bindel = SHIFT, XF86AudioLowerVolume, exec, uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+        bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+
+        bindel = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-
+        bindel = SHIFT, XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+        bindel = SHIFT, XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
         bindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
         # Requires playerctl
-        bindl = , XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld play-pause
-        bindl = , XF86AudioPrev, exec, uwsm app -- playerctl --player playerctld previous
-        bindl = , XF86AudioNext, exec, uwsm app -- playerctl --player playerctld next
+        bindl = , XF86AudioPlay, exec, playerctl --player playerctld play-pause
+        bindl = , XF86AudioPrev, exec, playerctl --player playerctld previous
+        bindl = , XF86AudioNext, exec, playerctl --player playerctld next
 
         # Use play button to skip and back on laptop without dedicated keys
-        bindl = SHIFT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld next
-        bindl = ALT, XF86AudioPlay, exec, uwsm app -- playerctl --player playerctld previous
+        bindl = SHIFT, XF86AudioPlay, exec, playerctl --player playerctld next
+        bindl = ALT, XF86AudioPlay, exec, playerctl --player playerctld previous
 
-        bind = ,XF86MonBrightnessDown,exec, uwsm app -- displayBrightness min
-        bind = ,XF86MonBrightnessUp, exec, uwsm app -- displayBrightness max
-        bind = SHIFT,XF86MonBrightnessDown,exec, uwsm app -- displayBrightness decrease
-        bind = SHIFT,XF86MonBrightnessUp, exec, uwsm app -- displayBrightness increase
+        bind = ,XF86MonBrightnessDown,exec, displayBrightness min
+        bind = ,XF86MonBrightnessUp, exec, displayBrightness max
+        bind = SHIFT,XF86MonBrightnessDown,exec, displayBrightness decrease
+        bind = SHIFT,XF86MonBrightnessUp, exec, displayBrightness increase
 
         binde = ,XF86MonBrightnessDown, exec, brightnessctl -e s 10%-
         binde = ,XF86MonBrightnessUp, exec, brightnessctl -e s +10%
@@ -274,19 +274,19 @@ in
         binde = SHIFT,XF86MonBrightnessUp, exec, brightnessctl -e s +100%
 
         # Note: using QMK keyboard mic key is bound to F20 (XF86AudioMicMute) on layer 2 and F21 (XF86TouchpadOn) on layer 3
-        bind = , XF86AudioMicMute, exec, uwsm app -- toggleMicrophone
-        bind = SHIFT, XF86AudioMute, exec, uwsm app -- cycleAudioOutput
+        bind = , XF86AudioMicMute, exec, toggleMicrophone
+        bind = SHIFT, XF86AudioMute, exec, cycleAudioOutput
 
         bind = $mainMod, mouse:274, killactive
 
         bind = $mainMod, N, exec, swaync-client -t
 
-        bind = , Print, exec, uwsm app -- hyprshot --mode region --output-folder "Pictures/Screenshots"
-        bind = SHIFT, Print, exec, uwsm app -- hyprshot --mode region --clipboard-only
-        bind = $mainMod, Print, exec, uwsm app -- hyprshot --mode output --output-folder "Pictures/Screenshots"
-        bind = CTRL, Print, exec, uwsm app -- hyprshot --mode window --output-folder "Pictures/Screenshots"
-        bind = CTRL SHIFT, Print, exec, uwsm app -- hyprshot --mode window --clipboard-only
-        bind = $mainMod SHIFT, Print, exec, uwsm app -- hyprshot --mode output --clipboard-only
+        bind = , Print, exec, hyprshot --mode region --output-folder "Pictures/Screenshots"
+        bind = SHIFT, Print, exec, hyprshot --mode region --clipboard-only
+        bind = $mainMod, Print, exec, hyprshot --mode output --output-folder "Pictures/Screenshots"
+        bind = CTRL, Print, exec, hyprshot --mode window --output-folder "Pictures/Screenshots"
+        bind = CTRL SHIFT, Print, exec, hyprshot --mode window --clipboard-only
+        bind = $mainMod SHIFT, Print, exec, hyprshot --mode output --clipboard-only
 
         bind = $mainMod, K, exec, hyprctl kill
 
@@ -463,7 +463,6 @@ in
             }
         }
 
-
         plugin {
           hy3 {
             # disable gaps when only one window is onscreen
@@ -622,11 +621,7 @@ in
       adwaita-fonts
     ];
 
-    dconf.settings = {
-      "org/gnome/desktop/wm/preferences" = {
-        button-layout = ":";
-      };
-    };
+    dconf.settings."org/gnome/desktop/wm/preferences".button-layout = ":";
 
     fonts.fontconfig.enable = true;
 

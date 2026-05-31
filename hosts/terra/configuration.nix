@@ -3,6 +3,7 @@
   pkgs,
   hostname,
   nixpkgs-unstable,
+  config,
   ...
 }:
 let
@@ -46,6 +47,7 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
     ../../modules/nixos/default.nix
+    ./secrets.nix
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -190,6 +192,71 @@ in
       X11Forwarding = false;
       PermitRootLogin = "no";
     };
+  };
+
+  services.restic.backups = {
+    daily = {
+      initialize = true;
+      environmentFile = config.age.secrets."restic-backup/env".path;
+      repositoryFile = config.age.secrets."restic-backup/repo".path;
+      passwordFile = config.age.secrets."restic-backup/password".path;
+
+      paths = [
+        "${config.users.users.reilly.home}/.local/share/Steam/steamapps/compatdata"
+        "${config.users.users.reilly.home}/.ssh"
+        "${config.users.users.reilly.home}/Documents"
+        "${config.users.users.reilly.home}/Games"
+        "${config.users.users.reilly.home}/Music"
+        "${config.users.users.reilly.home}/Pictures"
+        "${config.users.users.reilly.home}/Projects"
+        "${config.users.users.reilly.home}/Resources"
+        "${config.users.users.reilly.home}/Videos"
+      ];
+
+      exclude = [
+        "${config.users.users.reilly.home}/.local"
+        "${config.users.users.reilly.home}/Downloads"
+        "${config.users.users.reilly.home}/Projects/**/node_modules"
+        "${config.users.users.reilly.home}/Projects/**/.expo"
+        "${config.users.users.reilly.home}/Projects/**/.svelte-kit"
+        "${config.users.users.reilly.home}/Projects/**/dist"
+        "${config.users.users.reilly.home}/Projects/**/lib"
+        "${config.users.users.reilly.home}/Projects/**/bin"
+        "${config.users.users.reilly.home}/Projects/**/target"
+        "${config.users.users.reilly.home}/Projects/**/logs"
+      ];
+
+      pruneOpts = [
+        "--keep-daily 14"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 20"
+      ];
+
+      checkOpts = [
+        "--read-data-subset=500M"
+      ];
+    };
+  };
+
+  systemd.services.restic-backups-daily.unitConfig.OnFailure = "notify-backup-failed.service";
+
+  systemd.services."notify-backup-failed" = {
+    enable = true;
+    description = "Notify on failed backup";
+    serviceConfig = {
+      Type = "oneshot";
+      User = config.users.users.reilly.name;
+    };
+
+    # required for notify-send
+    environment.DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/${toString config.users.users.reilly.uid}/bus";
+
+    script = ''
+      ${pkgs.libnotify}/bin/notify-send --urgency=critical \
+        "Backup failed" \
+        "$(journalctl -u restic-backups-daily -n 5 -o cat)"
+    '';
   };
 
   programs.localsend.enable = true;

@@ -37,11 +37,28 @@
 
     environment.systemPackages = with pkgs; [
       kitty
+      nautilus
+
+      # Register Nautilus as an XDG Desktop Portal FileChooser
+      (runCommandLocal "nautilus-portal" { } ''
+        mkdir -p $out/share/xdg-desktop-portal/portals
+        cat > $out/share/xdg-desktop-portal/portals/nautilus.portal <<EOF
+        [portal]
+        DBusName=org.gnome.Nautilus
+        Interfaces=org.freedesktop.impl.portal.FileChooser
+        EOF
+      '')
     ];
 
     xdg.portal = {
       enable = true;
-      config.common.default = "*";
+      config = {
+        common.default = "*";
+        hyprland = {
+          "org.freedesktop.impl.portal.FileChooser" = "nautilus";
+          default = [ "gtk" ]; # Standard fallback for other portals
+        };
+      };
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
       ];

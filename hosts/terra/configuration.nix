@@ -169,6 +169,7 @@ in
     comma
     rapidraw
     opencode
+    gocryptfs
   ];
 
   services.logind.settings.Login.HandlePowerKey = "suspend";

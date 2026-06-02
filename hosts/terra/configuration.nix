@@ -2,15 +2,10 @@
   inputs,
   pkgs,
   hostname,
-  nixpkgs-unstable,
   config,
   ...
 }:
 let
-  unstable = import nixpkgs-unstable {
-    inherit (pkgs) system;
-    config = pkgs.config;
-  };
   mynixos = {
     steam.enable = true;
     hyprland.enable = true;

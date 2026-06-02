@@ -168,6 +168,7 @@ in
     prismlauncher
     comma
     rapidraw
+    opencode
   ];
 
   services.logind.settings.Login.HandlePowerKey = "suspend";
@@ -284,6 +285,11 @@ in
       }
     ];
     checkReversePath = false; # Currently required for proton vpn to work
+  };
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-vulkan;
   };
 
   # This value determines the NixOS release from which the default

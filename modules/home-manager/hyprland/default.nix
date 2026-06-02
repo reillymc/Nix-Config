@@ -59,12 +59,12 @@ let
   '';
 
   clipboardManager = pkgs.writeShellScriptBin "clipboardManager" ''
-    output=$(hyprctl dispatch killwindow class:com.my.clipboard 2>&1)
-    status=$?
-
-    if [[ $status -ne 0 || "$output" == *"no window found"* ]]; then
-        ghostty --class=com.my.clipboard -e clipse
+    if hyprctl clients | grep -q "class: com.my.clipboard"; then
+        hyprctl dispatch killwindow class:com.my.clipboard
+    else
+        ghostty --class=com.my.clipboard -e clipse &
     fi
+
   '';
 in
 {

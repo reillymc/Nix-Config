@@ -172,10 +172,10 @@ in
 
   services.logind.settings.Login.HandlePowerKey = "suspend";
 
-  # M720 and USB hub wake from suspend
   services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="19f5", ATTRS{idProduct}=="3247", ATTR{power/wakeup}="disabled"
-    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="1a40", ATTRS{idProduct}=="0101", ATTR{power/wakeup}="disabled"
+    # Disable wake from suspend for Logitech MX Master receiver (idVendor=046d, idProduct=c548)
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", ATTR{power/wakeup}="disabled"
+
     # Create stable symlinks for GPU cards so AQ_DRM_DEVICES can reference them
     # Integrated GPU (Granite Ridge) -> /dev/dri/amd-igpu
     KERNEL=="card*", KERNELS=="0000:0e:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/amd-igpu"

@@ -261,11 +261,12 @@ in
   };
 
   programs.localsend.enable = true;
+  programs.nix-index.enable = true;
 
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 60d";
+    options = "--delete-older-than 30d";
   };
   nix.optimise.automatic = true;
 

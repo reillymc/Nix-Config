@@ -80,6 +80,9 @@ in
   config = lib.mkIf mynixos.hyprland.enable {
     wayland.windowManager.hyprland = {
       enable = true;
+      # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
+      package = null;
+      portalPackage = null;
       configType = "hyprlang"; # TODO: migrate to LUA (home manager may have better support inj a few releases)
       systemd.enable = false;
       settings = {

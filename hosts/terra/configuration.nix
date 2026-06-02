@@ -163,7 +163,6 @@ in
     inputs.agenix.packages."${system}".default
     nautilus
     bluez
-    xdg-desktop-portal-gtk
     bruno
     papers
     newsflash

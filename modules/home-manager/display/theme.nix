@@ -5,35 +5,26 @@
   pkgs,
   ...
 }:
+let
+  themeName = if theme == "light" then "Adwaita" else "Adwaita-dark";
+  colorScheme = if theme == "light" then "prefer-light" else "prefer-dark";
+in
 {
-  dconf.settings =
-    if theme == "light" then
-      {
-        "org/gnome/desktop/interface" = {
-          color-scheme = lib.mkDefault "prefer-light";
-        };
-      }
-    else
-      {
-        "org/gnome/desktop/interface" = {
-          color-scheme = "prefer-dark";
-        };
-      };
+  dconf.enable = true;
+  dconf.settings."org/gnome/desktop/interface" = {
+    color-scheme = colorScheme;
+    gtk-theme = themeName;
+  };
 
   gtk = {
     enable = true;
-    colorScheme = theme;
-    gtk3.colorScheme = theme;
-    gtk4 = {
-      colorScheme = theme;
-      theme = null;
-    };
+
     theme = {
-      name = if theme == "light" then "Adwaita" else "Adwaita-dark";
+      name = themeName;
       package = pkgs.gnome-themes-extra;
     };
+    gtk4.theme = null;
   };
-
   systemd.user.services.switchToSystemDarkMode = {
     Unit.Description = "Switch to system dark mode configuration";
     Service = {

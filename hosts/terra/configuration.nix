@@ -25,11 +25,6 @@ let
       enable = true;
       device.mx4.enable = true;
     };
-    services.paperless = {
-      enable = true;
-      backupDir = "/home/reilly/Resources/Backups/Paperless/";
-      openPort = true;
-    };
     via.enable = true;
     utilities.iosSideloaderEnv.enable = true;
     theme.user = "reilly";

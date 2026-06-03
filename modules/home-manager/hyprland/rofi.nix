@@ -14,7 +14,7 @@
 
   xdg.configFile."rofi/config.rasi".text = ''
     configuration {
-    	modi:                       "drun,filebrowser,window,emoji,ssh,calc";
+      modi:                       "drun,filebrowser,window,emoji,ssh,calc";
       show-icons:                 true;
       display-drun:               "";
       display-filebrowser:        "";
@@ -22,8 +22,8 @@
       display-emoji:              "󰱨";
       display-ssh:                "";
       display-calc:               "";
-    	drun-display-format:        "{name}";
-    	window-format:              "{w} · {c} · {t}";
+      drun-display-format:        "{name}";
+      window-format:              "{w} · {c} · {t}";
       terminal:                   "ghostty";
 
       font: "JetBrains Mono 10";
@@ -117,14 +117,10 @@
     /*****----- Inputbar -----*****/
     inputbar {
         enabled:                     true;
-        spacing:                     10px;
-        margin:                      0 10px 5px 10px;
-        padding:                     0px;
-        border:                      0px solid;
-        border-radius:               0px;
-        border-color:                @border-colour;
         background-color:            transparent;
         text-color:                  @foreground-colour;
+        margin:                      0 0 4px 0;
+        spacing:                     0px;
         children:                    [ "textbox-prompt-colon", "entry", "mode-switcher" ];
     }
 
@@ -135,19 +131,26 @@
     }
     textbox-prompt-colon {
         vertical-align:              0.5;
+        padding:                     0 0 0 18px;
         expand:                      false;
         str:                         "";
-        background-color:            inherit;
+        background-color:            @alternate-background;
         text-color:                  inherit;
+        border-radius:               12px 0 0 12px;
     }
     entry {
         enabled:                     true;
-        padding:                     8px 0px;
+        vertical-align:              0.5;
         background-color:            inherit;
+        padding:                     12px;
+        font: "JetBrains Mono Nerd Font Bold 11";
         text-color:                  inherit;
         cursor:                      text;
         placeholder:                 "Search...";
         placeholder-color:           inherit;
+        background-color:            @alternate-background;
+        border-radius:               0 12px 12px 0;
+        margin:                      0 10px 0 0;
     }
     num-filtered-rows {
         enabled:                     true;
@@ -182,15 +185,16 @@
         dynamic:                     true;
         scrollbar:                   true;
         layout:                      vertical;
-        spacing:                     4px;
+        spacing:                     5px;
         background-color:            inherit;
         text-color:                  inherit;
     }
     scrollbar {
-        handle-width:                4px ;
+        handle-width:                6px ;
         handle-color:                @handle-colour;
         border-radius:               4px;
         background-color:            @alternate-background;
+        handle-rounded-corners: true;
     }
 
     /*****----- Elements -----*****/
@@ -242,7 +246,7 @@
     /*****----- Mode Switcher -----*****/
     mode-switcher{
         enabled:                     true;
-        spacing:                     10px;
+        spacing:                     8px;
         margin:                      0px;
         padding:                     0px;
         border:                      0px solid;
@@ -269,23 +273,20 @@
     /*****----- Message -----*****/
     message {
         enabled:                     true;
-        margin:                      0px;
-        padding:                     0px;
-        border:                      0px solid;
-        border-radius:               0px 0px 0px 0px;
-        border-color:                @border-colour;
+        margin:                      0 12px 16px 12px;
         background-color:            transparent;
         text-color:                  @foreground-colour;
     }
     textbox {
         background-color:            inherit;
         text-color:                  @foreground-colour;
-        vertical-align:              0.5;
         horizontal-align:            0.5;
+        padding: 4px 0px;
     }
     error-message {
         background-color:            transparent;
         text-color:                  inherit;
     }
+
   '';
 }

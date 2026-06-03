@@ -198,7 +198,7 @@ in
 
         bind = $mainMod CTRL SHIFT, F, togglefloating,
         bind = $mainMod, V, exec, ${clipboardManager}/bin/clipboardManager
-        bind = $mainMod, J, togglesplit, # dwindle
+        bind = $mainMod, J, layoutmsg, togglesplit, # dwindle
 
         # Move focus with mainMod + arrow keys
         bind = $mainMod, left, movefocus, l #hy3:

@@ -91,8 +91,8 @@
         /* properties for window widget */
         transparency:                "real";
         fullscreen:                  false;
-        width:                       620;
-        height:                      700;
+        width:                       720;
+        height:                      50%;
 
         /* properties for all widgets */
         enabled:                     true;

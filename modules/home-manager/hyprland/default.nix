@@ -66,6 +66,15 @@ let
     fi
 
   '';
+
+  reservedYSpace = "18"; # Height of waybar bar - needed for consistency with rofi heights, as 50% in .rasi file only accounts for non-reserved space
+  heightWithoutReserved = "(monitor_h-${reservedYSpace})";
+
+  heightRegular = "(${heightWithoutReserved}*0.5)";
+  heightLarge = "(${heightWithoutReserved}*3/4)";
+
+  widthRegular = "720";
+  widthLarge = "monitor_h";
 in
 {
   imports = [
@@ -91,7 +100,7 @@ in
           gaps_out = 6;
           border_size = 0;
 
-          layout = "master"; # TODO: hy3
+          layout = "master";
         };
 
         monitor = monitorConfigs;
@@ -201,10 +210,10 @@ in
         bind = $mainMod, J, layoutmsg, togglesplit, # dwindle
 
         # Move focus with mainMod + arrow keys
-        bind = $mainMod, left, movefocus, l #hy3:
-        bind = $mainMod, right, movefocus, r #hy3:
-        bind = $mainMod, up, movefocus, u #hy3:
-        bind = $mainMod, down, movefocus, d #hy3:
+        bind = $mainMod, left, movefocus, l
+        bind = $mainMod, right, movefocus, r
+        bind = $mainMod, up, movefocus, u
+        bind = $mainMod, down, movefocus, d
 
         bind = $mainMod CTRL SHIFT, 1, movecurrentworkspacetomonitor, 0
         bind = $mainMod CTRL SHIFT, 2, movecurrentworkspacetomonitor, 1
@@ -218,10 +227,10 @@ in
         bindel = $mainMod ALT, down, resizeactive, 0 90
 
         # Move active window
-        bind = $mainMod SHIFT, left, movewindow, l #hy3:
-        bind = $mainMod SHIFT, right, movewindow, r #hy3:
-        bind = $mainMod SHIFT, up, movewindow, u #hy3:
-        bind = $mainMod SHIFT, down, movewindow, d #hy3:
+        bind = $mainMod SHIFT, left, movewindow, l
+        bind = $mainMod SHIFT, right, movewindow, r
+        bind = $mainMod SHIFT, up, movewindow, u
+        bind = $mainMod SHIFT, down, movewindow, d
 
         bind = $mainMod ALT SHIFT, left, swapwindow, l
         bind = $mainMod ALT SHIFT, right, swapwindow, r
@@ -311,7 +320,7 @@ in
         windowrule = opacity 0.8, match:class com.mitchellh.ghostty
 
         windowrule = float yes, match:class com.my.clipboard
-        windowrule = size 622 652, match:class com.my.clipboard
+        windowrule = size ${widthRegular} ${heightRegular}, match:class com.my.clipboard
         windowrule = stay_focused on, match:class com.my.clipboard
         windowrule = animation popin, match:class com.my.clipboard
         windowrule = opacity 0.8, match:class com.my.clipboard
@@ -320,7 +329,7 @@ in
         windowrule = opacity 1, match:initial_title Picture-in-Picture
 
         windowrule = float yes, match:class org.gnome.NautilusPreviewer
-        windowrule = size 1024 1024, match:class org.gnome.NautilusPreviewer
+        windowrule = size ${widthLarge} ${heightLarge}, match:class org.gnome.NautilusPreviewer
 
         windowrule = float yes, match:class org.gnome.Calculator
 

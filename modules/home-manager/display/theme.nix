@@ -25,6 +25,11 @@ in
     };
     gtk4.theme = null;
   };
+
+  myhome.display.palette.color = lib.mkDefault (
+    if theme == "light" then config.myhome.display.palette.light else config.myhome.display.palette.dark
+  );
+
   systemd.user.services.switchToSystemDarkMode = {
     Unit.Description = "Switch to system dark mode configuration";
     Service = {

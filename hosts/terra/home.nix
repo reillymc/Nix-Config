@@ -3,7 +3,6 @@
   theme,
   ...
 }:
-
 {
   imports = [
     ../../modules/home-manager

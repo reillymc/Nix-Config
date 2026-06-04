@@ -7,6 +7,9 @@
   ...
 }:
 let
+  themeLib = import ../../../lib/theme.nix { inherit lib; };
+  palette = config.myhome.display.palette;
+
   monitorConfigs = map (
     mon:
     let
@@ -62,19 +65,17 @@ let
     if hyprctl clients | grep -q "class: com.my.clipboard"; then
         hyprctl dispatch killwindow class:com.my.clipboard
     else
-        ghostty --class=com.my.clipboard -e clipse &
+        ghostty --class=com.my.clipboard --confirm-close-surface=false -e clipse &
     fi
-
   '';
 
-  reservedYSpace = "18"; # Height of waybar bar - needed for consistency with rofi heights, as 50% in .rasi file only accounts for non-reserved space
-  heightWithoutReserved = "(monitor_h-${reservedYSpace})";
+  heightWithoutReserved = "(monitor_h-${toString palette.layout.reservedYSpace})";
 
-  heightRegular = "(${heightWithoutReserved}*0.5)";
-  heightLarge = "(${heightWithoutReserved}*3/4)";
+  heightRegular = "(${toString heightWithoutReserved}*${toString palette.size.height.regular})";
+  heightLarge = "(${toString heightWithoutReserved}*${toString palette.size.height.large})";
 
-  widthRegular = "720";
-  widthLarge = "monitor_h";
+  widthRegular = toString palette.size.width.regular;
+  widthLarge = toString palette.size.width.large;
 in
 {
   imports = [
@@ -84,6 +85,7 @@ in
     ./rofi.nix
     ./swaync.nix
     ./audio.nix
+    ./utils/popupify.nix
   ];
 
   config = lib.mkIf mynixos.hyprland.enable {
@@ -317,16 +319,16 @@ in
 
         # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
         # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
-        windowrule = opacity 0.8, match:class com.mitchellh.ghostty
+        windowrule = opacity ${toString palette.opacity.regular}, match:class com.mitchellh.ghostty
 
         windowrule = float yes, match:class com.my.clipboard
         windowrule = size ${widthRegular} ${heightRegular}, match:class com.my.clipboard
         windowrule = stay_focused on, match:class com.my.clipboard
         windowrule = animation popin, match:class com.my.clipboard
-        windowrule = opacity 0.8, match:class com.my.clipboard
+        windowrule = opacity ${toString palette.opacity.regular}, match:class com.my.clipboard
         windowrule = stay_focused on, match:modal true
 
-        windowrule = opacity 1, match:initial_title Picture-in-Picture
+        windowrule = opacity ${toString palette.opacity.heavy}, match:initial_title Picture-in-Picture
 
         windowrule = float yes, match:class org.gnome.NautilusPreviewer
         windowrule = size ${widthLarge} ${heightLarge}, match:class org.gnome.NautilusPreviewer
@@ -384,8 +386,9 @@ in
 
         # See https://wiki.hyprland.org/Configuring/Variables/#decoration for more
         decoration {
-            rounding = 16
-            inactive_opacity = 0.8
+            rounding = ${toString palette.border.regular}
+            active_opacity = ${toString palette.opacity.heavy};
+            inactive_opacity = ${toString palette.opacity.regular};
 
             blur {
                 size = 12
@@ -577,9 +580,9 @@ in
             dots_size = "0.3"; # Scale of input-field height, 0.2 - 0.8
             dots_spacing = "0.8"; # Scale of dots' absolute size, 0.0 - 1.0
             dots_center = "true";
-            outer_color = "rgba(0, 0, 0, 0)"; # TODO: colors from style system
-            inner_color = "rgba(0, 0, 0, 0.5)";
-            font_color = "rgb(200, 200, 200)";
+            outer_color = "transparent";
+            inner_color = themeLib.asRGBA palette.color.white palette.opacity.extra-light;
+            font_color = themeLib.asRGBA palette.color.white palette.opacity.regular;
             fade_on_empty = "true";
             font_family = "JetBrains Mono ExtraBold";
             hide_input = "false";

@@ -4,5 +4,6 @@
     ./monitors.nix
     ./night-shift.nix
     ./theme.nix
+    ./layout.nix
   ];
 }

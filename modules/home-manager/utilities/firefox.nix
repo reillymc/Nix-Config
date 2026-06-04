@@ -1,45 +1,8 @@
 {
-  lib,
   pkgs,
   config,
-  mynixos,
   ...
 }:
-let
-  hyprland-bitwarden-handler = pkgs.writeShellScriptBin "hyprland-bitwarden-handler" ''
-    set -euo pipefail
-
-    windowtitlev2() {
-      IFS=',' read -r -a args <<< "$1"
-      args[0]="''${args[0]#*>>}"
-
-      if [[ ''${args[1]} == "Extension: (Bitwarden Password Manager) - — Mozilla Firefox" ]]; then
-        hyprctl --batch "\
-          dispatch setfloating address:0x''${args[0]}; \
-          dispatch resizewindowpixel exact 620 700, address:0x''${args[0]}; \
-          dispatch centerwindow; \
-        "
-      fi
-    }
-
-    handle() {
-      case "$1" in
-        windowtitlev2\>*)
-          windowtitlev2 "$1"
-          ;;
-      esac
-    }
-
-    SOCKET="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
-
-    echo "Connecting to: $SOCKET"
-
-    ${pkgs.socat}/bin/socat -U - UNIX-CONNECT:"$SOCKET" \
-      | while read -r line; do
-          handle "$line"
-        done
-  '';
-in
 {
   programs.firefox = {
     enable = true;
@@ -213,26 +176,6 @@ in
       };
       SearchSuggestEnabled = false;
 
-    };
-  };
-
-  systemd.user.services.hyprland-bitwarden-handler = lib.mkIf mynixos.hyprland.enable {
-    Unit = {
-      Description = "Hyprland Bitwarden Window Handler";
-
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-
-    Service = {
-      ExecStart = "${hyprland-bitwarden-handler}/bin/hyprland-bitwarden-handler";
-
-      Restart = "always";
-      RestartSec = 1;
-    };
-
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
     };
   };
 }

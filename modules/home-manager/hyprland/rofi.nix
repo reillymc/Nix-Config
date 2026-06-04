@@ -1,7 +1,13 @@
 {
   pkgs,
+  config,
+  lib,
   ...
 }:
+let
+  themeLib = import ../../../lib/theme.nix { inherit lib; };
+  palette = config.myhome.display.palette;
+in
 {
   programs.rofi = {
     enable = true;
@@ -58,10 +64,10 @@
   xdg.configFile."rofi/theme.rasi".text = ''
     /*****----- Global Properties -----*****/
     * {
-        background:     #00000088;
-        background-alt: #00000066;
-        foreground:     #ffffff;
-        selected:       #ffffffaa;
+        background:     ${themeLib.withAlpha palette.color.background palette.opacity.light};
+        background-alt: ${themeLib.withAlpha palette.color.background palette.opacity.light};
+        foreground:     ${palette.color.foreground};
+        selected:       ${themeLib.withAlpha palette.color.foreground palette.opacity.regular};
         active:         #ffffff55;
         urgent:         #ffffff55;
         
@@ -91,22 +97,22 @@
         /* properties for window widget */
         transparency:                "real";
         fullscreen:                  false;
-        width:                       720;
-        height:                      50%;
+        width:                       ${toString palette.size.width.regular};
+        height:                      ${themeLib.asPercent palette.size.height.regular};
 
         /* properties for all widgets */
         enabled:                     true;
         margin:                      0px;
         padding:                     0px;
         border:                      0px solid;
-        border-radius:               16px;
+        border-radius:               ${themeLib.asPixels palette.border.regular};
         background-color:            @background-colour;
     }
 
     /*****----- Main Box -----*****/
     mainbox {
         enabled:                     true;
-        spacing:                     10px;
+        spacing:                     8px;
         margin:                      0px;
         padding:                     24px;
         border:                      0px solid;
@@ -136,7 +142,7 @@
         str:                         "";
         background-color:            @alternate-background;
         text-color:                  inherit;
-        border-radius:               12px 0 0 12px;
+        border-radius:               ${themeLib.asPixels palette.border.tight} 0 0 ${themeLib.asPixels palette.border.tight};
     }
     entry {
         enabled:                     true;
@@ -149,8 +155,8 @@
         placeholder:                 "Search...";
         placeholder-color:           inherit;
         background-color:            @alternate-background;
-        border-radius:               0 12px 12px 0;
-        margin:                      0 10px 0 0;
+        border-radius:               0 ${themeLib.asPixels palette.border.tight} ${themeLib.asPixels palette.border.tight} 0;
+        margin:                      0 5px 0 0;
     }
     num-filtered-rows {
         enabled:                     true;
@@ -190,9 +196,9 @@
         text-color:                  inherit;
     }
     scrollbar {
-        handle-width:                6px ;
+        handle-width:                6px;
         handle-color:                @handle-colour;
-        border-radius:               4px;
+        border-radius:               50%;
         background-color:            @alternate-background;
         handle-rounded-corners: true;
     }
@@ -201,7 +207,7 @@
     element {
         enabled:                     true;
         padding:                     6px 8px;
-        border-radius:               12px;
+        border-radius:               ${themeLib.asPixels palette.border.tight};
         cursor:                      pointer;
         background-color:            var(normal-background);
         text-color:                  var(normal-foreground);
@@ -246,7 +252,7 @@
     /*****----- Mode Switcher -----*****/
     mode-switcher{
         enabled:                     true;
-        spacing:                     8px;
+        spacing:                     5px;
         margin:                      0px;
         padding:                     0px;
         border:                      0px solid;
@@ -258,7 +264,7 @@
     button {
         padding:                     5px;
         border:                      0px solid;
-        border-radius:               12px;
+        border-radius:               ${themeLib.asPixels palette.border.tight};
         border-color:                @border-colour;
         background-color:            @alternate-background;
         text-color:                  inherit;
@@ -273,7 +279,7 @@
     /*****----- Message -----*****/
     message {
         enabled:                     true;
-        margin:                      0 12px 16px 12px;
+        margin:                      5px 12px 14px 12px;
         background-color:            transparent;
         text-color:                  @foreground-colour;
     }
@@ -281,12 +287,12 @@
         background-color:            inherit;
         text-color:                  @foreground-colour;
         horizontal-align:            0.5;
+        vertical-align:              0.5;
         padding: 4px 0px;
     }
     error-message {
         background-color:            transparent;
         text-color:                  inherit;
     }
-
   '';
 }

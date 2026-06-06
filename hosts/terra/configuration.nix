@@ -22,8 +22,12 @@ let
     };
     via.enable = true;
     utilities.iosSideloaderEnv.enable = true;
-    theme.user = "reilly";
     ly.enable = true;
+    theme.user = "reilly";
+    theme.auto = {
+      lightTime = "07:00";
+      darkTime = "19:00";
+    };
 
     # Unfree packages that need to be allowed
     myUnfreePackages = [
@@ -170,6 +174,7 @@ in
     rapidraw
     opencode
     gocryptfs
+    nil
   ];
 
   services.logind.settings.Login.HandlePowerKey = "suspend";

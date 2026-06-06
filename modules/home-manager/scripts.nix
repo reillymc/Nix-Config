@@ -1,5 +1,5 @@
 {
-  config,
+  mynixos,
   pkgs,
   hostname,
   configDir,
@@ -10,8 +10,8 @@ let
     current_time=$(date +%H%M)
     current_time=$((10#$current_time))  # Force base-10
 
-    light_time="${config.myhome.display.theme.lightTime}"
-    dark_time="${config.myhome.display.theme.darkTime}"
+    light_time="${mynixos.theme.auto.lightTime}"
+    dark_time="${mynixos.theme.auto.darkTime}"
 
     start=''${light_time/:/}
     end=''${dark_time/:/}

@@ -32,6 +32,7 @@ in
 
   systemd.user.services.switchToSystemDarkMode = {
     Unit.Description = "Switch to system dark mode configuration";
+    Unit.After = [ "graphical-session.target" ];
     Service = {
       ExecStart = "/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl start switchToSystemDarkMode.service";
       Type = "oneshot";
@@ -40,33 +41,10 @@ in
 
   systemd.user.services.switchToSystemLightMode = {
     Unit.Description = "Switch to system light mode configuration";
+    Unit.After = [ "graphical-session.target" ];
     Service = {
       ExecStart = "/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl start switchToSystemLightMode.service";
       Type = "oneshot";
     };
   };
-
-  systemd.user.timers.switchToSystemDarkMode =
-    lib.mkIf (config.myhome.display.theme.darkTime != null)
-      {
-        Unit.Description = "Timer to switch to system dark mode configuration";
-        Install.WantedBy = [ "timers.target" ];
-        Timer = {
-          Unit = "switchToSystemDarkMode.service";
-          OnCalendar = "*-*-* ${config.myhome.display.theme.darkTime}:00";
-          Persistent = true;
-        };
-      };
-
-  systemd.user.timers.switchToSystemLightMode =
-    lib.mkIf (config.myhome.display.theme.lightTime != null)
-      {
-        Unit.Description = "Timer to switch to system light mode configuration";
-        Install.WantedBy = [ "timers.target" ];
-        Timer = {
-          Unit = "switchToSystemLightMode.service";
-          OnCalendar = "*-*-* ${config.myhome.display.theme.lightTime}:00";
-          Persistent = true;
-        };
-      };
 }

@@ -35,10 +35,6 @@
       clearTime = "07:00";
       shiftTime = "21:30";
     };
-    theme = {
-      lightTime = "07:00";
-      darkTime = "19:00";
-    };
   };
 
   myhome.vscode.enable = true;

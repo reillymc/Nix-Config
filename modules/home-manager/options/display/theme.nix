@@ -1,4 +1,8 @@
-{ lib, ... }:
+{
+  lib,
+  theme,
+  ...
+}:
 
 let
   paletteType = lib.types.submodule {
@@ -26,31 +30,11 @@ let
   };
 in
 {
-  options = {
-    myhome = {
-      display = {
-        theme = lib.mkOption {
-          type = lib.types.submodule {
-            options = {
-              lightTime = lib.mkOption {
-                type = lib.types.nullOr lib.types.str;
-                default = null;
-                description = "Time of day to switch to light theme (HH:MM).";
-              };
-
-              darkTime = lib.mkOption {
-                type = lib.types.nullOr lib.types.str;
-                default = null;
-                description = "Time of day to switch to dark theme (HH:MM).";
-              };
-            };
-          };
-          default = { };
-          description = "Configuration for automatically switching system theme.";
-        };
-      };
-    };
+  options.myhome.display.design = lib.mkOption {
+    type = lib.types.attrs;
+    default = import ../../theme { mode = theme; };
   };
+
   options.myhome.display.palette.light = lib.mkOption {
     type = paletteType;
     default = {

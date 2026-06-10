@@ -71,7 +71,29 @@ let
     fi
   '';
 
-  heightWithoutReserved = "(monitor_h-${toString palette.layout.reservedYSpace})";
+  powerMenu = pkgs.writeShellScriptBin "powerMenu" ''
+    monitorHeight=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[] | select(.focused == true) | .height')
+    targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
+    targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
+
+
+    options="󰤄\n\n\n󰗽"
+    chosen=$(echo -e "$options" | rofi -dmenu -theme ~/.config/rofi/powermenu.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }")
+    case "$chosen" in
+      "󰤄")
+        systemctl suspend
+        ;;
+      "󰗽")
+        hyprctl dispatch exit
+        ;;
+      "")
+        systemctl reboot
+        ;;
+      "")
+        systemctl poweroff
+        ;;
+    esac
+  '';
 
   heightRegular = "(monitor_h*${toString theme.size.popup.regular.height})";
   heightLarge = "(monitor_h*${toString theme.size.popup.large.height})";
@@ -262,7 +284,7 @@ in
         bind = $mainMod ALT, F, fullscreenstate, -1 2
         bind = $mainMod, ESCAPE, exec, pidof hyprlock || hyprlock
         # bind = $mainMod, ESCAPE, exec, swaylock
-        bind = $mainMod CTRL, ESCAPE, exec, logoutMenu
+        bind = $mainMod CTRL, ESCAPE, exec, ${powerMenu}/bin/powerMenu
 
         bindr = $mainMod, SUPER_L, exec, ${launcher}/bin/launcher
 

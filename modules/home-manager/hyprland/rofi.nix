@@ -7,6 +7,24 @@
 let
   themeLib = import ../../../lib/theme.nix { inherit lib; };
   theme = config.myhome.display.theme;
+
+  globalProperties = ''
+    * {
+        background:     ${themeLib.withAlpha theme.color.background0 theme.opacity.overlay};
+        surface:        ${themeLib.withAlpha theme.color.background1 theme.opacity.elementHeavy};
+        surfaceSelected: ${theme.color.accentPrimary0};
+        foreground:     ${theme.color.foreground0};
+        font: "JetBrains Mono Nerd Font SemiBold 10";
+    }
+  '';
+
+  windowProperties = ''
+    window {
+        transparency:                "real";
+        border-radius:               ${themeLib.asPixels theme.radii.loose};
+        background-color:            @background;
+    }
+  '';
 in
 {
   programs.rofi = {
@@ -34,7 +52,6 @@ in
 
       font: "JetBrains Mono 10";
 
-      show-icons: true;
       sorting-method: "normal";
       case-sensitive: false;
       scroll-method: 0;
@@ -62,29 +79,8 @@ in
   '';
 
   xdg.configFile."rofi/theme.rasi".text = ''
-    /*****----- Global Properties -----*****/
-    * {
-        background:     ${themeLib.withAlpha theme.color.background0 theme.opacity.overlay};
-        surface:        ${themeLib.withAlpha theme.color.background1 theme.opacity.elementHeavy};
-        surfaceSelected: ${theme.color.accentPrimary0};
-        foreground:     ${theme.color.foreground0};
-        font: "JetBrains Mono Nerd Font SemiBold 10";
-    }
-
-    /*****----- Main Window -----*****/
-    window {
-        /* properties for window widget */
-        transparency:                "real";
-        fullscreen:                  false;
-
-        /* properties for all widgets */
-        enabled:                     true;
-        margin:                      0px;
-        padding:                     0px;
-        border:                      0px solid;
-        border-radius:               ${themeLib.asPixels theme.radii.loose};
-        background-color:            @background;
-    }
+    ${globalProperties}
+    ${windowProperties}
 
     /*****----- Main Box -----*****/
     mainbox {
@@ -192,7 +188,7 @@ in
     }
     element selected.normal {
         background-color:            @surfaceSelected;
-        text-color:                  @surface;
+        text-color:                  ${theme.color.background1};
     }
 
     element-icon {
@@ -233,7 +229,7 @@ in
     }
     button selected {
         background-color:            @surfaceSelected;
-        text-color:                  @surface;
+        text-color:                  ${theme.color.background1};
     }
 
     /*****----- Message -----*****/
@@ -253,6 +249,64 @@ in
     error-message {
         background-color:            transparent;
         text-color:                  inherit;
+    }
+  '';
+
+  xdg.configFile."rofi/powermenu.rasi".text = ''
+    configuration {
+      font: "JetBrains Mono SemiBold 10";
+    }
+
+    @theme "powermenu-theme.rasi"
+  '';
+
+  xdg.configFile."rofi/powermenu-theme.rasi".text = ''
+    ${globalProperties}
+    ${windowProperties}
+
+    mainbox {
+        children: [ "listview" ];
+        padding: 24px;
+        background-color: transparent;
+    }
+
+    listview {
+        columns: 2;
+        cycle: true;
+        expand: true;
+        scrollbar: false;
+        spacing: 24px;
+        background-color: transparent;
+    }
+
+    element {
+        children: [ "element-text" ];
+        border-radius: ${themeLib.asPixels theme.radii.round};
+        background-color:            @surface;
+        text-color:                  @foreground;
+        cursor: pointer;
+        padding: 100px 0 100px 0;
+        expand: true;
+    }
+
+    element selected.normal {
+        background-color: @surfaceSelected;
+        text-color: ${theme.color.background1};
+    }
+
+    element-text {
+        expand: true;
+        horizontal-align: 0.5;
+        vertical-align: 0.5;
+        cursor: pointer;
+        padding: 24px;
+        text-color: @foreground;
+        background-color: transparent;
+        font: "JetBrains Mono Nerd Font SemiBold 48";
+    }
+
+    element-text selected.normal{
+        text-color: ${theme.color.background1};
     }
   '';
 }

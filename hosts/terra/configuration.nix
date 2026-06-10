@@ -245,24 +245,19 @@ in
     };
   };
 
-  systemd.services.restic-backups-daily.unitConfig.OnFailure = "notify-backup-failed.service";
+  systemd.services.restic-backups-daily.unitConfig.OnFailure =
+    "notify-failed-restic-backups-daily.service";
+  systemd.services.restic-backups-daily.unitConfig.OnSuccess =
+    "notify-success-restic-backups-daily.service";
 
-  systemd.services."notify-backup-failed" = {
-    enable = true;
-    description = "Notify on failed backup";
-    serviceConfig = {
-      Type = "oneshot";
-      User = config.users.users.reilly.name;
-    };
+  systemd.services."notify-failed-restic-backups-daily" = {
+    serviceConfig.Type = "oneshot";
+    script = "${pkgs.curl}/bin/curl https://healthchecks.homelab.reillymc.com/ping/062aac27-12cb-4d9c-944d-8f64357f76e2/fail";
+  };
 
-    # required for notify-send
-    environment.DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/${toString config.users.users.reilly.uid}/bus";
-
-    script = ''
-      ${pkgs.libnotify}/bin/notify-send --urgency=critical \
-        "Backup failed" \
-        "$(journalctl -u restic-backups-daily -n 5 -o cat)"
-    '';
+  systemd.services."notify-success-restic-backups-daily" = {
+    serviceConfig.Type = "oneshot";
+    script = "${pkgs.curl}/bin/curl https://healthchecks.homelab.reillymc.com/ping/062aac27-12cb-4d9c-944d-8f64357f76e2";
   };
 
   programs.localsend.enable = true;

@@ -39,12 +39,18 @@ let
     "browser.link.open_newwindow.restriction" = 0; # No restrictions, force open in new window
     "browser.tabs.loadDivertedInBackground" = false; # Ensure links open in the foreground
     "permissions.default.desktop-notification" = 1; # Allow notifications
+    "browser.toolbars.bookmarks.visibility" = "never";
   };
 
   userChromeMinimal = ''
-    #TabsToolbar, #identity-box, #tabbrowser-tabs, #TabsToolbar { display: none !important; }
-    #navigator-toolbox { visibility: collapse !important;}
-    #nav-bar { visibility: collapse !important; }
+    #navigator-toolbox {
+      visibility: collapse !important;
+      min-height: 0 !important;
+    }
+
+    :root:has(#tabbrowser-tabs tab:nth-of-type(2)) #navigator-toolbox {
+      visibility: visible !important;
+    }
   '';
 
   mkWebAppEntry = app: {

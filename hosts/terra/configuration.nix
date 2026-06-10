@@ -23,8 +23,7 @@ let
     via.enable = true;
     utilities.iosSideloaderEnv.enable = true;
     ly.enable = true;
-    theme.user = "reilly";
-    theme.auto = {
+    theme.schedule = {
       lightTime = "07:00";
       darkTime = "19:00";
     };

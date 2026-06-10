@@ -1,12 +1,17 @@
 {
+  config,
   ...
 }:
+let
+  theme = config.myhome.display.theme;
+in
 {
   programs.ghostty = {
     enable = true;
     settings = {
       theme = "dark:Adwaita Dark,light:Adwaita";
       resize-overlay = "never";
+      background-opacity = toString theme.opacity.overlay;
       keybind = [
         "ctrl+v=paste_from_clipboard"
         "performable:ctrl+c=copy_to_clipboard"

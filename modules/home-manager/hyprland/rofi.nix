@@ -6,7 +6,7 @@
 }:
 let
   themeLib = import ../../../lib/theme.nix { inherit lib; };
-  palette = config.myhome.display.palette;
+  theme = config.myhome.display.theme;
 in
 {
   programs.rofi = {
@@ -64,32 +64,11 @@ in
   xdg.configFile."rofi/theme.rasi".text = ''
     /*****----- Global Properties -----*****/
     * {
-        background:     ${themeLib.withAlpha palette.color.background palette.opacity.light};
-        background-alt: ${themeLib.withAlpha palette.color.background palette.opacity.light};
-        foreground:     ${palette.color.foreground};
-        selected:       ${themeLib.withAlpha palette.color.foreground palette.opacity.regular};
-        active:         #ffffff55;
-        urgent:         #ffffff55;
-        
+        background:     ${themeLib.withAlpha theme.color.background0 theme.opacity.overlay};
+        surface:        ${themeLib.withAlpha theme.color.background1 theme.opacity.elementHeavy};
+        surfaceSelected: ${theme.color.accentPrimary0};
+        foreground:     ${theme.color.foreground0};
         font: "JetBrains Mono Nerd Font SemiBold 10";
-
-        border-colour:               var(selected);
-        handle-colour:               var(selected);
-        background-colour:           var(background);
-        foreground-colour:           var(foreground);
-        alternate-background:        var(background-alt);
-        normal-background:           var(background);
-        normal-foreground:           var(foreground);
-        urgent-background:           var(urgent);
-        urgent-foreground:           var(background);
-        active-background:           var(active);
-        active-foreground:           var(background);
-        selected-normal-background:  var(selected);
-        selected-normal-foreground:  var(background);
-        selected-urgent-background:  var(active);
-        selected-urgent-foreground:  var(background);
-        selected-active-background:  var(urgent);
-        selected-active-foreground:  var(background);
     }
 
     /*****----- Main Window -----*****/
@@ -97,16 +76,14 @@ in
         /* properties for window widget */
         transparency:                "real";
         fullscreen:                  false;
-        width:                       ${toString palette.size.width.regular};
-        height:                      ${themeLib.asPercent palette.size.height.regular};
 
         /* properties for all widgets */
         enabled:                     true;
         margin:                      0px;
         padding:                     0px;
         border:                      0px solid;
-        border-radius:               ${themeLib.asPixels palette.border.regular};
-        background-color:            @background-colour;
+        border-radius:               ${themeLib.asPixels theme.radii.loose};
+        background-color:            @background;
     }
 
     /*****----- Main Box -----*****/
@@ -124,8 +101,8 @@ in
     inputbar {
         enabled:                     true;
         background-color:            transparent;
-        text-color:                  @foreground-colour;
-        margin:                      0 0 4px 0;
+        text-color:                  @foreground;
+        margin:                      0 0 15px 0;
         spacing:                     0px;
         children:                    [ "textbox-prompt-colon", "entry", "mode-switcher" ];
     }
@@ -140,9 +117,10 @@ in
         padding:                     0 0 0 18px;
         expand:                      false;
         str:                         "";
-        background-color:            @alternate-background;
+        font: "JetBrains Mono Nerd Font Bold 11";
+        background-color:            @surface;
         text-color:                  inherit;
-        border-radius:               ${themeLib.asPixels palette.border.tight} 0 0 ${themeLib.asPixels palette.border.tight};
+        border-radius:               ${themeLib.asPixels theme.radii.pill} 0 0 ${themeLib.asPixels theme.radii.pill};
     }
     entry {
         enabled:                     true;
@@ -154,8 +132,8 @@ in
         cursor:                      text;
         placeholder:                 "Search...";
         placeholder-color:           inherit;
-        background-color:            @alternate-background;
-        border-radius:               0 ${themeLib.asPixels palette.border.tight} ${themeLib.asPixels palette.border.tight} 0;
+        background-color:            @surface;
+        border-radius:               0 ${themeLib.asPixels theme.radii.pill} ${themeLib.asPixels theme.radii.pill} 0;
         margin:                      0 5px 0 0;
     }
     num-filtered-rows {
@@ -197,9 +175,9 @@ in
     }
     scrollbar {
         handle-width:                6px;
-        handle-color:                @handle-colour;
+        handle-color:                @surfaceSelected;
         border-radius:               50%;
-        background-color:            @alternate-background;
+        background-color:            @surface;
         handle-rounded-corners: true;
     }
 
@@ -207,30 +185,14 @@ in
     element {
         enabled:                     true;
         padding:                     6px 8px;
-        border-radius:               ${themeLib.asPixels palette.border.tight};
+        border-radius:               ${themeLib.asPixels theme.radii.soft};
         cursor:                      pointer;
-        background-color:            var(normal-background);
-        text-color:                  var(normal-foreground);
-    }
-    element urgent {
-        background-color:            var(urgent-background);
-        text-color:                  var(urgent-foreground);
-    }
-    element active {
-        background-color:            var(active-background);
-        text-color:                  var(active-foreground);
+        background-color:            @surface;
+        text-color:                  @foreground;
     }
     element selected.normal {
-        background-color:            var(selected-normal-background);
-        text-color:                  var(selected-normal-foreground);
-    }
-    element selected.urgent {
-        background-color:            var(selected-urgent-background);
-        text-color:                  var(selected-urgent-foreground);
-    }
-    element selected.active {
-        background-color:            var(selected-active-background);
-        text-color:                  var(selected-active-foreground);
+        background-color:            @surfaceSelected;
+        text-color:                  @surface;
     }
 
     element-icon {
@@ -257,23 +219,21 @@ in
         padding:                     0px;
         border:                      0px solid;
         border-radius:               0px;
-        border-color:                @border-colour;
         background-color:            transparent;
-        text-color:                  @foreground-colour;
+        text-color:                  @foreground;
     }
     button {
         padding:                     5px;
         border:                      0px solid;
-        border-radius:               ${themeLib.asPixels palette.border.tight};
-        border-color:                @border-colour;
-        background-color:            @alternate-background;
+        border-radius:               ${themeLib.asPixels theme.radii.pill};
+        background-color:            @surface;
         text-color:                  inherit;
         cursor:                      pointer;
         width: 40px;
     }
     button selected {
-        background-color:            var(selected-normal-background);
-        text-color:                  var(selected-normal-foreground);
+        background-color:            @surfaceSelected;
+        text-color:                  @surface;
     }
 
     /*****----- Message -----*****/
@@ -281,11 +241,11 @@ in
         enabled:                     true;
         margin:                      5px 12px 14px 12px;
         background-color:            transparent;
-        text-color:                  @foreground-colour;
+        text-color:                  @foreground;
     }
     textbox {
         background-color:            inherit;
-        text-color:                  @foreground-colour;
+        text-color:                  @foreground;
         horizontal-align:            0.5;
         vertical-align:              0.5;
         padding: 4px 0px;

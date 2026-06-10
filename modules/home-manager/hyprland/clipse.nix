@@ -1,7 +1,11 @@
 {
   pkgs,
+  config,
   ...
 }:
+let
+  theme = config.myhome.display.theme;
+in
 {
   services.clipse = {
     enable = true;
@@ -35,31 +39,30 @@
     };
     theme = {
       "useCustomTheme" = true;
-      "TitleFore" = "#2E3440";
-      "TitleBack" = "#ECEFF4";
-      "TitleInfo" = "#2E3440";
-      "NormalTitle" = "#5E81AC";
-      "DimmedTitle" = "#4C566A";
-      "SelectedTitle" = "#BF616A";
-      "NormalDesc" = "#3B4252";
-      "DimmedDesc" = "#434C5E";
-      "SelectedDesc" = "#BF616A";
-      "StatusMsg" = "#8FBCBB";
-      "PinIndicatorColor" = "#D08770";
-      "SelectedBorder" = "#88C0D0";
-      "SelectedDescBorder" = "#88C0D0";
-      "FilteredMatch" = "#A3BE8C";
-      "FilterPrompt" = "#D08770";
-      "FilterInfo" = "#2E3440";
-      "FilterText" = "#3B4252";
-      "FilterCursor" = "#BF616A";
-      "HelpKey" = "#5E81AC";
-      "HelpDesc" = "#2E3440";
-      "PageActiveDot" = "#A3BE8C";
-      "PageInactiveDot" = "#4C566A";
-      "DividerDot" = "#2E3440";
-      "PreviewedText" = "#2E3440";
-      "PreviewBorder" = "#88C0D0";
+      "TitleFore" = theme.color.foreground0;
+      "TitleInfo" = theme.color.foreground1;
+      "NormalTitle" = theme.color.foreground1;
+      "DimmedTitle" = theme.color.foreground2;
+      "SelectedTitle" = theme.color.accentPrimary0;
+      "NormalDesc" = theme.color.foreground2;
+      "DimmedDesc" = theme.color.foreground2;
+      "SelectedDesc" = theme.color.accentPrimary1;
+      "StatusMsg" = theme.color.accentPrimary0;
+      "PinIndicatorColor" = theme.color.accentSecondary0;
+      "SelectedBorder" = theme.color.accentPrimary0;
+      "SelectedDescBorder" = theme.color.accentPrimary0;
+      "FilteredMatch" = theme.color.accentSecondary0;
+      "FilterPrompt" = theme.color.accentPrimary0;
+      "FilterInfo" = theme.color.foreground1;
+      "FilterText" = theme.color.foreground1;
+      "FilterCursor" = theme.color.foreground0;
+      "HelpKey" = theme.color.accentSecondary0;
+      "HelpDesc" = theme.color.foreground1;
+      "PageActiveDot" = theme.color.accentPrimary0;
+      "PageInactiveDot" = theme.color.foreground2;
+      "DividerDot" = theme.color.foreground2;
+      "PreviewedText" = theme.color.foreground0;
+      "PreviewBorder" = theme.color.foreground1;
     };
   };
 

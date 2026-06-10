@@ -3,12 +3,11 @@
   config,
   mynixos,
   lib,
-  theme,
   ...
 }:
 let
   themeLib = import ../../../lib/theme.nix { inherit lib; };
-  palette = config.myhome.display.palette;
+  theme = config.myhome.display.theme;
 
   monitorConfigs = map (
     mon:
@@ -18,7 +17,7 @@ let
     "${mon.output}, ${mon.resolution}@${toString mon.refreshRate}, ${mon.position}, ${toString mon.scale}${bitdepthStr}"
   ) config.myhome.display.monitors;
 
-  wallpaperPath = if theme == "light" then "~/.cache/wallpaper" else "~/.cache/wallpaper-dark";
+  wallpaperPath = if theme.mode == "light" then "~/.cache/wallpaper" else "~/.cache/wallpaper-dark";
 
   wallpapers = map (mon: {
     monitor = mon.output;
@@ -58,24 +57,27 @@ let
   '';
 
   launcher = pkgs.writeShellScriptBin "launcher" ''
-    pkill rofi || rofi -show drun -config ~/.config/rofi/config.rasi
-  '';
+    monitorHeight=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[] | select(.focused == true) | .height')
+    targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
+    targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
+
+    pkill rofi || rofi -show drun -config ~/.config/rofi/config.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }"  '';
 
   clipboardManager = pkgs.writeShellScriptBin "clipboardManager" ''
     if hyprctl clients | grep -q "class: com.my.clipboard"; then
         hyprctl dispatch killwindow class:com.my.clipboard
     else
-        ghostty --class=com.my.clipboard --confirm-close-surface=false -e clipse &
+        ghostty --class=com.my.clipboard --confirm-close-surface=false --background=${theme.color.background0} --background-blur=false -e clipse &
     fi
   '';
 
   heightWithoutReserved = "(monitor_h-${toString palette.layout.reservedYSpace})";
 
-  heightRegular = "(${toString heightWithoutReserved}*${toString palette.size.height.regular})";
-  heightLarge = "(${toString heightWithoutReserved}*${toString palette.size.height.large})";
+  heightRegular = "(monitor_h*${toString theme.size.popup.regular.height})";
+  heightLarge = "(monitor_h*${toString theme.size.popup.large.height})";
 
-  widthRegular = toString palette.size.width.regular;
-  widthLarge = toString palette.size.width.large;
+  widthRegular = "(monitor_h*${toString theme.size.popup.regular.width})";
+  widthLarge = "(monitor_h*${toString theme.size.popup.large.width})";
 in
 {
   imports = [
@@ -319,16 +321,14 @@ in
 
         # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
         # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
-        windowrule = opacity ${toString palette.opacity.regular}, match:class com.mitchellh.ghostty
 
         windowrule = float yes, match:class com.my.clipboard
         windowrule = size ${widthRegular} ${heightRegular}, match:class com.my.clipboard
         windowrule = stay_focused on, match:class com.my.clipboard
         windowrule = animation popin, match:class com.my.clipboard
-        windowrule = opacity ${toString palette.opacity.regular}, match:class com.my.clipboard
+        windowrule = dim_around on, match:class com.my.clipboard
         windowrule = stay_focused on, match:modal true
-
-        windowrule = opacity ${toString palette.opacity.heavy}, match:initial_title Picture-in-Picture
+        windowrule = opacity ${toString theme.opacity.active}, match:initial_title Picture-in-Picture
 
         windowrule = float yes, match:class org.gnome.NautilusPreviewer
         windowrule = size ${widthLarge} ${heightLarge}, match:class org.gnome.NautilusPreviewer
@@ -386,17 +386,15 @@ in
 
         # See https://wiki.hyprland.org/Configuring/Variables/#decoration for more
         decoration {
-            rounding = ${toString palette.border.regular}
-            active_opacity = ${toString palette.opacity.heavy};
-            inactive_opacity = ${toString palette.opacity.regular};
+            rounding = ${toString theme.radii.loose}
+            active_opacity = ${toString theme.opacity.active};
+            inactive_opacity = ${toString theme.opacity.inactive};
 
             blur {
-                size = 12
-                passes = 2
-                new_optimizations = true
-                ignore_opacity = true
-                noise = 0.05
-                brightness = 1.0
+                size = 10
+                passes = 3
+                noise = 0.03
+                brightness = 0.9
             }
 
             shadow {
@@ -581,8 +579,8 @@ in
             dots_spacing = "0.8"; # Scale of dots' absolute size, 0.0 - 1.0
             dots_center = "true";
             outer_color = "transparent";
-            inner_color = themeLib.asRGBA palette.color.white palette.opacity.extra-light;
-            font_color = themeLib.asRGBA palette.color.white palette.opacity.regular;
+            inner_color = themeLib.asRGBA theme.color.white theme.opacity.elementLight;
+            font_color = themeLib.asRGBA theme.color.white theme.opacity.elementHeavy;
             fade_on_empty = "true";
             font_family = "JetBrains Mono ExtraBold";
             hide_input = "false";

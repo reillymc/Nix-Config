@@ -10,8 +10,8 @@ let
     current_time=$(date +%H%M)
     current_time=$((10#$current_time))  # Force base-10
 
-    light_time="${mynixos.theme.auto.lightTime}"
-    dark_time="${mynixos.theme.auto.darkTime}"
+    light_time="${mynixos.theme.schedule.lightTime}"
+    dark_time="${mynixos.theme.schedule.darkTime}"
 
     start=''${light_time/:/}
     end=''${dark_time/:/}

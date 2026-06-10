@@ -1,13 +1,12 @@
 {
-  lib,
-  theme,
   config,
   pkgs,
   ...
 }:
 let
-  themeName = if theme == "light" then "Adwaita" else "Adwaita-dark";
-  colorScheme = if theme == "light" then "prefer-light" else "prefer-dark";
+  mode = config.myhome.display.theme.mode;
+  themeName = if mode == "light" then "Adwaita" else "Adwaita-dark";
+  colorScheme = if mode == "light" then "prefer-light" else "prefer-dark";
 in
 {
   dconf.enable = true;
@@ -25,10 +24,6 @@ in
     };
     gtk4.theme = null;
   };
-
-  myhome.display.palette.color = lib.mkDefault (
-    if theme == "light" then config.myhome.display.palette.light else config.myhome.display.palette.dark
-  );
 
   systemd.user.services.switchToSystemDarkMode = {
     Unit.Description = "Switch to system dark mode configuration";

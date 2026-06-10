@@ -8,7 +8,7 @@
 let
 
   themeLib = import ../../../../lib/theme.nix { inherit lib; };
-  palette = config.myhome.display.palette;
+  theme = config.myhome.display.theme;
 
   popupCases = lib.concatMapStringsSep "\n" (title: ''
     ${lib.escapeShellArg title})
@@ -22,18 +22,13 @@ let
     popupify() {
       local address="$1"
 
-      local monitorHeight
       monitorHeight=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[] | select(.focused == true) | .height')
-
-      local usableHeight
-      usableHeight=$((monitorHeight - ${toString palette.layout.reservedYSpace}))
-
-      local targetHeight
-      targetHeight=$((usableHeight * ${toString (themeLib.toPercentInt palette.size.height.regular)} / 100))
+      targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
+      targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
 
       hyprctl --batch "\
         dispatch setfloating address:0x$address; \
-        dispatch resizewindowpixel exact ${toString palette.size.width.regular} $targetHeight, address:0x$address; \
+        dispatch resizewindowpixel exact $targetWidth $targetHeight, address:0x$address; \
         dispatch centerwindow; \
       "
     }

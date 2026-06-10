@@ -55,6 +55,13 @@ let
       b = hexByteToInt (builtins.substring 4 2 hex);
     };
 
+  asRGB =
+    color:
+    let
+      rgb = hexToRgb color;
+    in
+    "rgb(${toString rgb.r}, ${toString rgb.g}, ${toString rgb.b})";
+
   asRGBA =
     color: opacity:
     let
@@ -68,6 +75,7 @@ in
     asPixels
     toPercentInt
     withAlpha
+    asRGB
     asRGBA
     ;
 }

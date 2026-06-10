@@ -241,7 +241,7 @@ in
       ];
 
       checkOpts = [
-        "--read-data-subset=500M"
+        "--read-data-subset=5G"
       ];
     };
   };

@@ -38,36 +38,6 @@
   };
 
   myhome.vscode.enable = true;
-  myhome.rclone.remote = "b2-terra-crypt";
-  myhome.rclone.filter = ''
-    # Exclude
-    - .obsidian/
-    - .expo/
-    - .svelte-kit/
-    - target/debug/
-    - .next/
-    - node_modules/
-    - dist/
-    - lib/
-    - bin/Debug/
-    - bin/Release/
-    - target/debug/
-    - target/release/
-    - logs/
-
-    # Include
-    + /Documents/**
-    + /Music/**
-    + /Pictures/**
-    + /Projects/**
-    + /Resources/**
-    + /Templates/**
-    + /Videos/**
-    + /.ssh/**
-
-    # Exclude everything else
-    - *
-  '';
 
   myhome.web-apps = {
     enable = true;

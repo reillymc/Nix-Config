@@ -11,7 +11,6 @@ let
     hyprland.enable = true;
     docker.enable = true;
     nautilus.enable = true;
-    rclone.enable = true;
     spotify = {
       enable = true;
       adblock.enable = true;

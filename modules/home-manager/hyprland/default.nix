@@ -104,7 +104,6 @@ in
 {
   imports = [
     ./waybar.nix
-    ./wlogout.nix
     ./clipse.nix
     ./rofi.nix
     ./swaync.nix

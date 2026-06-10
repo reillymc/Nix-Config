@@ -77,7 +77,7 @@ let
     targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
 
 
-    options="󰤄\n\n\n󰗽"
+    options="󰤄\n\n󰗽\n"
     chosen=$(echo -e "$options" | rofi -dmenu -theme ~/.config/rofi/powermenu.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }")
     case "$chosen" in
       "󰤄")
@@ -669,29 +669,31 @@ in
         Type = "oneshot";
       };
       Install = {
-        WantedBy = [ "default.target" ];
+        WantedBy = [ "wayland-session@hyprland.desktop.target" ];
       };
     };
 
     systemd.user.services.switchToLightCursor = {
       Unit = {
         Description = "Switch to light cursor (hyprland)";
+        After = [ "wayland-session-waitenv.service" ];
       };
       Service = {
         ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Bibata-Modern-Classic 24";
         Type = "oneshot";
       };
       Install = {
-        WantedBy = [ "default.target" ];
+        WantedBy = [ "wayland-session@hyprland.desktop.target" ];
       };
     };
 
-    systemd.user.timers.switchToDarkCursor = lib.mkIf (config.myhome.display.theme.darkTime != null) {
+    systemd.user.timers.switchToDarkCursor = lib.mkIf (mynixos.theme.schedule.darkTime != null) {
       Unit = {
         Description = "Timer to switch to dark cursor (hyprland)";
+        After = [ "wayland-session-waitenv.service" ];
       };
       Timer = {
-        OnCalendar = "*-*-* ${config.myhome.display.theme.darkTime}:00";
+        OnCalendar = "*-*-* ${mynixos.theme.schedule.darkTime}:00";
         Unit = "switchToDarkCursor.service";
         Persistent = true;
       };
@@ -700,12 +702,12 @@ in
       };
     };
 
-    systemd.user.timers.switchToLightCursor = lib.mkIf (config.myhome.display.theme.lightTime != null) {
+    systemd.user.timers.switchToLightCursor = lib.mkIf (mynixos.theme.schedule.lightTime != null) {
       Unit = {
         Description = "Timer to switch to light cursor (hyprland)";
       };
       Timer = {
-        OnCalendar = "*-*-* ${config.myhome.display.theme.lightTime}:00";
+        OnCalendar = "*-*-* ${mynixos.theme.schedule.lightTime}:00";
         Unit = "switchToLightCursor.service";
         Persistent = true;
       };

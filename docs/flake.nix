@@ -37,6 +37,7 @@
         specialArgs = {
           inherit pkgs;
           configDir = "/fake/configDir"; # dummy path for docgen
+          theme = "dark";
         };
         check = false;
       };

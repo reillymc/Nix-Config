@@ -58,6 +58,14 @@ For NixOS, the default value for this option includes at least this argument:
 *Type:*
 lazy attribute set of raw value
 
+
+
+*Default:*
+
+```nix
+{ }
+```
+
 *Declared by:*
  - [\<nixpkgs/lib/modules\.nix>](https://github.com/NixOS/nixpkgs/blob//lib/modules.nix)
 
@@ -98,7 +106,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/audio/devices\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/audio/devices.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/audio/devices\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/audio/devices.nix)
 
 
 
@@ -122,7 +130,7 @@ submodule
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/brightness.nix)
 
 
 
@@ -138,7 +146,7 @@ Time of day when ‘day’ (max brightness) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/brightness.nix)
 
 
 
@@ -154,7 +162,7 @@ Time of day when ‘night’ (min brightness) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/brightness.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/brightness.nix)
 
 
 
@@ -198,7 +206,7 @@ list of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -222,7 +230,33 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
+
+
+
+## myhome\.display\.monitors\.\*\.control
+
+
+
+Optional brightness control method for this monitor\.
+Use “brightnessctl” for internal laptop panels and “ddcutil” for external DDC/CI monitors\.
+If null, internal panels are auto-detected and will use brightnessctl\.
+
+
+
+*Type:*
+null or one of “ddcutil”, “brightnessctl”
+
+
+
+*Default:*
+
+```nix
+null
+```
+
+*Declared by:*
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -246,7 +280,7 @@ false
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -262,7 +296,7 @@ Monitor model name, e\.g\. eiq-495KCSUW
 string
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -278,7 +312,7 @@ Output name, e\.g\. DP-1
 string
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -302,7 +336,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -326,7 +360,7 @@ signed integer
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -350,7 +384,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -374,7 +408,7 @@ floating point number
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/monitors.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/monitors.nix)
 
 
 
@@ -398,7 +432,7 @@ submodule
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/night-shift.nix)
 
 
 
@@ -414,7 +448,7 @@ Time of day when ‘day’ (normal color temperature) starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/night-shift.nix)
 
 
 
@@ -430,7 +464,33 @@ Time of day when ‘night’ (night shift temperature) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/night-shift.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/night-shift.nix)
+
+
+
+## myhome\.display\.popupify\.titles
+
+
+
+List of window title substrings to always render as popups (floating)
+
+
+
+*Type:*
+list of string
+
+
+
+*Default:*
+
+```nix
+[
+  "Extension: (Bitwarden Password Manager) - — Mozilla Firefox"
+]
+```
+
+*Declared by:*
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/layout\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/layout.nix)
 
 
 
@@ -438,71 +498,67 @@ string
 
 
 
-Configuration for automatically switching system theme\.
+Object containing active theme
 
 
 
 *Type:*
-submodule
+attribute set
 
 
 
 *Default:*
 
 ```nix
-{ }
+{
+  color = {
+    accentPrimary0 = "#f1aa53";
+    accentPrimary1 = "#e8b679";
+    accentSecondary0 = "#f1c03b";
+    accentSecondary1 = "#edcb51";
+    background0 = "#11111b";
+    background1 = "#33333b";
+    black = "#000000";
+    danger = "#f38ba8";
+    foreground0 = "#f8f1e5";
+    foreground1 = "#e1c1af";
+    foreground2 = "#988181";
+    success = "#a6e3a1";
+    warning = "#f9e2af";
+    white = "#ffffff";
+  };
+  mode = "dark";
+  opacity = {
+    active = 1.0;
+    elementHeavy = 0.6;
+    elementLight = 0.4;
+    inactive = 0.8;
+    overlay = 0.75;
+  };
+  radii = {
+    loose = 16;
+    pill = 9999;
+    round = 12;
+    soft = 8;
+    tight = 4;
+  };
+  size = {
+    popup = {
+      large = {
+        height = 0.75;
+        width = 1;
+      };
+      regular = {
+        height = 0.5;
+        width = 0.5;
+      };
+    };
+  };
+}
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme.nix)
-
-
-
-## myhome\.display\.theme\.darkTime
-
-
-
-Time of day to switch to dark theme (HH:MM)\.
-
-
-
-*Type:*
-null or string
-
-
-
-*Default:*
-
-```nix
-null
-```
-
-*Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme.nix)
-
-
-
-## myhome\.display\.theme\.lightTime
-
-
-
-Time of day to switch to light theme (HH:MM)\.
-
-
-
-*Type:*
-null or string
-
-
-
-*Default:*
-
-```nix
-null
-```
-
-*Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/display/theme.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/display/theme.nix)
 
 
 
@@ -527,7 +583,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/unfree-packages\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/options/unfree-packages.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/unfree-packages\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/options/unfree-packages.nix)
 
 
 
@@ -573,7 +629,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -597,7 +653,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/utilities/rclone.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/utilities/rclone\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/utilities/rclone.nix)
 
 
 
@@ -629,7 +685,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/development/vscode\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/development/vscode.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/development/vscode\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/development/vscode.nix)
 
 
 
@@ -661,7 +717,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps)
 
 
 
@@ -693,7 +749,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/immich.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/immich\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/immich.nix)
 
 
 
@@ -725,7 +781,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyfin.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/jellyfin\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/jellyfin.nix)
 
 
 
@@ -733,7 +789,7 @@ true
 
 
 
-Whether to enable Jellyseerr web app\.
+Whether to enable Seerr web app\.
 
 
 
@@ -757,7 +813,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyseerr\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/jellyseerr.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/seerr\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/seerr.nix)
 
 
 
@@ -789,7 +845,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/messenger.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/messenger\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/messenger.nix)
 
 
 
@@ -821,7 +877,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/navidrome.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/navidrome\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/navidrome.nix)
 
 
 
@@ -853,7 +909,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/paperless\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/paperless.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/paperless\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/paperless.nix)
 
 
 
@@ -885,7 +941,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/proton-mail.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/proton-mail\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/proton-mail.nix)
 
 
 
@@ -917,7 +973,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/whatsapp.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/whatsapp\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/whatsapp.nix)
 
 
 
@@ -949,6 +1005,6 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/c9pwzrpa8708ahxpph586rg4gr703d9g-source/modules/home-manager/web-apps/apps/youtube.nix)
+ - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/youtube\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/home-manager/web-apps/apps/youtube.nix)
 
 

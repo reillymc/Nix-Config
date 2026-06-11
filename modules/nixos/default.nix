@@ -6,7 +6,6 @@
 }:
 {
   imports = [
-    ./display-brightness.nix
     ./entertainment
     ./gnome
     ./hardware

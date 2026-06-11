@@ -24,22 +24,4 @@ in
     };
     gtk4.theme = null;
   };
-
-  systemd.user.services.switchToSystemDarkMode = {
-    Unit.Description = "Switch to system dark mode configuration";
-    Unit.After = [ "graphical-session.target" ];
-    Service = {
-      ExecStart = "/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl start switchToSystemDarkMode.service";
-      Type = "oneshot";
-    };
-  };
-
-  systemd.user.services.switchToSystemLightMode = {
-    Unit.Description = "Switch to system light mode configuration";
-    Unit.After = [ "graphical-session.target" ];
-    Service = {
-      ExecStart = "/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl start switchToSystemLightMode.service";
-      Type = "oneshot";
-    };
-  };
 }

@@ -33,7 +33,7 @@
     };
 
     systemd.services.switchToSystemDarkMode = {
-      description = "Switch to system dark mode configuration";
+      description = "Switch system to dark mode";
       serviceConfig = {
         ExecStart = "/nix/var/nix/profiles/system/specialisation/dark/bin/switch-to-configuration switch";
         Type = "oneshot";
@@ -41,7 +41,7 @@
     };
 
     systemd.services.switchToSystemLightMode = {
-      description = "Switch to system light mode configuration";
+      description = "Switch system to light mode";
       serviceConfig = {
         ExecStart = "/nix/var/nix/profiles/system/specialisation/light/bin/switch-to-configuration switch";
         Type = "oneshot";

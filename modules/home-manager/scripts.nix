@@ -6,58 +6,114 @@
   ...
 }:
 let
-  system-rebuild = pkgs.writeShellScriptBin "${hostname}-rebuild" ''
-    set -euo pipefail
+  determineThemeShell = ''
+    determine_theme() {
+      local arg="''${1:-}"
 
-    arg="''${1:-}"
+      if [[ "$arg" == light || "$arg" == dark ]]; then
+        echo "$arg"
+        return
+      fi
 
-    if [[ "$arg" == "light" || "$arg" == "dark" ]]; then
-        specialisation="$arg"
-    else
-      current_time=$(date +%H%M)
-      current_time=$((10#$current_time))  # Force base-10
+      local current
+      current=$(date +%H%M)
+      current=$((10#$current))
 
-      light_time="${mynixos.theme.schedule.lightTime}"
-      dark_time="${mynixos.theme.schedule.darkTime}"
+      local start="${mynixos.theme.schedule.lightTime}"
+      local end="${mynixos.theme.schedule.darkTime}"
 
-      start=''${light_time/:/}
-      end=''${dark_time/:/}
+      start="''${start/:/}"
+      end="''${end/:/}"
 
       start=$((10#$start))
       end=$((10#$end))
 
-      if [[ "$current_time" -ge "$start" && "$current_time" -le "$end" ]]; then
-        specialisation="light"
+      if (( current >= start && current <= end )); then
+        echo light
       else
-        specialisation="dark"
+        echo dark
       fi
-    fi
-
-    sudo nixos-rebuild switch \
-      --flake ${configDir}#${hostname} \
-      --specialisation "$specialisation"
+    }
   '';
 
-  system-update = pkgs.writeShellScriptBin "${hostname}-update" ''
-    set -euo pipefail
-    nix flake update --flake ${configDir}
-    echo "Flake inputs updated."
-  '';
+  system-rebuild = pkgs.writeShellApplication {
+    name = "${hostname}-rebuild";
 
-  system-clean = pkgs.writeShellScriptBin "${hostname}-clean" ''
-    set -euo pipefail
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.nixos-rebuild
+    ];
 
-    echo "Removing old generations..."
-    sudo nix-collect-garbage --delete-older-than 30d
+    text = ''
+      set -euo pipefail
 
-    echo "Optimising store..."
-    nix store optimise
-  '';
+      ${determineThemeShell}
+
+      specialisation=$(determine_theme "''${1:-}")
+
+      sudo nixos-rebuild switch \
+        --flake ${configDir}#${hostname} \
+        --specialisation "$specialisation"
+    '';
+  };
+
+  system-update = pkgs.writeShellApplication {
+    name = "${hostname}-update";
+
+    runtimeInputs = [
+      pkgs.nix
+    ];
+
+    text = ''
+      set -euo pipefail
+
+      nix flake update --flake ${configDir}
+    '';
+  };
+
+  system-clean = pkgs.writeShellApplication {
+    name = "${hostname}-clean";
+
+    runtimeInputs = [
+      pkgs.nix
+    ];
+
+    text = ''
+      set -euo pipefail
+
+      echo "Removing old generations..."
+      sudo nix-collect-garbage --delete-older-than 30d
+
+      echo "Optimising store..."
+      nix store optimise
+    '';
+  };
+
+  system-theme = pkgs.writeShellApplication {
+    name = "${hostname}-theme";
+
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.systemd
+    ];
+
+    text = ''
+      set -euo pipefail
+
+      ${determineThemeShell}
+
+      target=$(determine_theme "''${1:-}")
+
+      sudo systemctl start \
+        "switchToSystem''${target^}Mode.service"
+    '';
+  };
 in
 {
   home.packages = [
     system-rebuild
     system-update
     system-clean
+    system-theme
   ];
 }

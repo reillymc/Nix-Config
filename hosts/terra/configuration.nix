@@ -193,10 +193,14 @@ in
     ports = [ 22 ];
     openFirewall = false;
     settings = {
-      PasswordAuthentication = false;
       UseDns = true;
       X11Forwarding = false;
       PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      AllowUsers = [ "reilly" ];
+      MaxAuthTries = 3;
+      PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
     };
   };
 

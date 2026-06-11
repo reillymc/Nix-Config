@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   hostname,
+  config,
   ...
 }:
 let
@@ -10,7 +11,6 @@ let
     hyprland.enable = true;
     docker.enable = true;
     nautilus.enable = true;
-    rclone.enable = true;
     spotify = {
       enable = true;
       adblock.enable = true;
@@ -19,9 +19,13 @@ let
       enable = true;
       device.mx4.enable = true;
     };
-    theme.user = "reilly";
-    ly.enable = true;
     utilities.iosSideloaderEnv.enable = true;
+    ly.enable = true;
+    theme.schedule = {
+      lightTime = "07:00";
+      darkTime = "19:00";
+    };
+
     # Unfree packages that need to be allowed
     myUnfreePackages = [
       "obsidian"
@@ -40,6 +44,7 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
     ../../modules/nixos/default.nix
+    ./secrets.nix
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -179,7 +184,7 @@ in
     obsidian
     pwvucontrol
     libnotify
-    protonvpn-gui
+    proton-vpn
     stow # remove
     adwaita-icon-theme # clean up etc
     libinput
@@ -200,15 +205,79 @@ in
   '';
 
   services.openssh = {
-    enable = false;
+    enable = true;
     ports = [ 22 ];
     openFirewall = false;
     settings = {
-      PasswordAuthentication = false;
       UseDns = true;
       X11Forwarding = false;
       PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      AllowUsers = [ "reilly" ];
+      MaxAuthTries = 3;
+      PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
     };
+  };
+
+  services.restic.backups = {
+    daily = {
+      initialize = true;
+      environmentFile = config.age.secrets."restic-backup/env".path;
+      repositoryFile = config.age.secrets."restic-backup/repo".path;
+      passwordFile = config.age.secrets."restic-backup/password".path;
+
+      paths = [
+        "${config.users.users.reilly.home}/.local/share/Steam/steamapps/compatdata"
+        "${config.users.users.reilly.home}/.ssh"
+        "${config.users.users.reilly.home}/Documents"
+        "${config.users.users.reilly.home}/Games"
+        "${config.users.users.reilly.home}/Music"
+        "${config.users.users.reilly.home}/Pictures"
+        "${config.users.users.reilly.home}/Projects"
+        "${config.users.users.reilly.home}/Resources"
+        "${config.users.users.reilly.home}/Videos"
+      ];
+
+      exclude = [
+        "${config.users.users.reilly.home}/.local"
+        "${config.users.users.reilly.home}/Downloads"
+        "${config.users.users.reilly.home}/Projects/**/node_modules"
+        "${config.users.users.reilly.home}/Projects/**/.expo"
+        "${config.users.users.reilly.home}/Projects/**/.svelte-kit"
+        "${config.users.users.reilly.home}/Projects/**/dist"
+        "${config.users.users.reilly.home}/Projects/**/lib"
+        "${config.users.users.reilly.home}/Projects/**/bin"
+        "${config.users.users.reilly.home}/Projects/**/target"
+        "${config.users.users.reilly.home}/Projects/**/logs"
+      ];
+
+      pruneOpts = [
+        "--keep-daily 14"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 20"
+      ];
+
+      checkOpts = [
+        "--read-data-subset=5G"
+      ];
+    };
+  };
+
+  systemd.services.restic-backups-daily.unitConfig.OnFailure =
+    "notify-failed-restic-backups-daily.service";
+  systemd.services.restic-backups-daily.unitConfig.OnSuccess =
+    "notify-success-restic-backups-daily.service";
+
+  systemd.services."notify-failed-restic-backups-daily" = {
+    serviceConfig.Type = "oneshot";
+    script = "${pkgs.curl}/bin/curl https://healthchecks.homelab.reillymc.com/ping/5a5f523e-97f8-4256-9672-defe69f4d0c5/fail";
+  };
+
+  systemd.services."notify-success-restic-backups-daily" = {
+    serviceConfig.Type = "oneshot";
+    script = "${pkgs.curl}/bin/curl https://healthchecks.homelab.reillymc.com/ping/5a5f523e-97f8-4256-9672-defe69f4d0c5";
   };
 
   services.power-profiles-daemon.enable = false;
@@ -263,7 +332,7 @@ in
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 60d";
+    options = "--delete-older-than 30d";
   };
   nix.optimise.automatic = true;
 

@@ -46,42 +46,9 @@
       clearTime = "07:00";
       shiftTime = "21:30";
     };
-    theme = {
-      lightTime = "07:00";
-      darkTime = "16:00";
-    };
   };
 
   myhome.vscode.enable = true;
-  myhome.rclone.remote = "slate-b2-crypt";
-  myhome.rclone.filter = ''
-    # Exclude
-    - .obsidian/
-    - .expo/
-    - .svelte-kit/
-    - target/debug/
-    - .next/
-    - node_modules/
-    - dist/
-    - lib/
-    - bin/Debug/
-    - bin/Release/
-    - target/debug/
-    - target/release/
-    - logs/
-
-    # Include
-    + /Documents/**
-    + /Music/**
-    + /Pictures/**
-    + /Projects/**
-    + /Resources/**
-    + /Videos/**
-    + /.ssh/**
-
-    # Exclude everything else
-    - *
-  '';
 
   myhome.web-apps = {
     enable = true;

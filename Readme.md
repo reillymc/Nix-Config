@@ -31,11 +31,13 @@ Custom options are documented within [NixOS Options](./docs/nixos-options.md) an
 
 The following command can be used to update the docs with modified options `nix build .#docs && cp -rf result/* ./docs/ && rm result`.
 
+## Secrets
+
+Secrets are encrypted using [agenix](https://github.com/ryantm/agenix). They are encrypted with a system key, usually located at `/etc/ssh/ssh_host_ed25519_key.pub` and a user/admin key, usually `~/.ssh/id_ed25519.pub`.
+
+Edit a secret from the [secrets](./secrets) folder with `nix run github:ryantm/agenix -- -e $HOSTNAME/{secret}.age`
+
 ## Tools
 
 - [nix-ld](https://github.com/nix-community/nix-ld): Run unpatched dynamic binaries on NixOS, [Guide](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/).
 
-## TODO
-
-- Secrets: [guide](https://guekka.github.io/nixos-server-2/), [example](https://github.com/Guekka/nixos-server/blob/2-tailscale/hosts/common/secrets.yaml)
--

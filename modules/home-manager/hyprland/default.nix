@@ -656,6 +656,7 @@ in
     ];
 
     dconf.settings."org/gnome/desktop/wm/preferences".button-layout = ":";
+    dconf.settings."org/gnome/desktop/interface".gtk-enable-primary-paste = true;
 
     fonts.fontconfig.enable = true;
 

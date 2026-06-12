@@ -17,7 +17,7 @@ let
 
     runtimeInputs = [
       pkgs.coreutils
-      pkgs.gnused
+      pkgs.gawk
     ]
     ++ map (c: controlPackages.${c}) controls;
 
@@ -27,7 +27,9 @@ let
       MAX_TIME_STRING="${config.myhome.display.brightness.maxTime}"
       MIN_TIME_STRING="${config.myhome.display.brightness.minTime}"
 
-      STEP=50
+      BRIGHTNESS_EXPONENT=3
+      STEP=${toString (config.myhome.display.brightness.step or 20)}
+
       COOLDOWN_SECONDS=10
       STATE_FILE="/run/user/$(id -u)/displayBrightness.state"
 
@@ -132,59 +134,114 @@ let
         printf "%s %s\n" "$(date +%s)" "$mode" > "$STATE_FILE" 2>/dev/null || true
       }
 
+      logical_to_physical() {
+        local logical="$1"
+
+        (( logical <= 0 )) && {
+          echo 0
+          return
+        }
+
+        (( logical >= 100 )) && {
+          echo 100
+          return
+        }
+
+        awk \
+          -v v="$logical" \
+          -v e="$BRIGHTNESS_EXPONENT" \
+          'BEGIN {
+            printf "%.0f\n", ((v / 100) ^ e) * 100
+          }'
+      }
+
+      physical_to_logical() {
+        local physical="$1"
+
+        (( physical <= 0 )) && {
+          echo 0
+          return
+        }
+
+        (( physical >= 100 )) && {
+          echo 100
+          return
+        }
+
+        awk \
+          -v v="$physical" \
+          -v e="$BRIGHTNESS_EXPONENT" \
+          'BEGIN {
+            printf "%.0f\n", (v / 100) ^ (1 / e) * 100
+          }'
+      }
+
       # ----------------------------
       # Brightness backends
       # ----------------------------
       get_brightness() {
+        local _output="$1"
         local model="$2"
         local control="$3"
 
         case "$control" in
           brightnessctl)
-            local current max
+            local current max physical
 
-            current=$(brightnessctl get)
-            max=$(brightnessctl max)
+            current=$(brightnessctl get 2>/dev/null) || return 1
+            max=$(brightnessctl max 2>/dev/null) || return 1
 
-            [[ "$max" -gt 0 ]] || die "brightnessctl max is 0"
+            [[ "$max" -gt 0 ]] || return 1
 
-            echo $((current * 100 / max))
+            physical=$((current * 100 / max))
+
+            physical_to_logical "$physical"
             ;;
 
           ddcutil)
-            ddcutil getvcp 10 --model "$model" \
-              | sed -n 's/.*current value = *\([0-9]*\).*/\1/p'
+            local line physical
+
+            line=$(ddcutil getvcp 10 --model "$model" 2>/dev/null) || return 1
+
+            [[ "$line" =~ current\ value[[:space:]]*=[[:space:]]*([0-9]+) ]] || return 1
+
+            physical="''${BASH_REMATCH[1]}"
+
+            physical_to_logical "$physical"
             ;;
 
           *)
-            die "Unknown control: $control"
+            return 1
             ;;
         esac
       }
 
       set_brightness() {
+        local _output="$1"
         local model="$2"
         local control="$3"
         local value="$4"
 
         case "$control" in
           brightnessctl)
-            local max target
-
-            max=$(brightnessctl max)
-            [[ "$max" -gt 0 ]] || die "brightnessctl max is 0"
-
-            target=$((value * max / 100))
-
-            brightnessctl set "$target" >/dev/null
+            brightnessctl \
+              --exponent="$BRIGHTNESS_EXPONENT" \
+              set "$value%" \
+              >/dev/null 2>&1
             ;;
 
           ddcutil)
-            ddcutil setvcp 10 "$value" --model "$model"
+            local physical
+
+            physical=$(logical_to_physical "$value")
+
+            ddcutil setvcp 10 "$physical" \
+              --model "$model" \
+              >/dev/null 2>&1
             ;;
 
           *)
-            die "Unknown control: $control"
+            return 1
             ;;
         esac
       }
@@ -193,10 +250,23 @@ let
       # Core logic
       # ----------------------------
       get_reference_brightness() {
-        get_brightness \
-          "''${MONITOR_OUTPUTS[0]}" \
-          "''${MONITOR_MODELS[0]}" \
-          "''${MONITOR_CONTROLS[0]}"
+        local i brightness
+
+        for ((i = 0; i < ''${#MONITOR_OUTPUTS[@]}; i++)); do
+
+          if brightness=$(
+            get_brightness \
+              "''${MONITOR_OUTPUTS[$i]}" \
+              "''${MONITOR_MODELS[$i]}" \
+              "''${MONITOR_CONTROLS[$i]}"
+          ); then
+            echo "$brightness"
+            return 0
+          fi
+
+        done
+
+        return 1
       }
 
       compute_target() {
@@ -204,8 +274,13 @@ let
         local action="$2"
 
         case "$action" in
-          min) echo 0 ;;
-          max) echo 100 ;;
+          min)
+            echo 0
+            ;;
+
+          max)
+            echo 100
+            ;;
 
           increase)
             current=$((current + STEP))
@@ -227,20 +302,27 @@ let
 
       apply_brightness() {
         local target="$1"
+        local successes=0
         local i
 
         for ((i = 0; i < ''${#MONITOR_OUTPUTS[@]}; i++)); do
-          set_brightness \
+
+          if set_brightness \
             "''${MONITOR_OUTPUTS[$i]}" \
             "''${MONITOR_MODELS[$i]}" \
             "''${MONITOR_CONTROLS[$i]}" \
             "$target"
+          then
+            ((successes++))
+          else
+            log "Skipping unavailable monitor: ''${MONITOR_OUTPUTS[$i]}"
+          fi
+
         done
+
+        ((successes > 0))
       }
 
-      # ----------------------------
-      # Main
-      # ----------------------------
       ACTION="''${1:-}"
 
       [[ -n "$ACTION" ]] || die "Usage: displayBrightness {auto|min|max|increase|decrease}"
@@ -250,7 +332,9 @@ let
         cooldown_check || exit 0
       fi
 
-      current=$(get_reference_brightness)
+      if ! current=$(get_reference_brightness); then
+        die "No responsive monitor brightness controls found"
+      fi
 
       [[ "$current" =~ ^[0-9]+$ ]] || die "Invalid brightness value: $current"
 
@@ -258,7 +342,9 @@ let
 
       [[ "$target" != "$current" ]] || exit 0
 
-      apply_brightness "$target"
+      if ! apply_brightness "$target"; then
+        die "Failed to update any monitor"
+      fi
 
       if [[ "$ACTION" == "min" || "$ACTION" == "max" ]]; then
         save_state "$ACTION"

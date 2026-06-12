@@ -17,6 +17,16 @@
   myhome.display = {
     monitors = [
       {
+        output = "eDP-1";
+        model = "LQ135P1JX51";
+        resolution = "2256x1504";
+        refreshRate = 60;
+        position = "0x0";
+        scale = 1.0;
+        bitdepth = 10;
+        control = "brightnessctl";
+      }
+      {
         output = "DP-1";
         model = "eiq-495KCSUW";
         resolution = "5120x1440";
@@ -26,16 +36,6 @@
         bitdepth = 10;
         isUltrawide = true;
         control = "ddcutil";
-      }
-      {
-        output = "eDP-1";
-        model = "LQ135P1JX51";
-        resolution = "2256x1504";
-        refreshRate = 60;
-        position = "0x0";
-        scale = 1.0;
-        bitdepth = 10;
-        control = "brightnessctl";
       }
     ];
     brightness = {

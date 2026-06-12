@@ -301,10 +301,10 @@ in
         bindl = SHIFT, XF86AudioPlay, exec, playerctl --player playerctld next
         bindl = ALT, XF86AudioPlay, exec, playerctl --player playerctld previous
 
-        bind = ,XF86MonBrightnessDown,exec, displayBrightness min
-        bind = ,XF86MonBrightnessUp, exec, displayBrightness max
-        bind = SHIFT,XF86MonBrightnessDown,exec, displayBrightness decrease
-        bind = SHIFT,XF86MonBrightnessUp, exec, displayBrightness increase
+        bind = ,XF86MonBrightnessDown,exec, displayBrightness decrease
+        bind = ,XF86MonBrightnessUp, exec, displayBrightness increase
+        bind = SHIFT,XF86MonBrightnessDown,exec, displayBrightness min
+        bind = SHIFT,XF86MonBrightnessUp, exec, displayBrightness max
 
         binde = ,XF86MonBrightnessDown, exec, brightnessctl -e s 10%-
         binde = ,XF86MonBrightnessUp, exec, brightnessctl -e s +10%

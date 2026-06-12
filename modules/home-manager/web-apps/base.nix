@@ -54,7 +54,7 @@ let
   '';
 
   mkWebAppEntry = app: {
-    name = app.name;
+    inherit (app) name;
     type = "Application";
     exec = "${pkgs.firefox}/bin/firefox -no-remote --profile \"${config.xdg.configHome}/mozilla/firefox/${app.id}\" --class \"${app.id}\" --name \"${app.name}\" --new-window \"${app.url}\"";
     icon = "${webAppIcons}/share/icons/webapps/${app.icon}";

@@ -563,73 +563,77 @@ in
       };
     };
 
-    programs.hyprlock = {
-      enable = true;
-      settings = {
-        general = {
-          hide_cursor = true;
-          ignore_empty_input = true;
-        };
-        animations = {
-          enabled = true;
-          fade_in = {
-            duration = 1000;
-            bezier = "easeOutQuint";
+    programs = {
+      hyprlock = {
+        enable = true;
+        settings = {
+          general = {
+            hide_cursor = true;
+            ignore_empty_input = true;
           };
-          fade_out = {
-            duration = 1000;
-            bezier = "easeOutQuint";
+          animations = {
+            enabled = true;
+            fade_in = {
+              duration = 1000;
+              bezier = "easeOutQuint";
+            };
+            fade_out = {
+              duration = 1000;
+              bezier = "easeOutQuint";
+            };
           };
+          background = [
+            {
+              path = wallpaperPath;
+              blur_passes = 3;
+              contrast = 0.8916;
+              brightness = 0.8172;
+              vibrancy = 0.1696;
+              vibrancy_darkness = 0.0;
+              blur_size = 8;
+            }
+          ];
+          input-field = [
+            {
+              size = "320, 60";
+              outline_thickness = "2";
+              dots_size = "0.3"; # Scale of input-field height, 0.2 - 0.8
+              dots_spacing = "0.8"; # Scale of dots' absolute size, 0.0 - 1.0
+              dots_center = "true";
+              outer_color = "transparent";
+              inner_color = themeLib.asRGBA theme.color.white theme.opacity.elementLight;
+              font_color = themeLib.asRGBA theme.color.white theme.opacity.elementHeavy;
+              fade_on_empty = "true";
+              font_family = "JetBrains Mono ExtraBold";
+              hide_input = "false";
+              position = "0, -120";
+              halign = "center";
+              valign = "center";
+              capslock_color = "rgba(160, 120, 0, 0.3)";
+              numlock_color = "rgba(160, 120, 0, 0.3)";
+              check_color = "rgba(255, 255, 255, 0.3)";
+              fail_color = "rgba(204, 34, 34, 0.5)";
+              placeholder_text = "";
+            }
+          ];
+          label = [
+            {
+              text = "cmd[update:1000] echo \"$(date +\"%H:%M\")\"";
+              color = "rgba(255, 255, 255, 0.75)";
+              font_size = "140";
+              font_family = "JetBrains Mono ExtraBold";
+              position = "0, 80";
+              halign = "center";
+              valign = "center";
+            }
+            {
+              text = "cmd[update:1000] ${lockdown}/bin/lockdown $ATTEMPTS";
+            }
+          ];
         };
-        background = [
-          {
-            path = wallpaperPath;
-            blur_passes = 3;
-            contrast = 0.8916;
-            brightness = 0.8172;
-            vibrancy = 0.1696;
-            vibrancy_darkness = 0.0;
-            blur_size = 8;
-          }
-        ];
-        input-field = [
-          {
-            size = "320, 60";
-            outline_thickness = "2";
-            dots_size = "0.3"; # Scale of input-field height, 0.2 - 0.8
-            dots_spacing = "0.8"; # Scale of dots' absolute size, 0.0 - 1.0
-            dots_center = "true";
-            outer_color = "transparent";
-            inner_color = themeLib.asRGBA theme.color.white theme.opacity.elementLight;
-            font_color = themeLib.asRGBA theme.color.white theme.opacity.elementHeavy;
-            fade_on_empty = "true";
-            font_family = "JetBrains Mono ExtraBold";
-            hide_input = "false";
-            position = "0, -120";
-            halign = "center";
-            valign = "center";
-            capslock_color = "rgba(160, 120, 0, 0.3)";
-            numlock_color = "rgba(160, 120, 0, 0.3)";
-            check_color = "rgba(255, 255, 255, 0.3)";
-            fail_color = "rgba(204, 34, 34, 0.5)";
-            placeholder_text = "";
-          }
-        ];
-        label = [
-          {
-            text = "cmd[update:1000] echo \"$(date +\"%H:%M\")\"";
-            color = "rgba(255, 255, 255, 0.75)";
-            font_size = "140";
-            font_family = "JetBrains Mono ExtraBold";
-            position = "0, 80";
-            halign = "center";
-            valign = "center";
-          }
-          {
-            text = "cmd[update:1000] ${lockdown}/bin/lockdown $ATTEMPTS";
-          }
-        ];
       };
+      kitty.enable = true;
+      hyprshot.enable = true;
     };
 
     services.hyprpaper = {
@@ -641,9 +645,6 @@ in
         wallpaper = wallpapers;
       };
     };
-
-    programs.kitty.enable = true;
-    programs.hyprshot.enable = true;
 
     home.packages = with pkgs; [
       networkmanagerapplet

@@ -8,8 +8,8 @@ let
   controls = lib.unique (map (m: m.control) config.myhome.display.monitors);
 
   controlPackages = {
-    brightnessctl = pkgs.brightnessctl;
-    ddcutil = pkgs.ddcutil;
+    inherit (pkgs) brightnessctl;
+    inherit (pkgs) ddcutil;
   };
 
   displayBrightness = pkgs.writeShellApplication {
@@ -353,40 +353,35 @@ let
   };
 in
 {
-  systemd.user.services.displayBrightness = {
-    Unit = {
-      Description = "Display brightness helper";
+  systemd.user = {
+    services.displayBrightness = {
+      Unit = {
+        Description = "Display brightness helper";
+      };
+      Service = {
+        ExecStart = "${displayBrightness}/bin/displayBrightness auto";
+        Type = "oneshot";
+      };
     };
-    Service = {
-      ExecStart = "${displayBrightness}/bin/displayBrightness auto";
-      Type = "oneshot";
+    timers.displayBrightnessMax = lib.mkIf (config.myhome.display.brightness.maxTime != null) {
+      Unit.Description = "timer for displayBrightness service";
+      Timer = {
+        Unit = "displayBrightness.service";
+        OnCalendar = "*-*-* ${config.myhome.display.brightness.maxTime}:00";
+        Persistent = false;
+      };
+      Install.WantedBy = [ "timers.target" ];
+    };
+    timers.displayBrightnessMin = lib.mkIf (config.myhome.display.brightness.minTime != null) {
+      Unit.Description = "timer for displayBrightness service";
+      Timer = {
+        Unit = "displayBrightness.service";
+        OnCalendar = "*-*-* ${config.myhome.display.brightness.minTime}:00";
+        Persistent = false;
+      };
+      Install.WantedBy = [ "timers.target" ];
     };
   };
-
-  systemd.user.timers.displayBrightnessMax =
-    lib.mkIf (config.myhome.display.brightness.maxTime != null)
-      {
-
-        Unit.Description = "timer for displayBrightness service";
-        Timer = {
-          Unit = "displayBrightness.service";
-          OnCalendar = "*-*-* ${config.myhome.display.brightness.maxTime}:00";
-          Persistent = false;
-        };
-        Install.WantedBy = [ "timers.target" ];
-      };
-
-  systemd.user.timers.displayBrightnessMin =
-    lib.mkIf (config.myhome.display.brightness.minTime != null)
-      {
-        Unit.Description = "timer for displayBrightness service";
-        Timer = {
-          Unit = "displayBrightness.service";
-          OnCalendar = "*-*-* ${config.myhome.display.brightness.minTime}:00";
-          Persistent = false;
-        };
-        Install.WantedBy = [ "timers.target" ];
-      };
 
   home.packages = [
     displayBrightness

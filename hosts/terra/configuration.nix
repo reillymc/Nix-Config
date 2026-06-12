@@ -149,7 +149,7 @@ in
       "reilly" = import ./home.nix;
     };
   };
-  mynixos = mynixos;
+  inherit mynixos;
 
   environment.systemPackages = with pkgs; [
     inputs.agenix.packages."${system}".default

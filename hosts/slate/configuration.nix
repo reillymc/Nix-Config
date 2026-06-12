@@ -169,7 +169,7 @@ in
     };
   };
 
-  mynixos = mynixos;
+  inherit mynixos;
 
   environment.systemPackages = with pkgs; [
     nautilus

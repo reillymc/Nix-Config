@@ -155,8 +155,8 @@ in
     # Firefox profile definition
     programs.firefox.profiles.${app.id} = {
       id = base.mkProfileId app.id;
-      settings = settings;
-      userChrome = userChrome;
+      inherit settings;
+      inherit userChrome;
     };
 
     # XDG desktop entry definition

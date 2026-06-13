@@ -37,7 +37,14 @@ Secrets are encrypted using [agenix](https://github.com/ryantm/agenix). They are
 
 Edit a secret from the [secrets](./secrets) folder with `nix run github:ryantm/agenix -- -e $HOSTNAME/{secret}.age`
 
+## Development
+
+[statix](https://github.com/oppiliappan/statix) is used to lint the nix code in this project. Run with `nix run nixpkgs#statix check` or `nix run nixpkgs#statix fix`
+
 ## Tools
 
 - [nix-ld](https://github.com/nix-community/nix-ld): Run unpatched dynamic binaries on NixOS, [Guide](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/).
 
+## Tips
+
+- Run a program from an older nixpkgs version with e.g. `nix run github:NixOS/nixpkgs/nixos-25.11#ghostty` or `nix shell github:NixOS/nixpkgs/nixos-25.11#ghostty`

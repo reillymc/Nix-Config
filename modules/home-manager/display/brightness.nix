@@ -136,6 +136,7 @@ let
 
       logical_to_physical() {
         local logical="$1"
+        local physical
 
         (( logical <= 0 )) && {
           echo 0
@@ -147,12 +148,20 @@ let
           return
         }
 
-        awk \
+        physical=$(awk \
           -v v="$logical" \
           -v e="$BRIGHTNESS_EXPONENT" \
           'BEGIN {
             printf "%.0f\n", ((v / 100) ^ e) * 100
           }'
+        )
+
+        # Avoid the 1% backlight trap
+        if (( physical == 1 )); then
+          physical=2
+        fi
+
+        echo "$physical"
       }
 
       physical_to_logical() {
@@ -224,10 +233,11 @@ let
 
         case "$control" in
           brightnessctl)
-            brightnessctl \
-              --exponent="$BRIGHTNESS_EXPONENT" \
-              set "$value%" \
-              >/dev/null 2>&1
+            local physical
+
+            physical=$(logical_to_physical "$value")
+
+            brightnessctl set "$physical%"
             ;;
 
           ddcutil)
@@ -353,35 +363,40 @@ let
   };
 in
 {
-  systemd.user = {
-    services.displayBrightness = {
-      Unit = {
-        Description = "Display brightness helper";
-      };
-      Service = {
-        ExecStart = "${displayBrightness}/bin/displayBrightness auto";
-        Type = "oneshot";
-      };
+  systemd.user.services.displayBrightness = {
+    Unit = {
+      Description = "Display brightness helper";
     };
-    timers.displayBrightnessMax = lib.mkIf (config.myhome.display.brightness.maxTime != null) {
-      Unit.Description = "timer for displayBrightness service";
-      Timer = {
-        Unit = "displayBrightness.service";
-        OnCalendar = "*-*-* ${config.myhome.display.brightness.maxTime}:00";
-        Persistent = false;
-      };
-      Install.WantedBy = [ "timers.target" ];
-    };
-    timers.displayBrightnessMin = lib.mkIf (config.myhome.display.brightness.minTime != null) {
-      Unit.Description = "timer for displayBrightness service";
-      Timer = {
-        Unit = "displayBrightness.service";
-        OnCalendar = "*-*-* ${config.myhome.display.brightness.minTime}:00";
-        Persistent = false;
-      };
-      Install.WantedBy = [ "timers.target" ];
+    Service = {
+      ExecStart = "${displayBrightness}/bin/displayBrightness auto";
+      Type = "oneshot";
     };
   };
+
+  systemd.user.timers.displayBrightnessMax =
+    lib.mkIf (config.myhome.display.brightness.maxTime != null)
+      {
+
+        Unit.Description = "timer for displayBrightness service";
+        Timer = {
+          Unit = "displayBrightness.service";
+          OnCalendar = "*-*-* ${config.myhome.display.brightness.maxTime}:00";
+          Persistent = false;
+        };
+        Install.WantedBy = [ "timers.target" ];
+      };
+
+  systemd.user.timers.displayBrightnessMin =
+    lib.mkIf (config.myhome.display.brightness.minTime != null)
+      {
+        Unit.Description = "timer for displayBrightness service";
+        Timer = {
+          Unit = "displayBrightness.service";
+          OnCalendar = "*-*-* ${config.myhome.display.brightness.minTime}:00";
+          Persistent = false;
+        };
+        Install.WantedBy = [ "timers.target" ];
+      };
 
   home.packages = [
     displayBrightness

@@ -370,7 +370,7 @@ in
 
         layerrule = blur on,match:namespace logout_dialog
 
-        # layerrule = blur on,match:namespace waybar
+        layerrule = blur on,match:namespace waybar
         layerrule = ignore_alpha 0,match:namespace waybar
 
         # Ignore maximize requests from apps. You'll probably like this.

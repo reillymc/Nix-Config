@@ -2,6 +2,7 @@
   lib,
   mynixos,
   config,
+  configDir,
   ...
 }:
 let
@@ -82,10 +83,10 @@ in
       enable = true;
       gtk3.bookmarks = [
         "file://${config.xdg.userDirs.documents} Documents"
-        "file://${config.home.homeDirectory}/Downloads Downloads"
+        "file://${config.xdg.userDirs.download} Downloads"
         "file://${config.xdg.userDirs.music} Music"
         "file://${config.xdg.userDirs.pictures} Pictures"
-        "file://${config.home.homeDirectory}/Projects Projects"
+        "file://${config.xdg.userDirs.projects} Projects"
         "file://${config.home.homeDirectory}/Resources Resources"
         "file://${config.xdg.userDirs.videos} Videos"
       ];
@@ -97,5 +98,16 @@ in
       "Templates/Writer Document.odt".source = ../../../resources/templates/WriterDocument.odt;
       "Templates/Calc Spreadsheet.odt".source = ../../../resources/templates/CalcSpreadsheet.ods;
     };
+
+    home.file."Resources/.directory".text = ''
+      [Desktop Entry]
+      Type=Directory
+      Icon=${configDir}/resources/icons/folders/folder-shoe-box.svg
+    '';
+    home.file."Games/.directory".text = ''
+      [Desktop Entry]
+      Type=Directory
+      Icon=${configDir}/resources/icons/folders/folder-input-gaming.svg
+    '';
   };
 }

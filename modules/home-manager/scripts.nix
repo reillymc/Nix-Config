@@ -57,6 +57,27 @@ let
     '';
   };
 
+  system-test = pkgs.writeShellApplication {
+    name = "${hostname}-test";
+
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.nixos-rebuild
+    ];
+
+    text = ''
+      set -euo pipefail
+
+      ${determineThemeShell}
+
+      specialisation=$(determine_theme "''${1:-}")
+
+      sudo nixos-rebuild test \
+        --flake ${configDir}#${hostname} \
+        --specialisation "$specialisation"
+    '';
+  };
+
   system-update = pkgs.writeShellApplication {
     name = "${hostname}-update";
 
@@ -111,9 +132,10 @@ let
 in
 {
   home.packages = [
-    system-rebuild
-    system-update
     system-clean
+    system-rebuild
+    system-test
     system-theme
+    system-update
   ];
 }

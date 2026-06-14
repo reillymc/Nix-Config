@@ -56,43 +56,12 @@ let
     firefox --new-tab https://www.google.com/search?q="$(wl-paste --primary)"
   '';
 
-  launcher = pkgs.writeShellScriptBin "launcher" ''
-    monitorHeight=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[] | select(.focused == true) | .height')
-    targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
-    targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
-
-    pkill rofi || rofi -show drun -config ~/.config/rofi/config.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }"  '';
-
   clipboardManager = pkgs.writeShellScriptBin "clipboardManager" ''
     if hyprctl clients | grep -q "class: com.my.clipboard"; then
         hyprctl dispatch killwindow class:com.my.clipboard
     else
         ghostty --class=com.my.clipboard --confirm-close-surface=false --background=${theme.color.background0} --background-blur=false -e clipse &
     fi
-  '';
-
-  powerMenu = pkgs.writeShellScriptBin "powerMenu" ''
-    monitorHeight=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[] | select(.focused == true) | .height')
-    targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
-    targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
-
-
-    options="󰤄\n\n󰗽\n"
-    chosen=$(echo -e "$options" | rofi -dmenu -theme ~/.config/rofi/powermenu.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }")
-    case "$chosen" in
-      "󰤄")
-        systemctl suspend
-        ;;
-      "󰗽")
-        hyprctl dispatch exit
-        ;;
-      "")
-        systemctl reboot
-        ;;
-      "")
-        systemctl poweroff
-        ;;
-    esac
   '';
 
   heightRegular = "(monitor_h*${toString theme.size.popup.regular.height})";
@@ -147,7 +116,7 @@ in
         gesture = [
           "3, pinch, fullscreen, maximise"
           "3, swipe, scale: 1.25, resize"
-          "4, pinchin, dispatcher, exec, ${launcher}/bin/launcher"
+          "4, pinchin, dispatcher, exec, launcher"
           "4, pinchout, dispatcher, exec, pkill rofi || hyprctl dispatch killactive"
           "4, horizontal, workspace"
           "4, vertical, special, magic"
@@ -283,9 +252,9 @@ in
         bind = $mainMod ALT, F, fullscreenstate, -1 2
         bind = $mainMod, ESCAPE, exec, pidof hyprlock || hyprlock
         # bind = $mainMod, ESCAPE, exec, swaylock
-        bind = $mainMod CTRL, ESCAPE, exec, ${powerMenu}/bin/powerMenu
+        bind = $mainMod CTRL, ESCAPE, exec, powerMenu
 
-        bindr = $mainMod, SUPER_L, exec, ${launcher}/bin/launcher
+        bindr = $mainMod, SUPER_L, exec, launcher
 
         bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+
         bindel = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-
@@ -371,7 +340,8 @@ in
         layerrule = blur on,match:namespace logout_dialog
 
         layerrule = blur on,match:namespace waybar
-        layerrule = ignore_alpha 0,match:namespace waybar
+        layerrule = ignore_alpha 0.5,match:namespace waybar # Prevents jagged looking non anti-aliased curved borders
+        layerrule = blur_popups on, match:namespace waybar
 
         # Ignore maximize requests from apps. You'll probably like this.
         windowrule = suppress_event maximize, match:class .*

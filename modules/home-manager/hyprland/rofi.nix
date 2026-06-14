@@ -25,6 +25,38 @@ let
         background-color:            @background;
     }
   '';
+
+  launcher = pkgs.writeShellScriptBin "launcher" ''
+    monitorHeight=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[] | select(.focused == true) | .height')
+    targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
+    targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
+
+    pkill rofi || rofi -show drun -config ~/.config/rofi/config.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }"
+  '';
+
+  powerMenu = pkgs.writeShellScriptBin "powerMenu" ''
+    monitorHeight=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[] | select(.focused == true) | .height')
+    targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
+    targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
+
+
+    options="󰤄\n\n󰗽\n"
+    chosen=$(echo -e "$options" | rofi -dmenu -theme ~/.config/rofi/powermenu.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }")
+    case "$chosen" in
+      "󰤄")
+        systemctl suspend
+        ;;
+      "󰗽")
+        hyprctl dispatch exit
+        ;;
+      "")
+        systemctl reboot
+        ;;
+      "")
+        systemctl poweroff
+        ;;
+    esac
+  '';
 in
 {
   programs.rofi = {
@@ -309,4 +341,9 @@ in
         text-color: ${theme.color.background1};
     }
   '';
+
+  home.packages = [
+    launcher
+    powerMenu
+  ];
 }

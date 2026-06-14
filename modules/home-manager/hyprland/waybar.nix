@@ -50,7 +50,7 @@ in
       "custom/nix" = {
         format = "  ";
         tooltip = false;
-        on-click = "logoutMenu";
+        on-click = "powerMenu";
       };
       "hyprland/workspaces" = {
         format = "{name}";
@@ -218,7 +218,6 @@ in
       let
         nonUltrawideOverrides = map (monitor: ''
            window#waybar.${monitor.output} {
-            background-color: ${themeLib.asRGBA theme.color.background0 0.8};
             border-radius: ${themeLib.asPixels theme.radii.loose};
             padding-top: 12px;
           }
@@ -233,15 +232,19 @@ in
 
         nonUltrawideVars = map (monitor: ''
           @define-color foreground ${theme.color.foreground0};
+          @define-color background ${themeLib.asRGBA theme.color.background0 theme.opacity.overlay};
+          @define-color backgroundSoft  ${themeLib.asRGBA theme.color.background0 theme.opacity.elementHeavy};
         '') floatingVariantMonitors;
 
       in
       ''
-        @define-color foreground #fff;
+        @define-color foreground  ${theme.color.white};
+        @define-color background  ${theme.color.black};
+        @define-color backgroundSoft  ${themeLib.asRGBA theme.color.black theme.opacity.elementHeavy};
         ${builtins.concatStringsSep "\n" nonUltrawideVars}
 
         window#waybar {
-            background-color: ${theme.color.black};
+            background-color: @background;
             border-radius: 0;
 
             padding: 12px;
@@ -288,8 +291,9 @@ in
         }
 
         tooltip {
-            background-color: alpha(#000, 0.75);
-            border-radius: 16px;
+            background-color: @backgroundSoft;
+            border-radius: ${themeLib.asPixels theme.radii.loose};
+            border: none;
         }
 
         tooltip label {

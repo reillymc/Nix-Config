@@ -293,6 +293,7 @@
             "https://unpkg.com/" = true;
           };
           "chat.viewSessions.orientation" = "stacked";
+          "chat.disableAIFeatures" = true;
         };
         languageSnippets = {
           "typescriptreact" = {

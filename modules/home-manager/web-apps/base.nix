@@ -34,6 +34,15 @@ let
     "toolkit.legacyUserProfileCustomizations.windowIcon" = true;
     "browser.aboutConfig.showWarning" = false;
 
+    "browser.newtabpage.activity-stream.enabled" = false;
+    "browser.newtabpage.activity-stream.system.showSponsored" = false;
+    "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+    "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+    "browser.newtabpage.activity-stream.feeds.topsites" = false;
+    "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+    "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored" = false;
+    "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+
     # Preferences to force links that open in new tabs to open in new windows
     "browser.link.open_newwindow" = 2; # Open links in a new window
     "browser.link.open_newwindow.restriction" = 0; # No restrictions, force open in new window

@@ -1,8 +1,13 @@
 {
   lib,
   config,
+  hostname,
   ...
 }:
+let
+  schedule = config.mynixos.theme.schedule;
+  isScheduled = schedule.darkTime != null && schedule.lightTime != null;
+in
 {
   options.mynixos.theme.schedule = lib.mkOption {
     type = lib.types.submodule {
@@ -32,42 +37,34 @@
       home-manager.extraSpecialArgs.theme = "dark";
     };
 
-    systemd.services.switchToSystemDarkMode = {
-      description = "Switch system to dark mode";
+    systemd.services.activateDesiredSystemTheme = lib.mkIf isScheduled {
+      description = "Active the desired system theme based on current time";
       serviceConfig = {
-        ExecStart = "/nix/var/nix/profiles/system/specialisation/dark/bin/switch-to-configuration switch";
+        ExecStart = "/run/current-system/sw/bin/${hostname}-theme";
         Type = "oneshot";
       };
     };
 
-    systemd.services.switchToSystemLightMode = {
-      description = "Switch system to light mode";
-      serviceConfig = {
-        ExecStart = "/nix/var/nix/profiles/system/specialisation/light/bin/switch-to-configuration switch";
-        Type = "oneshot";
-      };
-    };
-
-    systemd.timers.switchToSystemDarkMode = lib.mkIf (config.mynixos.theme.schedule.darkTime != null) {
-      description = "Timer to switch to system dark mode configuration";
+    systemd.timers.activateDesiredSystemThemeOnSchedule = lib.mkIf isScheduled {
+      description = "Timer to trigger the automatic set theme script";
       wantedBy = [ "timers.target" ];
       timerConfig = {
-        Unit = "switchToSystemDarkMode.service";
-        OnCalendar = "*-*-* ${config.mynixos.theme.schedule.darkTime}:00";
+        Unit = "activateDesiredSystemTheme.service";
+        OnCalendar = [
+          "*-*-* ${schedule.darkTime}:01"
+          "*-*-* ${schedule.lightTime}:01"
+        ];
         Persistent = true;
       };
     };
 
-    systemd.timers.switchToSystemLightMode =
-      lib.mkIf (config.mynixos.theme.schedule.lightTime != null)
-        {
-          description = "Timer to switch to system light mode configuration";
-          wantedBy = [ "timers.target" ];
-          timerConfig = {
-            Unit = "switchToSystemLightMode.service";
-            OnCalendar = "*-*-* ${config.mynixos.theme.schedule.lightTime}:00";
-            Persistent = true;
-          };
-        };
+    systemd.timers.activateDesiredSystemThemeOnBoot = lib.mkIf isScheduled {
+      description = "Timer to trigger the automatic set theme script";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        Unit = "activateDesiredSystemTheme.service";
+        OnBootSec = "0";
+      };
+    };
   };
 }

@@ -1,3 +1,4 @@
+# TODO: Revisit and move to post-quantum encryption
 let
   terra = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXCRi3vBJxt7KZ4+Cmnm0uUTJ54ytQGW1NdV1ESohf2";
   slate = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMBeSGweEbpPGa7t/HiftrnDTtJLEcs14I6jlannZo+L root@slate";

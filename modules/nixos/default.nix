@@ -13,12 +13,19 @@
     ./services
     ./theme.nix
     ./utilities
+    ./scripts.nix
   ];
 
   options.mynixos.myUnfreePackages = lib.mkOption {
     type = lib.types.listOf lib.types.str;
     default = [ ];
     description = "List of unfree package names to allow";
+  };
+
+  options.mynixos.configDir = lib.mkOption {
+    type = lib.types.path;
+    default = "/etx/nixos";
+    description = "Path to configuration location. Used for utility scripts and resources.";
   };
 
   config.nixpkgs.config.allowUnfreePredicate =

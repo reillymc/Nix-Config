@@ -2,7 +2,6 @@
   lib,
   pkgs,
   config,
-  configDir,
   ...
 }:
 let
@@ -10,7 +9,6 @@ let
     inherit
       lib
       pkgs
-      configDir
       config
       ;
   };
@@ -35,7 +33,6 @@ let
         config
         lib
         base
-        configDir
         ;
     }
   ) appModules;

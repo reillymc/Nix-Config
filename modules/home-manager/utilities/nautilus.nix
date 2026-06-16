@@ -2,7 +2,6 @@
   lib,
   mynixos,
   config,
-  configDir,
   ...
 }:
 let
@@ -102,12 +101,12 @@ in
     home.file."Resources/.directory".text = ''
       [Desktop Entry]
       Type=Directory
-      Icon=${configDir}/resources/icons/folders/folder-shoe-box.svg
+      Icon=${mynixos.configDir}/resources/icons/folders/folder-shoe-box.svg
     '';
     home.file."Games/.directory".text = ''
       [Desktop Entry]
       Type=Directory
-      Icon=${configDir}/resources/icons/folders/folder-input-gaming.svg
+      Icon=${mynixos.configDir}/resources/icons/folders/folder-input-gaming.svg
     '';
   };
 }

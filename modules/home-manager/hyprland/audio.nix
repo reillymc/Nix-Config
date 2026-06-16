@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  configDir,
+  mynixos,
   ...
 }:
 
@@ -37,7 +37,7 @@ let
     text = ''
       set -euo pipefail
 
-      SOUND="${configDir}/resources/sounds/audioOutputToggle.ogg"
+      SOUND="${mynixos.configDir}/resources/sounds/audioOutputToggle.ogg"
 
       AUDIO_DEVICES=(
       ${lib.concatStringsSep "\n" (map (d: ''"${d}"'') (config.myhome.audio.devices or [ ]))}

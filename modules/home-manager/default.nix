@@ -6,7 +6,6 @@
     ./options/audio
     ./options/display
     ./options/unfree-packages.nix
-    ./scripts.nix
     ./utilities
     ./web-apps
   ];

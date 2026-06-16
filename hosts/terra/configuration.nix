@@ -26,6 +26,7 @@ let
       lightTime = "07:00";
       darkTime = "19:00";
     };
+    configDir = "/home/reilly/Projects/Nix-Config";
 
     # Unfree packages that need to be allowed
     myUnfreePackages = [
@@ -143,7 +144,7 @@ in
     extraSpecialArgs = {
       inherit inputs mynixos hostname;
       theme = "dark"; # Default, overridden by specialisations
-      configDir = "/home/reilly/Projects/Nix-Config";
+      configDir = mynixos.configDir; # allow overriding per user if required (e.g. vscode autocomplete)
     };
     users = {
       "reilly" = import ./home.nix;

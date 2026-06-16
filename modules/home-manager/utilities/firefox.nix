@@ -65,6 +65,7 @@
         };
       };
 
+      # TODO: transfer remaining imperative config here, including UI customisation, never save passwords etc
       settings = {
         "browser.aboutConfig.showWarning" = false;
         "browser.startup.page" = 3;

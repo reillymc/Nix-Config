@@ -20,7 +20,6 @@
     services = {
       displayManager.defaultSession = "hyprland-uwsm";
       gnome.core-apps.enable = true;
-      gnome.core-os-services.enable = true;
       gnome.sushi.enable = true;
     };
 
@@ -51,13 +50,16 @@
     xdg.portal = {
       enable = true;
       config = {
-        common.default = "*";
         hyprland = {
-          "org.freedesktop.impl.portal.FileChooser" = "nautilus";
-          default = [ "gtk" ]; # Standard fallback for other portals
+          "org.freedesktop.impl.portal.FileChooser" = "nautilus"; # TODO: currently this causes a ~10-20s delay when starting/restarting xdg-desktop-portal.
+          default = [
+            "hyprland"
+            "gtk"
+          ];
         };
       };
       extraPortals = with pkgs; [
+        xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
       ];
     };

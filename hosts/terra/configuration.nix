@@ -176,7 +176,7 @@ in
     nil
   ];
 
-  services.logind.settings.Login.HandlePowerKey = "suspend";
+  services.logind.settings.Login.HandlePowerKey = "lock";
 
   services.udev.extraRules = ''
     # Disable wake from suspend for Logitech MX Master receiver (idVendor=046d, idProduct=c548)

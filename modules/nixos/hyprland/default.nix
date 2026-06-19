@@ -19,6 +19,7 @@
 
     services = {
       displayManager.defaultSession = "hyprland-uwsm";
+      gnome.core-os-services.enable = true;
       gnome.core-apps.enable = true;
       gnome.sushi.enable = true;
     };

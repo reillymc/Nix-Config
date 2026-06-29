@@ -51,3 +51,4 @@ When actively iterating, use `{hostname}-test` command to rebuild and activate w
 
 - Run a program from an older nixpkgs version with e.g. `nix run github:NixOS/nixpkgs/nixos-25.11#ghostty` or `nix shell github:NixOS/nixpkgs/nixos-25.11#ghostty`
 - It is possible to build a VM from a host flake on the current or other machine for testing, e.g. `sudo nixos-rebuild build-vm --flake ./Projects/Nix-Config/#example`;
+- Launch gnome settings from any DE `nix-shell -p gnome-control-center.out --run 'XDG_CURRENT_DESKTOP="gnome" gnome-control-center'`

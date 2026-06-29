@@ -6,8 +6,8 @@
     ./options/audio
     ./options/display
     ./options/unfree-packages.nix
+    ./firefox
     ./utilities
-    ./web-apps
   ];
 
   config = {

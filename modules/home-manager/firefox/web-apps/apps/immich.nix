@@ -6,12 +6,14 @@
 }:
 let
   base = import ../base.nix { inherit lib config pkgs; };
+  prefs = import ../../prefs;
+  userChrome = import ../../user-chrome;
 
   app = {
-    id = "messenger";
-    name = "Messenger";
-    url = "https://www.messenger.com";
-    icon = "messenger.svg";
+    id = "immich";
+    name = "Immich";
+    url = "https://immich.homelab.reillymc.com/";
+    icon = "immich.svg";
   };
 in
 {
@@ -23,8 +25,8 @@ in
     # Firefox profile definition
     programs.firefox.profiles.${app.id} = {
       id = base.mkProfileId app.id;
-      settings = base.webAppSettings;
-      userChrome = base.userChromeMinimal;
+      settings = prefs.webApp;
+      userChrome = userChrome.webAppSingleMinimal;
     };
 
     # XDG desktop entry definition

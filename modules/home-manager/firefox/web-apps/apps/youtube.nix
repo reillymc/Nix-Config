@@ -6,6 +6,7 @@
 }:
 let
   base = import ../base.nix { inherit lib config pkgs; };
+  prefs = import ../../prefs;
 
   app = {
     id = "youtube";
@@ -138,7 +139,7 @@ let
     }
   '';
 
-  settings = base.webAppSettings // {
+  settings = prefs.webApp // {
     "browser.theme.content-theme" = 0;
     "browser.theme.toolbar-theme" = 0;
     "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";

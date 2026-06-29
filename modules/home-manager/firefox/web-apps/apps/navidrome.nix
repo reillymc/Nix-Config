@@ -6,6 +6,8 @@
 }:
 let
   base = import ../base.nix { inherit lib config pkgs; };
+  prefs = import ../../prefs;
+  userChrome = import ../../user-chrome;
 
   app = {
     id = "navidrome";
@@ -23,8 +25,8 @@ in
     # Firefox profile definition
     programs.firefox.profiles.${app.id} = {
       id = base.mkProfileId app.id;
-      settings = base.webAppSettings;
-      userChrome = base.userChromeMinimal;
+      settings = prefs.webApp;
+      userChrome = userChrome.webAppSingleMinimal;
     };
 
     # XDG desktop entry definition

@@ -3,6 +3,9 @@
   config,
   ...
 }:
+let
+  prefs = import ./prefs;
+in
 {
   programs.firefox = {
     enable = true;
@@ -65,64 +68,7 @@
         };
       };
 
-      # TODO: transfer remaining imperative config here, including UI customisation, never save passwords etc
-      settings = {
-        "browser.aboutConfig.showWarning" = false;
-        "browser.startup.page" = 3;
-        "sidebar.verticalTabs" = true;
-        "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
-        "browser.toolbars.bookmarks.visibility" = "never";
-        "browser.uiCustomization.state" = {
-          placements = {
-            "widget-overflow-fixed-list" = [ ];
-
-            "unified-extensions-area" = [ ];
-
-            "nav-bar" = [
-              "sidebar-button"
-              "back-button"
-              "forward-button"
-              "stop-reload-button"
-              "customizableui-special-spring1"
-              "vertical-spacer"
-              "urlbar-container"
-              "customizableui-special-spring2"
-              "personal-bookmarks"
-              "downloads-button"
-              "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
-              "ublock0_raymondhill_net-browser-action"
-              "offline-qr-code_rugk_github_io-browser-action"
-              "unified-extensions-button"
-            ];
-
-            "toolbar-menubar" = [ "menubar-items" ];
-            "TabsToolbar" = [ ];
-            "vertical-tabs" = [ "tabbrowser-tabs" ];
-            "PersonalToolbar" = [ ];
-          };
-
-          seen = [
-            "developer-button"
-            "screenshot-button"
-            "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
-            "ublock0_raymondhill_net-browser-action"
-            "addon_darkreader_org-browser-action"
-            "offline-qr-code_rugk_github_io-browser-action"
-          ];
-
-          dirtyAreaCache = [
-            "nav-bar"
-            "vertical-tabs"
-            "PersonalToolbar"
-            "toolbar-menubar"
-            "TabsToolbar"
-            "unified-extensions-area"
-          ];
-
-          currentVersion = 23;
-          newElementCount = 4;
-        };
-      };
+      settings = prefs.default;
     };
 
     # Check about:policies#documentation for options.
@@ -177,6 +123,12 @@
       };
       SearchSuggestEnabled = false;
 
+      Preferences = {
+        "media.videocontrols.picture-in-picture.video-toggle.enabled" = {
+          Value = false;
+          Status = "default";
+        };
+      };
     };
   };
 }

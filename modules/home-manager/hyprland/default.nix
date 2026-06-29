@@ -453,6 +453,11 @@ in
             # animate_manual_resizes = true
         }
 
+        ecosystem {
+          no_update_news = true
+          no_donation_nag = true
+        }
+
         group {
             groupbar {
                 font_weight_active = bold

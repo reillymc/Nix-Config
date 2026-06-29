@@ -7,6 +7,7 @@
     default = [
       "Extension: (Bitwarden Password Manager) - — Mozilla Firefox"
       "Extension: (Bitwarden Password Manager) - Bitwarden — Default — Mozilla Firefox"
+      "Pay with PayPal — Default — Mozilla Firefox:"
     ];
   };
 }

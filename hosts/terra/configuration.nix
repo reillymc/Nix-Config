@@ -139,6 +139,10 @@ in
         "wheel"
       ];
     };
+    guest = {
+      isNormalUser = true;
+      createHome = true;
+    };
   };
 
   home-manager = {
@@ -151,6 +155,7 @@ in
     };
     users = {
       "reilly" = import ./home/reilly.nix;
+      "guest" = import ./home/guest.nix;
     };
   };
   inherit mynixos;

@@ -51,8 +51,8 @@ in
       timerConfig = {
         Unit = "activateDesiredSystemTheme.service";
         OnCalendar = [
-          "*-*-* ${schedule.darkTime}:01"
-          "*-*-* ${schedule.lightTime}:01"
+          "*-*-* ${schedule.darkTime}:00"
+          "*-*-* ${schedule.lightTime}:00"
         ];
         Persistent = true;
       };

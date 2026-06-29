@@ -27,7 +27,7 @@ let
       start=$((10#$start))
       end=$((10#$end))
 
-      if (( current >= start && current <= end )); then
+      if (( current >= start && current < end )); then
         echo light
       else
         echo dark

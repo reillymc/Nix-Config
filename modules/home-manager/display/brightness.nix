@@ -361,6 +361,9 @@ let
       fi
     '';
   };
+
+  schedule = config.myhome.display.brightness;
+  isScheduled = schedule.maxTime != null && schedule.minTime != null;
 in
 {
   systemd.user.services.displayBrightness = {
@@ -373,30 +376,19 @@ in
     };
   };
 
-  systemd.user.timers.displayBrightnessMax =
-    lib.mkIf (config.myhome.display.brightness.maxTime != null)
-      {
+  systemd.user.timers.displayBrightnessMax = lib.mkIf isScheduled {
 
-        Unit.Description = "timer for displayBrightness service";
-        Timer = {
-          Unit = "displayBrightness.service";
-          OnCalendar = "*-*-* ${config.myhome.display.brightness.maxTime}:00";
-          Persistent = false;
-        };
-        Install.WantedBy = [ "timers.target" ];
-      };
-
-  systemd.user.timers.displayBrightnessMin =
-    lib.mkIf (config.myhome.display.brightness.minTime != null)
-      {
-        Unit.Description = "timer for displayBrightness service";
-        Timer = {
-          Unit = "displayBrightness.service";
-          OnCalendar = "*-*-* ${config.myhome.display.brightness.minTime}:00";
-          Persistent = false;
-        };
-        Install.WantedBy = [ "timers.target" ];
-      };
+    Unit.Description = "timer for displayBrightness service";
+    Timer = {
+      Unit = "displayBrightness.service";
+      OnCalendar = [
+        "*-*-* ${config.myhome.display.brightness.maxTime}:00"
+        "*-*-* ${config.myhome.display.brightness.minTime}:00"
+      ];
+      Persistent = true;
+    };
+    Install.WantedBy = [ "timers.target" ];
+  };
 
   home.packages = [
     displayBrightness

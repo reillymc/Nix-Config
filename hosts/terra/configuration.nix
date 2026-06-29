@@ -170,8 +170,11 @@ in
   services.logind.settings.Login.HandlePowerKey = "lock";
 
   services.udev.extraRules = ''
-    # Disable wake from suspend for Logitech MX Master receiver (idVendor=046d, idProduct=c548)
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", ATTR{power/wakeup}="disabled"
+    # Disable wakeup for all USB devices
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
+
+    # Re-enable NuPhy receiver
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="19f5", ATTR{idProduct}=="3247", ATTR{power/wakeup}="enabled"
 
     # Create stable symlinks for GPU cards so AQ_DRM_DEVICES can reference them
     # Integrated GPU (Granite Ridge) -> /dev/dri/amd-igpu

@@ -128,14 +128,17 @@ in
   services.flatpak.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.reilly = {
-    isNormalUser = true;
-    description = "Reilly MacKenzie-Cree";
-    extraGroups = [
-      "networkmanager"
-      "docker" # TODO: manage within docker module
-      "wheel"
-    ];
+  users.users = {
+    reilly = {
+      isNormalUser = true;
+      createHome = true;
+      description = "Reilly MacKenzie-Cree";
+      extraGroups = [
+        "networkmanager"
+        "docker" # TODO: manage within docker module
+        "wheel"
+      ];
+    };
   };
 
   home-manager = {
@@ -147,32 +150,20 @@ in
       configDir = mynixos.configDir; # allow overriding per user if required (e.g. vscode autocomplete)
     };
     users = {
-      "reilly" = import ./home.nix;
+      "reilly" = import ./home/reilly.nix;
     };
   };
   inherit mynixos;
 
   environment.systemPackages = with pkgs; [
     inputs.agenix.packages."${system}".default
-    nautilus
     bluez
-    bruno
     papers
-    newsflash
-    picard
-    foliate
-    libreoffice
     vlc
-    obsidian
     pwvucontrol
     libnotify
     sshfs
-    proton-vpn
-    prismlauncher
     comma
-    rapidraw
-    opencode
-    gocryptfs
     nil
   ];
 

@@ -1,6 +1,4 @@
 {
-  pkgs,
-  theme,
   ...
 }:
 
@@ -66,14 +64,6 @@
     "bluez_output.94_DB_56_D5_A1_18.1" # Bluetooth Headphones
     "alsa_output.pci-0000_00_1f.3.hdmi-stereo" # Speaker via monitor
   ];
-
-  home.pointerCursor = {
-    gtk.enable = true;
-    hyprcursor.enable = true;
-    package = pkgs.bibata-cursors;
-    name = if theme == "light" then "Bibata-Modern-Classic" else "Bibata-Modern-Ice";
-    size = 16;
-  };
 
   programs.git = {
     settings = {

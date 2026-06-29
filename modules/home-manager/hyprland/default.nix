@@ -631,6 +631,14 @@ in
       adwaita-fonts
     ];
 
+    home.pointerCursor = {
+      gtk.enable = true;
+      hyprcursor.enable = true;
+      package = pkgs.bibata-cursors;
+      name = if theme == "light" then "Bibata-Modern-Classic" else "Bibata-Modern-Ice";
+      size = 16;
+    };
+
     dconf.settings."org/gnome/desktop/wm/preferences".button-layout = ":";
     dconf.settings."org/gnome/desktop/interface".gtk-enable-primary-paste = true;
 

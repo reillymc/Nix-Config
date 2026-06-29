@@ -5,12 +5,9 @@
 {
   imports = [
     ../../modules/home-manager
-  ];
+    ../../users/reilly.nix
 
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home.username = "reilly";
-  home.homeDirectory = "/home/reilly";
+  ];
 
   myhome.display = {
     monitors = [
@@ -64,24 +61,6 @@
     "bluez_output.94_DB_56_D5_A1_18.1" # Bluetooth Headphones
     "alsa_output.pci-0000_00_1f.3.hdmi-stereo" # Speaker via monitor
   ];
-
-  programs.git = {
-    settings = {
-      user = {
-        name = "reillymc";
-        email = "reilly@mackenzie-cree.net";
-      };
-      core = {
-        editor = "code --wait"; # Todo: make configurable
-      };
-      credential = {
-        helper = "store";
-      };
-      help = {
-        autocorrect = "prompt";
-      };
-    };
-  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

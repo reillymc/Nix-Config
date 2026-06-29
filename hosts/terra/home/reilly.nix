@@ -6,12 +6,8 @@
   imports = [
     ../../../modules/home-manager
     ./common.nix
+    ../../../users/reilly.nix
   ];
-
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home.username = "reilly";
-  home.homeDirectory = "/home/reilly";
 
   myhome.vscode.enable = true;
 
@@ -28,24 +24,6 @@
     whatsapp.enable = true;
   };
 
-  programs.git = {
-    settings = {
-      user = {
-        name = "reillymc";
-        email = "reilly@mackenzie-cree.net";
-      };
-      core = {
-        editor = "code --wait"; # Todo: make configurable
-      };
-      credential = {
-        helper = "store";
-      };
-      help = {
-        autocorrect = "prompt";
-      };
-    };
-  };
-
   programs.zed-editor.enable = true;
 
   home.packages = with pkgs; [
@@ -59,7 +37,6 @@
     rapidraw
     opencode
     gocryptfs
-
   ];
 
   # This value determines the Home Manager release that your configuration is

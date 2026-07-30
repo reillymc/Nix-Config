@@ -15,7 +15,7 @@
     enable = true;
     immich.enable = true;
     jellyfin.enable = true;
-    jellyseerr.enable = true;
+    seerr.enable = true;
     messenger.enable = true;
     navidrome.enable = true;
     paperless.enable = true;
@@ -37,6 +37,21 @@
     rapidraw
     opencode
     gocryptfs
+    lmstudio
+    (writeShellApplication {
+      name = "moveMusic";
+
+      runtimeInputs = [
+        pkgs.rsgain
+      ];
+
+      text = ''
+        set -euo pipefail
+
+        rsgain easy /home/reilly/Downloads/Music\ Queue -m MAX
+        scp -r /home/reilly/Downloads/Music\ Queue/* hupboard:/media/red/media/music/queue/ && rm -r ~/Downloads/Music\ Queue/*
+      '';
+    })
   ];
 
   # This value determines the Home Manager release that your configuration is

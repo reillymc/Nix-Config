@@ -293,7 +293,10 @@
             "https://unpkg.com/" = true;
           };
           "chat.viewSessions.orientation" = "stacked";
-          "chat.disableAIFeatures" = true;
+          "chat.disableAIFeatures" = false;
+          "github.copilot.enable" = {
+            "*" = false;
+          };
         };
         languageSnippets = {
           "typescriptreact" = {

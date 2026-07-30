@@ -10,7 +10,7 @@ let
   userChrome = import ../../user-chrome;
 
   app = {
-    id = "jellyseerr";
+    id = "seerr";
     name = "Seerr";
     url = "https://seerr.homelab.reillymc.com/";
     icon = "seerr.svg";

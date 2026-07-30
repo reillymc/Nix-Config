@@ -6,6 +6,11 @@ let
     "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
     "browser.newtabpage.activity-stream.feeds.topsites" = false;
     "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+
+    # Don't open firefox privacy notice tab on first launch
+    "browser.rights.3.shown" = true;
+    "browser.aboutwelcome.enabled" = false;
+    "trailhead.firstrun.didSeeAboutWelcome" = true;
   };
 
   # TODO: transfer remaining imperative config here, including UI customisation, never save passwords etc

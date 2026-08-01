@@ -49,7 +49,7 @@
     enable = true;
     immich.enable = true;
     jellyfin.enable = true;
-    jellyseerr.enable = true;
+    seerr.enable = true;
     messenger.enable = true;
     navidrome.enable = true;
     proton-mail.enable = true;

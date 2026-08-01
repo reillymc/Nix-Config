@@ -35,7 +35,7 @@ The following command can be used to update the docs with modified options `nix 
 
 Secrets are encrypted using [agenix](https://github.com/ryantm/agenix). They are encrypted with a system key, usually located at `/etc/ssh/ssh_host_ed25519_key.pub` and a user/admin key, usually `~/.ssh/id_ed25519.pub`.
 
-Edit a secret from the [secrets](./secrets) folder with `nix run github:ryantm/agenix -- -e $HOSTNAME/{secret}.age`
+Edit a secret from the [secrets](./secrets) folder with `agenix -e $HOSTNAME/{secret}.age`
 
 ## Development
 

@@ -125,6 +125,10 @@ in
 
   i18n.inputMethod.enable = false;
 
+  security.sudo.extraConfig = ''
+    Defaults lecture = never
+  '';
+
   security.polkit.enable = true;
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {

@@ -91,17 +91,18 @@ in
       "/var/lib/docker"
       "/var/lib/flatpak"
       "/var/lib/lxc"
+      "/var/lib/NetworkManager"
       "/var/lib/nixos"
-      "/var/lib/systemd/timers"
-      "/var/lib/systemd/random-seed"
       "/var/lib/systemd/rfkill"
+      "/var/lib/systemd/timers"
       "/var/lib/tailscale"
       "/var/log"
     ];
 
     files = [
-      "/etc/machine-id"
       "/etc/ly/save.txt" # Ly last uses session / user
+      "/etc/machine-id"
+      "/var/lib/systemd/random-seed"
     ];
   };
 

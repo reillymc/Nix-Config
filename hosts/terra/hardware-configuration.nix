@@ -42,13 +42,6 @@
     neededForBoot = true;
   };
 
-  fileSystems."/home" = {
-    device = "/persist/home";
-    fsType = "none";
-    options = [ "bind" ];
-    depends = [ "/persist" ];
-  };
-
   fileSystems."/nix" = {
     device = "/persist/nix";
     fsType = "none";

@@ -17,7 +17,8 @@ let
     "${mon.output}, ${mon.resolution}@${toString mon.refreshRate}, ${mon.position}, ${toString mon.scale}${bitdepthStr}"
   ) config.myhome.display.monitors;
 
-  wallpaperPath = if theme.mode == "light" then "~/.cache/wallpaper" else "~/.cache/wallpaper-dark";
+  wallpaperPath =
+    if theme.mode == "light" then "~/.local/share/wallpaper" else "~/.local/share/wallpaper-dark";
 
   wallpapers = map (mon: {
     monitor = mon.output;
@@ -101,6 +102,7 @@ in
 
         env = [
           "XCURSOR_SIZE,24"
+          "GTK_DECORATION_LAYOUT,:"
         ];
 
         input = {
@@ -616,7 +618,7 @@ in
       settings = {
         ipc = "on";
         splash = false;
-        preload = [ "~/.cache/wallpaper" ];
+        preload = [ "~/.local/share/wallpaper" ];
         wallpaper = wallpapers;
       };
     };

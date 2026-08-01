@@ -54,6 +54,75 @@
     })
   ];
 
+  home.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+      "Desktop"
+      "Documents"
+      "Downloads"
+      "Games"
+      "Music"
+      "Pictures"
+      "Projects"
+      "Public"
+      "Resources"
+      "Videos"
+      ".config/bruno"
+      ".config/Code"
+      ".config/goa-1.0"
+      ".config/kdeconnect"
+      ".config/libreoffice"
+      ".config/mozilla"
+      ".config/MusicBrainz"
+      ".config/news-flash"
+      ".config/obsidian"
+      ".config/spotify"
+      ".config/vlc"
+      ".config/zed"
+      ".expo"
+      {
+        directory = ".gnupg";
+        mode = "0700";
+      }
+      ".local/share"
+      ".local/state/news-flash"
+      ".local/state/nix"
+      ".local/state/showtime"
+      ".ollama"
+      {
+        directory = ".ssh";
+        mode = "0700";
+      }
+      ".steam"
+      ".var"
+      ".vscode-shared"
+    ];
+    files = [
+      ".git-credentials"
+      ".vscode/argv.json"
+      ".bash_history"
+      ".npmrc"
+    ];
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+
+    defaultApplications = {
+      "application/x-shellscript" = [ "dev.zed.Zed.desktop" ];
+      "application/zip" = [ "org.gnome.Nautilus.desktop" ];
+      "application/pdf" = [ "org.gnome.Papers.desktop" ];
+      "application/atom+xml" = [ "dev.zed.Zed.desktop" ];
+      "audio/mpeg" = [ "org.gnome.Decibels.desktop" ];
+      "application/sql" = [ "dev.zed.Zed.desktop" ];
+      "application/xml" = [ "dev.zed.Zed.desktop" ];
+      "video/quicktime" = [ "vlc.desktop" ];
+      "video/mp4" = [ "vlc.desktop" ];
+      "text/x-log" = [ "dev.zed.Zed.desktop" ];
+      "application/vnd.ms-publisher" = [ "dev.zed.Zed.desktop" ];
+    };
+  };
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.

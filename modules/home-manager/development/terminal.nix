@@ -19,6 +19,7 @@ in
           "performable:ctrl+t=new_tab"
           "performable:ctrl+w=close_tab"
         ];
+        cursor-click-to-move = false;
       };
     };
     bash = {

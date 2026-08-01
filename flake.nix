@@ -13,6 +13,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    impermanence = {
+      url = "github:nix-community/impermanence";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     docs = {
       url = "path:./docs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +31,7 @@
       # nixpkgs-unstable,
       home-manager,
       agenix,
+      impermanence,
       docs,
       ...
     }@inputs:
@@ -51,6 +57,7 @@
             ./hosts/${hostname}/configuration.nix
             home-manager.nixosModules.default
             agenix.nixosModules.default
+            impermanence.nixosModules.impermanence
           ];
         }
       );

@@ -82,6 +82,29 @@ in
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+      "/etc/ssh" # Retain keys used for agenix
+      "/var/lib/bluetooth"
+      "/var/lib/docker"
+      "/var/lib/flatpak"
+      "/var/lib/lxc"
+      "/var/lib/nixos"
+      "/var/lib/systemd/timers"
+      "/var/lib/systemd/random-seed"
+      "/var/lib/systemd/rfkill"
+      "/var/lib/tailscale"
+      "/var/log"
+    ];
+
+    files = [
+      "/etc/machine-id"
+      "/etc/ly/save.txt" # Ly last uses session / user
+    ];
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/London";
 

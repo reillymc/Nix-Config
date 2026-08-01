@@ -27,8 +27,33 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
+    device = "none";
+    fsType = "tmpfs";
+    options = [
+      "defaults"
+      "size=25%"
+      "mode=755"
+    ];
+  };
+
+  fileSystems."/persist" = {
     device = "/dev/disk/by-uuid/0969d392-315b-4d55-aa81-486b0bc68795";
     fsType = "ext4";
+    neededForBoot = true;
+  };
+
+  fileSystems."/home" = {
+    device = "/persist/home";
+    fsType = "none";
+    options = [ "bind" ];
+    depends = [ "/persist" ];
+  };
+
+  fileSystems."/nix" = {
+    device = "/persist/nix";
+    fsType = "none";
+    options = [ "bind" ];
+    depends = [ "/persist" ];
   };
 
   boot.initrd.luks.devices."luks-17f2f07a-3098-4667-9654-a27da215a484".device =

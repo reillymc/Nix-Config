@@ -128,20 +128,25 @@ in
   services.flatpak.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users = {
-    reilly = {
-      isNormalUser = true;
-      createHome = true;
-      description = "Reilly MacKenzie-Cree";
-      extraGroups = [
-        "networkmanager"
-        "docker" # TODO: manage within docker module
-        "wheel"
-      ];
-    };
-    guest = {
-      isNormalUser = true;
-      createHome = true;
+  users = {
+    mutableUsers = false;
+    users = {
+      reilly = {
+        isNormalUser = true;
+        createHome = true;
+        hashedPasswordFile = config.age.secrets."reilly/password".path;
+        description = "Reilly MacKenzie-Cree";
+        extraGroups = [
+          "networkmanager"
+          "docker" # TODO: manage within docker module
+          "wheel"
+        ];
+      };
+      guest = {
+        isNormalUser = true;
+        createHome = true;
+        hashedPasswordFile = config.age.secrets."guest/password".path;
+      };
     };
   };
 

@@ -1,6 +1,6 @@
 # TODO: Revisit and move to post-quantum encryption
 let
-  terra = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXCRi3vBJxt7KZ4+Cmnm0uUTJ54ytQGW1NdV1ESohf2";
+  terra = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXCRi3vBJxt7KZ4+Cmnm0uUTJ54ytQGW1NdV1ESohf2 root@terra";
   slate = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMBeSGweEbpPGa7t/HiftrnDTtJLEcs14I6jlannZo+L root@slate";
 
   systems = [
@@ -9,8 +9,12 @@ let
   ];
 
   reilly = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKy53djcTOJHEZ0EPXS2pMGrbRf45URABcm/VKSD18u8 reilly@systems";
+  # guest = "";
 
-  users = [ reilly ];
+  users = [
+    reilly
+    # guest
+  ];
 in
 {
   "terra/restic-backup/env.age".publicKeys = [
@@ -37,4 +41,12 @@ in
     slate
     reilly
   ];
+  "guest/password.age".publicKeys = [
+    # guest
+  ]
+  ++ systems;
+  "reilly/password.age".publicKeys = [
+    reilly
+  ]
+  ++ systems;
 }

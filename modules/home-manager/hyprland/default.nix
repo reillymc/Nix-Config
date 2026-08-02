@@ -195,6 +195,7 @@ in
         exec-once = uwsm app -- kdeconnectd
         exec-once = ${startup}/bin/startup
         exec-once = hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhy3.so"
+        exec-once = hyprland-popupify-handler
 
 
         # See https://wiki.hyprland.org/Configuring/Binds/
@@ -649,6 +650,7 @@ in
     systemd.user.services.switchToDarkCursor = {
       Unit = {
         Description = "Switch to dark cursor (hyprland)";
+        After = [ "wayland-session-waitenv.service" ];
       };
       Service = {
         ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Bibata-Modern-Ice 24";
@@ -676,7 +678,6 @@ in
     systemd.user.timers.switchToDarkCursor = lib.mkIf (mynixos.theme.schedule.darkTime != null) {
       Unit = {
         Description = "Timer to switch to dark cursor (hyprland)";
-        After = [ "wayland-session-waitenv.service" ];
       };
       Timer = {
         OnCalendar = "*-*-* ${mynixos.theme.schedule.darkTime}:00";

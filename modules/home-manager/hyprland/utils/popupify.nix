@@ -2,7 +2,6 @@
   lib,
   pkgs,
   config,
-  mynixos,
   ...
 }:
 let
@@ -63,23 +62,7 @@ let
   '';
 in
 {
-  systemd.user.services.hyprland-popupify-handler = lib.mkIf mynixos.hyprland.enable {
-    Unit = {
-      Description = "Hyprland Popupify Window Handler";
-
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-
-    Service = {
-      ExecStart = "${hyprland-popupify-handler}/bin/hyprland-popupify-handler";
-
-      Restart = "always";
-      RestartSec = 1;
-    };
-
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
+  home.packages = [
+    hyprland-popupify-handler
+  ];
 }

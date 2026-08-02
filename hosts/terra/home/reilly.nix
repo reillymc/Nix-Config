@@ -123,6 +123,48 @@
     };
   };
 
+  systemd.user.services.bluetooth-autoconnect = {
+    Unit = {
+      Description = "Auto-connect Bluetooth headphones";
+
+      Wants = [
+        "graphical-session.target"
+        "wireplumber.service"
+      ];
+
+      After = [
+        "graphical-session.target"
+        "wireplumber.service"
+      ];
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      Type = "oneshot";
+
+      ExecStart = pkgs.writeShellScript "bt-connect" ''
+        set -euo pipefail
+
+        # Trigger PipeWire/WirePlumber socket activation if needed.
+        ${pkgs.wireplumber}/bin/wpctl status >/dev/null 2>&1 || true
+
+        # Wait up to 15 seconds for WirePlumber.
+        for _ in $(seq 30); do
+          if systemctl --user is-active --quiet wireplumber.service; then
+            break
+          fi
+          sleep 0.5
+        done
+
+        echo "Attempting to connect headphones..."
+
+        exec ${pkgs.bluez}/bin/bluetoothctl connect 94:DB:56:D5:A1:18
+      '';
+    };
+  };
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.

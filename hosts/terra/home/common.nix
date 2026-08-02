@@ -1,4 +1,7 @@
 {
+  imports = [
+    ../../../modules/home-manager/audio/priority.nix
+  ];
   # Ensure Hyprland prefers the discrete GPU (amd-dGPU) but includes the
   # integrated GPU (amd-iGPU) as a fallback. These refer to the stable udev
   # symlinks we create in the system configuration.

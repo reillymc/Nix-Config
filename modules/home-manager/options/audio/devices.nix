@@ -8,6 +8,7 @@
           type = lib.types.listOf lib.types.str;
           description = ''
             A list of audio outputs that should be actively used by the system, e.g. in audio output cycle script.
+            Order determines device priority. E.g. first device will be default if connected, else second and so on.
             The device is listed by the PipeWire node name. This value can be found using `wpctl`:
 
             1. Run `wpctl status` and find desired device. Note the numeric id.

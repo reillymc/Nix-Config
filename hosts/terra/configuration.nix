@@ -74,8 +74,8 @@ in
 
   nix.settings.auto-optimise-store = true;
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+  # Disable as wifi is not required for current setup, only ethernet
+  networking.networkmanager.enable = false;
 
   hardware.bluetooth.enable = true;
   hardware.i2c.enable = true;

@@ -29,8 +29,26 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
+    device = "none";
+    fsType = "tmpfs";
+    options = [
+      "defaults"
+      "size=25%"
+      "mode=755"
+    ];
+  };
+
+  fileSystems."/persist" = {
     device = "/dev/disk/by-label/NIXOS_ROOT";
     fsType = "ext4";
+    neededForBoot = true;
+  };
+
+  fileSystems."/nix" = {
+    device = "/persist/nix";
+    fsType = "none";
+    options = [ "bind" ];
+    depends = [ "/persist" ];
   };
 
   fileSystems."/boot" = {

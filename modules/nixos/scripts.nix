@@ -7,10 +7,10 @@
 let
   determineThemeSpecialisation = ''
     determine_theme_specialisation() {
-      local arg="''${1:-}"
+      local requested_theme="''${1:-}"
 
-      if [[ "$arg" == light || "$arg" == dark ]]; then
-        echo "$arg"
+      if [[ "$requested_theme" == light || "$requested_theme" == dark ]]; then
+        echo "$requested_theme"
         return
       fi
 
@@ -35,8 +35,8 @@ let
     }
   '';
 
-  system-rebuild = pkgs.writeShellApplication {
-    name = "${hostname}-rebuild";
+  system-build = pkgs.writeShellApplication {
+    name = "${hostname}-build";
 
     runtimeInputs = [
       pkgs.coreutils
@@ -52,36 +52,30 @@ let
 
       ${determineThemeSpecialisation}
 
-      specialisation=$(determine_theme_specialisation "''${1:-}")
+      action="''${1:-test}"
 
-      nixos-rebuild switch \
-        --flake ${config.mynixos.configDir}#${hostname} \
-        --specialisation "$specialisation"
-    '';
-  };
+      case "$action" in
+        switch|test)
+          specialisation=$(determine_theme_specialisation "''${2:-}")
 
-  system-test = pkgs.writeShellApplication {
-    name = "${hostname}-test";
+          nixos-rebuild "$action" \
+            --flake ${config.mynixos.configDir}#${hostname} \
+            --specialisation "$specialisation"
+          ;;
+        boot)
+          if [[ -n "''${2:-}" ]]; then
+            echo "boot does not support theme specialisations." >&2
+            exit 1
+          fi
 
-    runtimeInputs = [
-      pkgs.coreutils
-      pkgs.nixos-rebuild
-    ];
-
-    text = ''
-      set -euo pipefail
-
-      if [[ "$EUID" -ne 0 ]]; then
-        exec sudo "$0" "$@"
-      fi
-
-      ${determineThemeSpecialisation}
-
-      specialisation=$(determine_theme_specialisation "''${1:-}")
-
-      nixos-rebuild test \
-        --flake ${config.mynixos.configDir}#${hostname} \
-        --specialisation "$specialisation"
+          nixos-rebuild boot \
+            --flake ${config.mynixos.configDir}#${hostname}
+          ;;
+        *)
+          echo "Usage: $0 [switch|test|boot] [light|dark]" >&2
+          exit 1
+          ;;
+      esac
     '';
   };
 
@@ -148,8 +142,7 @@ in
 {
   environment.systemPackages = [
     system-clean
-    system-rebuild
-    system-test
+    system-build
     system-theme
     system-update
   ];

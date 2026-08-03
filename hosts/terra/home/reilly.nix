@@ -54,8 +54,10 @@
     })
   ];
 
-  home.persistence."/persist" = {
+  home.persistence.main = {
+    persistentStoragePath = "/persist";
     hideMounts = true;
+    allowTrash = true;
     directories = [
       "Desktop"
       "Documents"
@@ -84,7 +86,16 @@
         directory = ".gnupg";
         mode = "0700";
       }
-      ".local/share"
+      ".local/share/com.github.johnfactotum.Foliate"
+      ".local/share/flatpak"
+      ".local/share/keyrings"
+      ".local/share/news-flash"
+      ".local/share/org.localsend.localsend_app"
+      ".local/share/PrismLauncher"
+      ".local/share/Steam"
+      ".local/share/Terraria"
+      ".local/share/Trash"
+      ".local/share/zed"
       ".local/state/news-flash"
       ".local/state/nix"
       ".local/state/showtime"
@@ -98,10 +109,12 @@
       ".vscode-shared"
     ];
     files = [
-      ".git-credentials"
-      ".vscode/argv.json"
       ".bash_history"
+      ".git-credentials"
+      ".local/share/wallpaper-dark"
+      ".local/share/wallpaper"
       ".npmrc"
+      ".vscode/argv.json"
     ];
   };
 

@@ -82,7 +82,8 @@ in
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  environment.persistence."/persist" = {
+  environment.persistence.main = {
+    persistentStoragePath = "/persist";
     hideMounts = true;
     directories = [
       "/etc/NetworkManager/system-connections"

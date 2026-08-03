@@ -25,6 +25,7 @@ let
       lightTime = "07:00";
       darkTime = "19:00";
     };
+    configDir = "/home/reilly/Projects/Nix-Config";
 
     # Unfree packages that need to be allowed
     myUnfreePackages = [
@@ -142,18 +143,21 @@ in
   services.fwupd.enable = true;
   services.flatpak.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.reilly = {
-    isNormalUser = true;
-    description = "Reilly MacKenzie-Cree";
-    createHome = true;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "input"
-      "docker"
-      "libvirtd"
-    ];
+  users = {
+    mutableUsers = false;
+    users.reilly = {
+      isNormalUser = true;
+      createHome = true;
+      hashedPasswordFile = config.age.secrets."reilly/password".path;
+      description = "Reilly MacKenzie-Cree";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "input"
+        "docker"
+        "libvirtd"
+      ];
+    };
   };
 
   home-manager = {
@@ -162,7 +166,7 @@ in
     extraSpecialArgs = {
       inherit inputs mynixos hostname;
       theme = "dark"; # Default, overridden by specialisations
-      configDir = "/home/reilly/Projects/Nix-Config";
+      configDir = mynixos.configDir; # allow overriding per user if required (e.g. vscode autocomplete)
     };
     users = {
       "reilly" = import ./home.nix;
@@ -172,6 +176,7 @@ in
   inherit mynixos;
 
   environment.systemPackages = with pkgs; [
+    inputs.agenix.packages."${system}".default
     nautilus
     bluez
     xdg-desktop-portal-gtk

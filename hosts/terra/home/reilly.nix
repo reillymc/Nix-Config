@@ -69,6 +69,7 @@
       "Public"
       "Resources"
       "Videos"
+      ".cache/rofi3.druncache"
       ".config/bruno"
       ".config/Code"
       ".config/goa-1.0"

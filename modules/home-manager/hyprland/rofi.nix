@@ -31,7 +31,7 @@ let
     targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
     targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
 
-    pkill rofi || rofi -show drun -config ~/.config/rofi/config.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }"
+    pkill rofi || rofi -show drun -drun-match-fields 'name' -config ~/.config/rofi/config.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }"
   '';
 
   powerMenu = pkgs.writeShellScriptBin "powerMenu" ''

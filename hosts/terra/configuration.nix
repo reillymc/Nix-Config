@@ -40,10 +40,9 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
     ../../modules/nixos/default.nix
+    ../../modules/nixos/common.nix
     ./secrets.nix
   ];
-
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   hardware.enableRedistributableFirmware = true;
 
@@ -65,14 +64,6 @@ in
 
   boot.initrd.luks.devices."luks-42d04de4-1b56-431b-b6e8-21277e8b3e94".device =
     "/dev/disk/by-uuid/42d04de4-1b56-431b-b6e8-21277e8b3e94";
-  networking.hostName = hostname;
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
-  nix.settings.auto-optimise-store = true;
 
   # Disable as wifi is not required for current setup, only ethernet
   networking.networkmanager.enable = false;
@@ -110,23 +101,6 @@ in
   # Set your time zone.
   time.timeZone = "Europe/London";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
-  };
-
-  i18n.inputMethod.enable = false;
-
   security.sudo.extraConfig = ''
     Defaults lecture = never
   '';
@@ -153,7 +127,6 @@ in
   };
 
   services.tailscale.enable = true;
-  services.fwupd.enable = true;
   services.flatpak.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -300,13 +273,6 @@ in
 
   programs.localsend.enable = true;
   programs.nix-index.enable = true;
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
-  nix.optimise.automatic = true;
 
   networking.firewall = {
     enable = true;

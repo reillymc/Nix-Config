@@ -14,9 +14,9 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
     ../../modules/nixos/default.nix
+    ../../modules/nixos/common.nix
   ];
 
-  networking.hostName = hostname;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

@@ -45,10 +45,9 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
     ../../modules/nixos/default.nix
+    ../../modules/nixos/common.nix
     ./secrets.nix
   ];
-
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   hardware.enableRedistributableFirmware = true;
 
@@ -77,15 +76,6 @@ in
   boot.loader.timeout = 1;
   systemd.network.wait-online.enable = false;
 
-  networking.hostName = hostname;
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
-  nix.settings.auto-optimise-store = true;
-
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -113,23 +103,6 @@ in
   # Set your time zone.
   time.timeZone = "Europe/London";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
-  };
-
-  i18n.inputMethod.enable = false;
-
   # Enable sound with pipewire.
   security.rtkit.enable = true;
   services.pipewire = {
@@ -140,7 +113,6 @@ in
   };
 
   services.tailscale.enable = true;
-  services.fwupd.enable = true;
   services.flatpak.enable = true;
 
   users = {
@@ -333,13 +305,6 @@ in
     MatchName=*Microsoft Surface 045E:09AF Touchpad*
     AttrPressureRange=1:0
   '';
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
-  nix.optimise.automatic = true;
 
   networking.firewall = {
     enable = true;

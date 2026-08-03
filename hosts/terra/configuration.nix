@@ -101,10 +101,6 @@ in
   # Set your time zone.
   time.timeZone = "Europe/London";
 
-  security.sudo.extraConfig = ''
-    Defaults lecture = never
-  '';
-
   security.polkit.enable = true;
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {

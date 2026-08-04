@@ -62,6 +62,26 @@
     "alsa_output.pci-0000_00_1f.3.hdmi-stereo" # Speaker via monitor
   ];
 
+  programs.zed-editor.enable = true;
+
+  xdg.mimeApps = {
+    enable = true;
+
+    defaultApplications = {
+      "application/x-shellscript" = [ "dev.zed.Zed.desktop" ];
+      "application/zip" = [ "org.gnome.Nautilus.desktop" ];
+      "application/pdf" = [ "org.gnome.Papers.desktop" ];
+      "application/atom+xml" = [ "dev.zed.Zed.desktop" ];
+      "audio/mpeg" = [ "org.gnome.Decibels.desktop" ];
+      "application/sql" = [ "dev.zed.Zed.desktop" ];
+      "application/xml" = [ "dev.zed.Zed.desktop" ];
+      "video/quicktime" = [ "vlc.desktop" ];
+      "video/mp4" = [ "vlc.desktop" ];
+      "text/x-log" = [ "dev.zed.Zed.desktop" ];
+      "application/vnd.ms-publisher" = [ "dev.zed.Zed.desktop" ];
+    };
+  };
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.

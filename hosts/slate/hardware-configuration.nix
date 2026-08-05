@@ -32,7 +32,6 @@
     device = "none";
     fsType = "tmpfs";
     options = [
-      "defaults"
       "size=25%"
       "mode=755"
     ];
@@ -61,8 +60,19 @@
   };
 
   fileSystems."/home" = {
+    device = "none";
+    fsType = "tmpfs";
+    options = [
+      "size=25%"
+      "mode=755"
+    ];
+    neededForBoot = true;
+  };
+
+  fileSystems."/persist/home" = {
     device = "/dev/disk/by-label/NIXOS_HOME";
     fsType = "ext4";
+    neededForBoot = true;
   };
 
   swapDevices = [

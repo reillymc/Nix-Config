@@ -64,6 +64,66 @@
 
   programs.zed-editor.enable = true;
 
+  home.persistence.main = {
+    persistentStoragePath = "/persist";
+    hideMounts = true;
+    allowTrash = true;
+    directories = [
+      "Desktop"
+      "Documents"
+      "Downloads"
+      "Games"
+      "Music"
+      "Pictures"
+      "Projects"
+      "Public"
+      "Resources"
+      "Videos"
+      ".cache/rofi3.druncache"
+      ".config/Code"
+      ".config/git/credentials"
+      ".config/goa-1.0"
+      ".config/kdeconnect"
+      ".config/libreoffice"
+      ".config/mozilla"
+      ".config/MusicBrainz"
+      ".config/news-flash"
+      ".config/obsidian"
+      ".config/spotify"
+      ".config/vlc"
+      ".config/zed"
+      ".expo"
+      {
+        directory = ".gnupg";
+        mode = "0700";
+      }
+      ".local/share/com.github.johnfactotum.Foliate"
+      ".local/share/flatpak"
+      ".local/share/keyrings"
+      ".local/share/news-flash"
+      ".local/share/org.localsend.localsend_app"
+      ".local/share/Steam"
+      ".local/share/Trash"
+      ".local/state/news-flash"
+      ".local/state/nix"
+      ".local/state/showtime"
+      {
+        directory = ".ssh";
+        mode = "0700";
+      }
+      ".steam"
+      ".var"
+      ".vscode-shared"
+    ];
+    files = [
+      ".bash_history"
+      ".local/share/wallpaper-dark"
+      ".local/share/wallpaper"
+      ".npmrc"
+      ".vscode/argv.json"
+    ];
+  };
+
   xdg.mimeApps = {
     enable = true;
 

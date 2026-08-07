@@ -178,17 +178,9 @@ in
     bluez
     xdg-desktop-portal-gtk
     papers
-    newsflash
-    picard
-    foliate
-    # libreoffice
     vlc
-    obsidian
     pwvucontrol
     libnotify
-    proton-vpn
-    stow # remove
-    adwaita-icon-theme # clean up etc
     libinput
     libinput-gestures
     iptsd

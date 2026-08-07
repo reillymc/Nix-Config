@@ -1,4 +1,5 @@
 {
+  pkgs,
   ...
 }:
 
@@ -60,6 +61,15 @@
   myhome.audio.devices = [
     "bluez_output.94_DB_56_D5_A1_18.1" # Bluetooth Headphones
     "alsa_output.pci-0000_00_1f.3.hdmi-stereo" # Speaker via monitor
+  ];
+
+  home.packages = with pkgs; [
+    newsflash
+    obsidian
+    picard
+    proton-vpn
+    foliate
+    rapidraw
   ];
 
   programs.zed-editor.enable = true;
@@ -127,19 +137,35 @@
   xdg.mimeApps = {
     enable = true;
 
-    defaultApplications = {
-      "application/x-shellscript" = [ "dev.zed.Zed.desktop" ];
-      "application/zip" = [ "org.gnome.Nautilus.desktop" ];
-      "application/pdf" = [ "org.gnome.Papers.desktop" ];
-      "application/atom+xml" = [ "dev.zed.Zed.desktop" ];
-      "audio/mpeg" = [ "org.gnome.Decibels.desktop" ];
-      "application/sql" = [ "dev.zed.Zed.desktop" ];
-      "application/xml" = [ "dev.zed.Zed.desktop" ];
-      "video/quicktime" = [ "vlc.desktop" ];
-      "video/mp4" = [ "vlc.desktop" ];
-      "text/x-log" = [ "dev.zed.Zed.desktop" ];
-      "application/vnd.ms-publisher" = [ "dev.zed.Zed.desktop" ];
-    };
+    defaultApplications =
+      let
+        imageViewer = [ "org.gnome.Loupe.desktop" ];
+        textViewer = [ "dev.zed.Zed.desktop" ];
+        videoViewer = [ "vlc.desktop" ];
+        audioViewer = [ "org.gnome.Decibels.desktop" ];
+      in
+      {
+        "application/zip" = [ "org.gnome.Nautilus.desktop" ];
+        "application/pdf" = [ "org.gnome.Papers.desktop" ];
+        "application/atom+xml" = textViewer;
+        "application/x-shellscript" = textViewer;
+        "audio/mpeg" = audioViewer;
+        "application/sql" = textViewer;
+        "application/xml" = textViewer;
+        "video/quicktime" = videoViewer;
+        "video/mp4" = videoViewer;
+        "text/x-log" = textViewer;
+        "application/vnd.ms-publisher" = textViewer;
+        "image/jpeg" = imageViewer;
+        "image/jpg" = imageViewer;
+        "image/png" = imageViewer;
+        "image/gif" = imageViewer;
+        "image/webp" = imageViewer;
+        "image/avif" = imageViewer;
+        "image/heic" = imageViewer;
+        "image/heif" = imageViewer;
+        "image/tiff" = imageViewer;
+      };
   };
 
   # This value determines the Home Manager release that your configuration is

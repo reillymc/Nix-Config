@@ -35,7 +35,8 @@ The following command can be used to update the docs with modified options `nix 
 
 Secrets are encrypted using [agenix](https://github.com/ryantm/agenix). They are encrypted with a system key, usually located at `/etc/ssh/ssh_host_ed25519_key.pub` and a user/admin key, usually `~/.ssh/id_ed25519.pub`.
 
-Edit a secret from the [secrets](./secrets) folder with `agenix -e $HOSTNAME/{secret}.age`
+Edit a user secret from the [secrets](./secrets) folder with `agenix -e $HOSTNAME/{secret}.age`
+Edit a system secret from the [secrets](./secrets) folder with `sudo EDITOR=nano agenix -e  $HOSTNAME/{secret}.age -i /etc/ssh/ssh_host_ed25519_key`
 
 ## Development
 
@@ -47,8 +48,11 @@ When actively iterating, use `{hostname}-test` command to rebuild and activate w
 
 - [nix-ld](https://github.com/nix-community/nix-ld): Run unpatched dynamic binaries on NixOS, [Guide](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/).
 
+- [vulnix](https://github.com/nix-community/vulnix): Vulnerability (CVE) scanner for Nix/NixOS.
+
 ## Tips
 
 - Run a program from an older nixpkgs version with e.g. `nix run github:NixOS/nixpkgs/nixos-25.11#ghostty` or `nix shell github:NixOS/nixpkgs/nixos-25.11#ghostty`
 - It is possible to build a VM from a host flake on the current or other machine for testing, e.g. `sudo nixos-rebuild build-vm --flake ./Projects/Nix-Config/#example`;
 - Launch gnome settings from any DE `nix-shell -p gnome-control-center.out --run 'XDG_CURRENT_DESKTOP="gnome" gnome-control-center'`
+- Check difference between persisted file system and current root: `sudo fd --one-file-system --base-directory / --type f --hidden --exclude "{tmp,etc/passwd}"`

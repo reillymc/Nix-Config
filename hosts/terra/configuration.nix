@@ -286,9 +286,14 @@ in
     checkReversePath = false; # Currently required for proton vpn to work
   };
 
-  services.ollama = {
+  services.llama-cpp = {
     enable = true;
-    package = pkgs.ollama-vulkan;
+    package = pkgs.llama-cpp.override {
+      cudaSupport = false;
+      rocmSupport = true;
+      metalSupport = false;
+      blasSupport = true;
+    };
   };
 
   # This value determines the NixOS release from which the default

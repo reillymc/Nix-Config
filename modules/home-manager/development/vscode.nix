@@ -152,6 +152,10 @@
             "command" = "workbench.action.terminal.paste";
             "when" = "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported";
           }
+          {
+            "key" = "ctrl+m";
+            "command" = "-editor.action.toggleTabFocusMode";
+          }
         ];
         userSettings = {
           "accessibility.signalOptions.volume" = 0;
@@ -297,6 +301,8 @@
           "github.copilot.enable" = {
             "*" = false;
           };
+          "gitlens.ai.model" = "vscode"; # Another auto-added option
+
         };
         languageSnippets = {
           "typescriptreact" = {

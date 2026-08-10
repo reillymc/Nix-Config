@@ -89,8 +89,10 @@
       }
       ".local/share/com.github.johnfactotum.Foliate"
       ".local/share/flatpak"
+      ".local/share/io.github.CyberTimon.RapidRAW"
       ".local/share/keyrings"
       ".local/share/news-flash"
+      ".local/share/opencode" # TODO: move to declarative setup in dev vm (possibly still need to retain history)
       ".local/share/org.localsend.localsend_app"
       ".local/share/PrismLauncher"
       ".local/share/Steam"

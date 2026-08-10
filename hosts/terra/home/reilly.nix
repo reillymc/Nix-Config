@@ -37,7 +37,6 @@
     rapidraw
     opencode
     gocryptfs
-    lmstudio
     (writeShellApplication {
       name = "moveMusic";
 

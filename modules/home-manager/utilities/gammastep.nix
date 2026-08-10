@@ -21,7 +21,7 @@ in
       )
       {
         enable = true;
-        tray = true;
+        tray = false;
         temperature = {
           day = 6500;
           night = 3200;

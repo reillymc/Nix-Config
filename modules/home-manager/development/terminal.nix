@@ -20,6 +20,8 @@ in
           "performable:ctrl+w=close_tab"
         ];
         cursor-click-to-move = false;
+        selection-clear-on-copy = true;
+        shell-integration = "detect";
       };
     };
     bash = {

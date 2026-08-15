@@ -5,5 +5,24 @@
         "pkgs",
         "Ultrawide",
         "waybar"
-    ]
+    ],
+    "nix.enableLanguageServer": true,
+    "nix.serverPath": "nixd",
+    "nix.serverSettings": {
+        "nixd": {
+            "formatting": {
+                "command": [
+                    "nixfmt"
+                ]
+            },
+            "options": {
+                "nixos": {
+                    "expr": "let f = builtins.getFlake \"${workspaceFolder}\"; in f.nixosConfigurations.${builtins.head (builtins.attrNames f.nixosConfigurations)}.options"
+                },
+                "home-manager": {
+                    "expr": "let f = builtins.getFlake \"${workspaceFolder}\"; c = f.nixosConfigurations.${builtins.head (builtins.attrNames f.nixosConfigurations)}; in c.options.home-manager.users.type.getSubOptions []"
+                }
+            }
+        }
+    }
 }

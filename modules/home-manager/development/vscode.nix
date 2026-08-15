@@ -15,6 +15,7 @@
     myhome.myUnfreePackages = [
       "vscode"
       "vscode-extension-ms-vscode-remote-remote-containers"
+      "vscode-extension-ms-vscode-remote-remote-ssh"
     ];
 
     programs.vscode = {
@@ -27,6 +28,7 @@
           eamodio.gitlens
           streetsidesoftware.code-spell-checker
           vscode-icons-team.vscode-icons
+          ms-vscode-remote.remote-ssh
         ];
         keybindings = [
           {
@@ -281,7 +283,11 @@
           "dev.containers.defaultExtensions" = [
             "eamodio.gitlens"
             "streetsidesoftware.code-spell-checker"
-            "google.geminicodeassist"
+          ];
+          "remote.SSH.defaultExtensions" = [
+            "eamodio.gitlens"
+            "streetsidesoftware.code-spell-checker"
+            "jnoortheen.nix-ide"
           ];
           "editor.linkedEditing" = true;
           "editor.selectionClipboard" = false; # enabled middle click cursor (disables paste)
@@ -301,7 +307,6 @@
           "github.copilot.enable" = {
             "*" = false;
           };
-          "gitlens.ai.model" = "vscode"; # Another auto-added option
 
         };
         languageSnippets = {
@@ -345,5 +350,18 @@
       nixfmt
       nixd
     ];
+
+    xdg.desktopEntries."vscode-devvm" = {
+      name = "VSCode (devvm)";
+      comment = "Code on the devvm over Remote SSH";
+      exec = "code --remote ssh-remote+devvm";
+      icon = "vscode";
+      terminal = false;
+      categories = [
+        "Development"
+        "IDE"
+      ];
+      startupNotify = true;
+    };
   };
 }

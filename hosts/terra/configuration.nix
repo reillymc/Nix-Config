@@ -41,6 +41,8 @@ in
     inputs.home-manager.nixosModules.default
     ../../modules/nixos/default.nix
     ../../modules/nixos/common.nix
+    ../../modules/nixos/microvm/host.nix
+    ../../modules/nixos/microvm/microvm.nix
     ./secrets.nix
   ];
 
@@ -81,6 +83,7 @@ in
       "/etc/ssh" # Retain keys used for agenix
       "/var/lib/bluetooth"
       "/var/lib/docker"
+      "/var/lib/microvms"
       "/var/lib/flatpak"
       "/var/lib/lxc"
       "/var/lib/NetworkManager"

@@ -1,4 +1,18 @@
 {
+  lib,
+  ...
+}:
+
+let
+  devvmIp = "192.168.83.6";
+  devPorts = [ 3000 3001 8081 ];
+  fwd = port: {
+    sourcePort = port;
+    destination = "${devvmIp}:${toString port}";
+    proto = "tcp";
+  };
+in
+{
   systemd.network.enable = true;
   networking.useNetworkd = true; # todo move to machien cofnig?
 
@@ -24,14 +38,13 @@
     enable = true;
     internalInterfaces = [ "microbr" ];
     externalInterface = "enp14s0f3u1u2u1";
-    forwardPorts = [
-      { sourcePort = 3000; destination = "192.168.83.6:3000"; proto = "tcp"; }
-      { sourcePort = 3001; destination = "192.168.83.6:3001"; proto = "tcp"; }
-      { sourcePort = 3002; destination = "192.168.83.6:3002"; proto = "tcp"; }
-      { sourcePort = 8000; destination = "192.168.83.6:8000"; proto = "tcp"; }
-      { sourcePort = 8001; destination = "192.168.83.6:8001"; proto = "tcp"; }
-      { sourcePort = 8002; destination = "192.168.83.6:8002"; proto = "tcp"; }
-    ];
-  };
+    forwardPorts = map fwd devPorts;
 
+    # Forward the same dev ports when they arrive on terra's tailscale interface,
+    # so the devvm is reachable over the tailnet.
+    extraCommands = lib.concatMapStringsSep "\n" (port: ''
+      iptables -w -t nat -A nixos-nat-pre -i tailscale0 -p tcp --dport ${toString port} -j DNAT --to-destination ${devvmIp}:${toString port}
+      iptables -w -t filter -A nixos-filter-forward -i tailscale0 -p tcp --dport ${toString port} -j ACCEPT
+    '') devPorts;
+  };
 }

@@ -273,21 +273,7 @@ in
   programs.localsend.enable = true;
   programs.nix-index.enable = true;
 
-  networking.firewall = {
-    enable = true;
-    # Allow access to development ports over tailscale
-    interfaces."tailscale0".allowedTCPPortRanges = [
-      {
-        from = 8000;
-        to = 8002;
-      }
-      {
-        from = 3000;
-        to = 3002;
-      }
-    ];
-    checkReversePath = false; # Currently required for proton vpn to work
-  };
+  networking.firewall.checkReversePath = false; # Currently required for proton vpn to work
 
   services.llama-cpp = {
     enable = true;

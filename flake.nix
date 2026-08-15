@@ -18,6 +18,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     docs = {
       url = "path:./docs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,6 +36,7 @@
       home-manager,
       agenix,
       impermanence,
+      microvm,
       docs,
       ...
     }@inputs:
@@ -58,6 +63,7 @@
             home-manager.nixosModules.default
             agenix.nixosModules.default
             impermanence.nixosModules.impermanence
+            microvm.nixosModules.host
           ];
         }
       );

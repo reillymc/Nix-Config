@@ -3,6 +3,8 @@ let
   terra = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXCRi3vBJxt7KZ4+Cmnm0uUTJ54ytQGW1NdV1ESohf2 root@terra";
   slate = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMBeSGweEbpPGa7t/HiftrnDTtJLEcs14I6jlannZo+L root@slate";
 
+  devvm = "age19rg9q65dgfy0xrnwg8xhl4zkam76qklu4tz40ksrz55ukmeg7gvsk3l2w7";
+
   systems = [
     terra
     slate
@@ -49,4 +51,14 @@ in
     reilly
   ]
   ++ systems;
+
+  "devvm/age-identity.age".publicKeys = [
+    reilly
+  ]
+  ++ systems;
+
+  "devvm/opencode-go-api-key.age".publicKeys = [
+    devvm
+    reilly
+  ];
 }

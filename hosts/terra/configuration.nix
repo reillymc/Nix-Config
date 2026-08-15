@@ -167,7 +167,7 @@ in
   inherit mynixos;
 
   environment.systemPackages = with pkgs; [
-    inputs.agenix.packages."${system}".default
+    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
     bluez
     papers
     vlc

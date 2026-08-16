@@ -10,6 +10,7 @@
   ];
 
   myhome.vscode.enable = true;
+  myhome.ssh-devvm.enable = true;
 
   myhome.web-apps = {
     enable = true;
@@ -25,6 +26,47 @@
   };
 
   programs.zed-editor.enable = true;
+
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+
+    settings = {
+      "*" = {
+        ForwardAgent = false;
+        AddKeysToAgent = "no";
+        Compression = false;
+        ServerAliveInterval = 0;
+        ServerAliveCountMax = 3;
+        HashKnownHosts = false;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
+      };
+
+      silverserver = {
+        IdentityFile = "~/.ssh/silverserver";
+        User = "reilly";
+        HostName = "silverserver";
+      };
+
+      hupboard = {
+        IdentityFile = "~/.ssh/hupboard";
+        User = "reilly";
+        HostName = "hupboard.home";
+        SetEnv = {
+          TERM = "xterm-256color";
+        };
+      };
+
+      slate = {
+        IdentityFile = "~/.ssh/slate";
+        User = "reilly";
+        HostName = "slate";
+      };
+    };
+  };
 
   home.packages = with pkgs; [
     newsflash

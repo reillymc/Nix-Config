@@ -70,6 +70,10 @@
         ".local/share/opencode"
         ".local/state/opencode"
         ".vscode-server"
+        {
+          directory = ".ssh";
+          mode = "0700";
+        }
       ];
       files = [
         ".zsh_history"

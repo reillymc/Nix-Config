@@ -115,17 +115,26 @@ let
       # Cooldown
       # ----------------------------
       cooldown_check() {
-        local now_ts last_ts delta
+        local now_ts last_ts last_mode delta
 
         now_ts=$(date +%s)
 
         [[ -f "$STATE_FILE" ]] || return 0
 
-        read -r last_ts _ < "$STATE_FILE" || return 0
+        read -r last_ts last_mode < "$STATE_FILE" || return 0
         [[ -n "$last_ts" ]] || return 0
 
+        # Clock moved backwards (e.g. after resume); treat as not in cooldown.
         delta=$((now_ts - last_ts))
-        (( delta >= COOLDOWN_SECONDS ))
+        (( delta < 0 )) && return 0
+
+        # Cooldown expired; proceed.
+        (( delta >= COOLDOWN_SECONDS )) && return 0
+
+        # Within cooldown: skip only if a *different* transition is pending.
+        # The same transition still runs so we re-read current brightness,
+        # in case the user adjusted it manually in the meantime.
+        [[ "$last_mode" == "$1" ]]
       }
 
       save_state() {
@@ -210,7 +219,7 @@ let
           ddcutil)
             local line physical
 
-            line=$(ddcutil getvcp 10 --model "$model" 2>/dev/null) || return 1
+            line=$(ddcutil --skip-ddc-checks --sleep-multiplier 0.5 getvcp 10 --model "$model" 2>/dev/null) || return 1
 
             [[ "$line" =~ current\ value[[:space:]]*=[[:space:]]*([0-9]+) ]] || return 1
 
@@ -245,7 +254,7 @@ let
 
             physical=$(logical_to_physical "$value")
 
-            ddcutil setvcp 10 "$physical" \
+            ddcutil --skip-ddc-checks --sleep-multiplier 0.5 setvcp 10 "$physical" \
               --model "$model" \
               >/dev/null 2>&1
             ;;
@@ -339,7 +348,7 @@ let
 
       if [[ "$ACTION" == "auto" ]]; then
         ACTION=$(resolve_auto_action)
-        cooldown_check || exit 0
+        cooldown_check "$ACTION" || exit 0
       fi
 
       if ! current=$(get_reference_brightness); then
@@ -369,10 +378,15 @@ in
   systemd.user.services.displayBrightness = {
     Unit = {
       Description = "Display brightness helper";
+      StartLimitIntervalSec = "30s";
+      StartLimitBurst = 3;
     };
     Service = {
       ExecStart = "${displayBrightness}/bin/displayBrightness auto";
       Type = "oneshot";
+      Restart = "on-failure";
+      RestartSec = "10s";
+      TimeoutStartSec = "60s";
     };
   };
 

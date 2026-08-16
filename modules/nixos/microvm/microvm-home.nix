@@ -32,6 +32,19 @@
       '';
     };
 
+    programs.git = {
+      enable = true;
+      settings = {
+        user = {
+          name = "reillymc";
+          email = "dev@reillymc.com";
+        };
+        help = {
+          autocorrect = "prompt";
+        };
+      };
+    };
+
     programs.starship = {
       enable = true;
       settings = {

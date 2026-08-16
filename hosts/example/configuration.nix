@@ -1,6 +1,5 @@
 {
   inputs,
-  hostname,
   ...
 }:
 let
@@ -36,7 +35,7 @@ in
 
   home-manager = {
     extraSpecialArgs = {
-      inherit inputs mynixos hostname;
+      inherit inputs mynixos;
       theme = "dark";
       configDir = "<repo directory>";
     };

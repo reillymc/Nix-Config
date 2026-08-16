@@ -1,7 +1,6 @@
 {
   inputs,
   pkgs,
-  hostname,
   config,
   ...
 }:
@@ -161,7 +160,7 @@ in
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = {
-      inherit inputs mynixos hostname;
+      inherit inputs mynixos;
       theme = "dark"; # Default, overridden by specialisations
       configDir = mynixos.configDir; # allow overriding per user if required (e.g. vscode autocomplete)
     };

@@ -3,7 +3,6 @@
   lib,
   config,
   configDir,
-  hostname,
   ...
 }:
 {
@@ -249,13 +248,16 @@
               formatting = {
                 command = [ "nixfmt" ];
               };
-            };
-            "nixos" = {
-              "expr" = "(builtins.getFlake \"${configDir}/flake.nix\").nixosConfigurations.${hostname}.options"; # TODO: substitute active config name, and decouple hardcoded directory. This and instance below
-            };
-            "home-manager" = {
-              "expr" =
-                "(builtins.getFlake \"${configDir}/flake.nix\").nixosConfigurations.${hostname}.options.home-manager.users.type.getSubOptions []";
+              options = {
+                nixos = {
+                  "expr" =
+                    "let f = builtins.getFlake \"${configDir}\"; nixpkgs = f.inputs.nixpkgs; in (import (nixpkgs + \"/nixos/lib/eval-config.nix\") { system = \"x86_64-linux\"; modules = [ { _module.check = false; } \"${configDir}/modules/nixos\" ]; }).options";
+                };
+                "home-manager" = {
+                  "expr" =
+                    "let f = builtins.getFlake \"${configDir}\"; nixpkgs = f.inputs.nixpkgs; pkgs = import nixpkgs { system = \"x86_64-linux\"; }; hm = f.inputs.home-manager; extendedLib = import (hm + \"/modules/lib/stdlib-extended.nix\") nixpkgs.lib; hmModules = import (hm + \"/modules/modules.nix\") { inherit pkgs; lib = extendedLib; check = false; minimal = false; }; hmEval = extendedLib.evalModules { modules = [ { home.stateVersion = \"25.05\"; } \"${configDir}/modules/home-manager\" ] ++ hmModules; class = \"homeManager\"; specialArgs = { modulesPath = toString (hm + \"/modules\"); configDir = \"/fake/configDir\"; theme = \"dark\"; }; }; in hmEval.options";
+                };
+              };
             };
           };
           "remote.SSH.enableAgentForwarding" = true;

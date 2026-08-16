@@ -69,6 +69,15 @@
       settings = {
         "autoupdate" = false;
         provider."opencode-go".options.apiKey = "{file:/run/agenix/opencode-go/api-key}";
+        "default_agent" = "plan";
+        "agent" = {
+          "plan" = {
+            "color" = "primary";
+          };
+          "build" = {
+            "color" = "secondary";
+          };
+        };
       };
     };
 

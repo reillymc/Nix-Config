@@ -66,6 +66,7 @@ in
           tag = "host-keys";
           source = "/var/lib/devvm-keys";
           mountPoint = "/run/host-keys";
+          readOnly = true;
         }
       ];
 
@@ -92,6 +93,13 @@ in
 
       virtualisation.docker.enable = true;
 
+      # Dev ports forwarded from the host/tailnet (see host.nix devPorts).
+      networking.firewall.allowedTCPPorts = [
+        3000
+        3001
+        8081
+      ];
+
       programs.nix-ld.enable = true; # Required for vscode-server to work
       programs.zsh.enable = true; # Required for vscode-server to work
 
@@ -115,7 +123,6 @@ in
         }
       ];
       boot.kernel.sysctl."vm.swappiness" = 10;
-
     };
   };
 }

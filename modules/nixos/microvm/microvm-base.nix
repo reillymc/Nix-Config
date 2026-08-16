@@ -82,9 +82,10 @@ in
     "1.1.1.1"
   ];
 
-  # Disable firewall for faster boot and less hassle;
-  # we are behind a layer of NAT anyway.
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [
+    22
+  ];
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -112,14 +113,6 @@ in
       unitConfig.DefaultDependencies = false;
     }
   ];
-
-  # Use SSH host keys mounted from outside the VM (remain identical).
-  # services.openssh.hostKeys = [
-  #   {
-  #     path = "/etc/ssh/host-keys/ssh_host_ed25519_key";
-  #     type = "ed25519";
-  #   }
-  # ];
 
   microvm = {
     # Enable writable nix store overlay so nix-daemon works.

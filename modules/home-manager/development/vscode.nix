@@ -23,7 +23,6 @@
       profiles.default = {
         extensions = with pkgs.vscode-extensions; [
           ms-vscode-remote.remote-containers
-          ms-azuretools.vscode-containers
           jnoortheen.nix-ide
           eamodio.gitlens
           streetsidesoftware.code-spell-checker
@@ -201,7 +200,6 @@
           };
           "extensions.ignoreRecommendations" = true;
           "files.insertFinalNewline" = true;
-          "git.autofetch" = true;
           "git.confirmSync" = false;
           "git.decorations.enabled" = true;
           "git.enableSmartCommit" = true;
@@ -227,6 +225,7 @@
           "workbench.layoutControl.type" = "toggles";
           "workbench.secondarySideBar.defaultVisibility" = "hidden";
           "workbench.tree.enableStickyScroll" = true;
+          "workbench.browser.openLocalhostLinks" = false;
           "biome.suggestInstallingGlobally" = false;
           "cSpell.language" = "en-GB";
           "cSpell.userWords" = [

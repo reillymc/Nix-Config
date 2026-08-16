@@ -39,24 +39,13 @@
 
     environment.systemPackages = with pkgs; [
       kitty
-      nautilus
-
-      # Register Nautilus as an XDG Desktop Portal FileChooser
-      (runCommandLocal "nautilus-portal" { } ''
-        mkdir -p $out/share/xdg-desktop-portal/portals
-        cat > $out/share/xdg-desktop-portal/portals/nautilus.portal <<EOF
-        [portal]
-        DBusName=org.gnome.Nautilus
-        Interfaces=org.freedesktop.impl.portal.FileChooser
-        EOF
-      '')
     ];
 
     xdg.portal = {
       enable = true;
       config = {
         hyprland = {
-          "org.freedesktop.impl.portal.FileChooser" = "nautilus"; # TODO: currently this causes a ~10-20s delay when starting/restarting xdg-desktop-portal.
+          "org.freedesktop.impl.portal.FileChooser" = "gnome";
           default = [
             "hyprland"
             "gtk"
@@ -64,6 +53,7 @@
         };
       };
       extraPortals = with pkgs; [
+        xdg-desktop-portal-gnome
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
       ];

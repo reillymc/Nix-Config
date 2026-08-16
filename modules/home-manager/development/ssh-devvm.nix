@@ -27,9 +27,14 @@
         ExecStartPre = "${pkgs.coreutils}/bin/rm -f %h/.ssh/devvm-agent.sock";
         ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %h/.ssh/devvm-agent.sock";
         # Load the GitHub key with confirmation so every use prompts on host.
+        # Retry briefly since the agent's socket may not be ready yet
         ExecStartPost = pkgs.writeShellScript "ssh-add-devvm" ''
           export SSH_AUTH_SOCK="$HOME/.ssh/devvm-agent.sock"
-          exec ${pkgs.openssh}/bin/ssh-add -c "$HOME/.ssh/github"
+          for _ in {1..10}; do
+            ${pkgs.openssh}/bin/ssh-add -c "$HOME/.ssh/github" && exit 0
+            ${pkgs.coreutils}/bin/sleep 0.5
+          done
+          exit 1
         '';
         Environment = [
           "SSH_ASKPASS=${pkgs.openssh-askpass}/libexec/gtk-ssh-askpass"

@@ -66,6 +66,59 @@ let
 
             return [item_code]
   '';
+
+  setWallpaperScript = ''
+    from gi.repository import Nautilus, GObject
+    from subprocess import call
+    import os
+    import shutil
+
+    WALLPAPER_DIR = os.path.expanduser('~/.local/share')
+
+    class SetWallpaperExtension(GObject.GObject, Nautilus.MenuProvider):
+
+        def set_wallpaper(self, menu, files, variant):
+            src = files[0].get_location().get_path()
+            dst = os.path.join(WALLPAPER_DIR, variant)
+            shutil.copy2(src, dst)
+            call(['systemctl', '--user', 'restart', 'hyprpaper'])
+
+        def get_file_items(self, *args):
+            files = args[-1]
+
+            images = [
+                f for f in files
+                if f.get_mime_type() and f.get_mime_type().startswith('image/')
+            ]
+            if not images:
+                return []
+
+            item_wallpaper = Nautilus.MenuItem(
+                name='SetWallpaper',
+                label='Set as Wallpaper',
+                tip='Sets the selected image as the Hyprland wallpaper'
+            )
+
+            menu = Nautilus.Menu()
+            item_light = Nautilus.MenuItem(
+                name='SetWallpaperLight',
+                label='Light',
+                tip='Set as the light theme wallpaper'
+            )
+            item_light.connect('activate', self.set_wallpaper, images, 'wallpaper')
+            menu.append_item(item_light)
+
+            item_dark = Nautilus.MenuItem(
+                name='SetWallpaperDark',
+                label='Dark',
+                tip='Set as the dark theme wallpaper'
+            )
+            item_dark.connect('activate', self.set_wallpaper, images, 'wallpaper-dark')
+            menu.append_item(item_dark)
+
+            item_wallpaper.set_submenu(menu)
+            return [item_wallpaper]
+  '';
 in
 {
   config = lib.mkIf mynixos.nautilus.enable {
@@ -75,6 +128,11 @@ in
 
     home.file.".local/share/nautilus-python/extensions/code-nautilus.py" = {
       text = openInCodeScript;
+      executable = true;
+    };
+
+    home.file.".local/share/nautilus-python/extensions/set-wallpaper-nautilus.py" = {
+      text = setWallpaperScript;
       executable = true;
     };
 

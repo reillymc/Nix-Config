@@ -9,7 +9,6 @@ let
   mynixos = {
     steam.enable = true;
     hyprland.enable = true;
-    docker.enable = true;
     nautilus.enable = true;
     spotify = {
       enable = true;
@@ -82,7 +81,6 @@ in
       "/etc/NetworkManager/system-connections"
       "/etc/ssh" # Retain keys used for agenix
       "/var/lib/bluetooth"
-      "/var/lib/docker"
       "/var/lib/microvms"
       "/var/lib/flatpak"
       "/var/lib/lxc"
@@ -139,7 +137,6 @@ in
         description = "Reilly MacKenzie-Cree";
         extraGroups = [
           "networkmanager"
-          "docker" # TODO: manage within docker module
           "wheel"
         ];
       };

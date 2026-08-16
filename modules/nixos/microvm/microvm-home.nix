@@ -45,6 +45,14 @@
       };
     };
 
+    programs.npm = {
+      settings = {
+        "ignore-scripts" = true;
+        "min-release-age" = 7;
+        "min-release-age-exclude" = [ "@reillymc/*" ];
+      };
+    };
+
     programs.starship = {
       enable = true;
       settings = {
@@ -67,6 +75,7 @@
     home.persistence."/var/persist" = {
       hideMounts = true;
       directories = [
+        ".expo"
         ".local/share/opencode"
         ".local/state/opencode"
         ".vscode-server"

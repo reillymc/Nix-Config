@@ -77,7 +77,6 @@
     proton-vpn
     prismlauncher
     rapidraw
-    opencode
     gocryptfs
     (writeShellApplication {
       name = "moveMusic";
@@ -123,7 +122,6 @@
       ".config/spotify"
       ".config/vlc"
       ".config/zed"
-      ".expo"
       {
         directory = ".gnupg";
         mode = "0700";
@@ -133,7 +131,6 @@
       ".local/share/io.github.CyberTimon.RapidRAW"
       ".local/share/keyrings"
       ".local/share/news-flash"
-      ".local/share/opencode" # TODO: move to declarative setup in dev vm (possibly still need to retain history)
       ".local/share/org.localsend.localsend_app"
       ".local/share/PrismLauncher"
       ".local/share/Steam"
@@ -143,21 +140,18 @@
       ".local/state/news-flash"
       ".local/state/nix"
       ".local/state/showtime"
-      ".ollama"
       {
         directory = ".ssh";
         mode = "0700";
       }
       ".steam"
       ".var"
-      ".vscode-shared"
+      ".vscode-shared" # Recent projects, trusted folders etc
     ];
     files = [
       ".bash_history"
-      ".git-credentials"
       ".local/share/wallpaper-dark"
       ".local/share/wallpaper"
-      ".npmrc"
       ".vscode/argv.json"
     ];
   };

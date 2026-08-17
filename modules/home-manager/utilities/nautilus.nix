@@ -150,13 +150,6 @@ in
       ];
     };
 
-    home.file = {
-      "Templates/Text File.txt".text = "";
-      "Templates/Shell Script.sh".text = "";
-      "Templates/Writer Document.odt".source = ../../../resources/templates/WriterDocument.odt;
-      "Templates/Calc Spreadsheet.odt".source = ../../../resources/templates/CalcSpreadsheet.ods;
-    };
-
     home.file."Resources/.directory".text = ''
       [Desktop Entry]
       Type=Directory

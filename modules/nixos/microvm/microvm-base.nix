@@ -38,6 +38,7 @@ in
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
+    settings.KbdInteractiveAuthentication = false;
     hostKeys = [
       {
         path = "/var/lib/ssh/ssh_host_ed25519_key";
@@ -59,13 +60,14 @@ in
   users.users.dev = {
     isNormalUser = true;
     group = "dev";
+    extraGroups = [ "wheel" ];
 
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKy53djcTOJHEZ0EPXS2pMGrbRf45URABcm/VKSD18u8 reilly@systems"
     ];
   };
 
-  users.allowNoPasswordLogin = true;
+  users.allowNoPasswordLogin = false;
 
   services.resolved.enable = true;
   networking.useDHCP = false;

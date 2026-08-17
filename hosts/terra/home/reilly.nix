@@ -38,7 +38,7 @@
         Compression = false;
         ServerAliveInterval = 0;
         ServerAliveCountMax = 3;
-        HashKnownHosts = false;
+        HashKnownHosts = true;
         UserKnownHostsFile = "~/.ssh/known_hosts";
         ControlMaster = "no";
         ControlPath = "~/.ssh/master-%r@%n:%p";

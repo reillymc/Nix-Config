@@ -8,13 +8,13 @@
     settings = {
       user = {
         name = "reillymc";
-        email = "reilly@mackenzie-cree.net";
+        email = "dev@reillymc.com";
       };
       core = {
         editor = "code --wait"; # Todo: make configurable
       };
       credential = {
-        helper = "store";
+        helper = "libsecret";
       };
       help = {
         autocorrect = "prompt";

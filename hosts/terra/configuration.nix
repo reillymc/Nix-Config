@@ -60,8 +60,6 @@ in
   boot.loader.timeout = 1;
   systemd.network.wait-online.enable = false;
 
-  boot.kernel.sysctl."kernel.sysrq" = 1;
-
   boot.initrd.luks.devices."luks-42d04de4-1b56-431b-b6e8-21277e8b3e94".device =
     "/dev/disk/by-uuid/42d04de4-1b56-431b-b6e8-21277e8b3e94";
 
@@ -270,6 +268,9 @@ in
   programs.nix-index.enable = true;
 
   networking.firewall.checkReversePath = false; # Currently required for proton vpn to work
+
+  # Allow ssh from the tailnet only
+  networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 22 ];
 
   services.llama-cpp = {
     enable = true;

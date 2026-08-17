@@ -5,12 +5,12 @@
 
 let
   devvmIp = "192.168.83.6";
-  devPorts = [ 3000 3001 8081 ];
-  fwd = port: {
-    sourcePort = port;
-    destination = "${devvmIp}:${toString port}";
-    proto = "tcp";
-  };
+  devPorts = [
+    3000
+    3001
+    8081
+    8082
+  ];
 in
 {
   systemd.network.enable = true;
@@ -38,10 +38,9 @@ in
     enable = true;
     internalInterfaces = [ "microbr" ];
     externalInterface = "enp14s0f3u1u2u1";
-    forwardPorts = map fwd devPorts;
 
-    # Forward the same dev ports when they arrive on terra's tailscale interface,
-    # so the devvm is reachable over the tailnet.
+    # Forward the dev ports when they arrive on terra's tailscale interface,
+    # so the devvm is reachable over the tailnet
     extraCommands = lib.concatMapStringsSep "\n" (port: ''
       iptables -w -t nat -A nixos-nat-pre -i tailscale0 -p tcp --dport ${toString port} -j DNAT --to-destination ${devvmIp}:${toString port}
       iptables -w -t filter -A nixos-filter-forward -i tailscale0 -p tcp --dport ${toString port} -j ACCEPT

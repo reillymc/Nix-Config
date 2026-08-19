@@ -46,6 +46,7 @@ in
         secrets = {
           "opencode-go/api-key" = {
             file = ../../../secrets/devvm/opencode-go-api-key.age;
+            path = "/home/dev/.config/opencode/api-key";
             owner = "dev";
             group = "dev";
             mode = "0400";
@@ -82,6 +83,15 @@ in
 
       users.mutableUsers = false;
 
+      # agenix activation (runs as root) mkdir -p's these under ~/.config; the
+      # dirs end up root-owned and block home-manager's user-level activation.
+      # tmpfiles runs before home-manager-dev.service and (re)asserts ownership.
+      systemd.tmpfiles.rules = [
+        "d /home/dev 0700 1000 1000 -"
+        "d /home/dev/.config 0755 1000 1000 -"
+        "d /home/dev/.config/opencode 0755 1000 1000 -"
+      ];
+
       users.users.dev.extraGroups = [
         "docker"
       ];
@@ -116,12 +126,8 @@ in
       # 8G swapfile on /var (var.img) as an OOM safety net for build spikes.
       # Created automatically by NixOS when `size` is set; disk-backed so it
       # doesn't consume RAM. swappiness 10 keeps swap as pure overflow.
-      swapDevices = [
-        {
-          device = "/var/swapfile";
-          size = 8192; # MiB
-        }
-      ];
+      zramSwap.enable = true;
+      zramSwap.memoryPercent = 50; # Adjust based on how much RAM to allocate for compressed swap
       boot.kernel.sysctl."vm.swappiness" = 10;
     };
   };

@@ -73,7 +73,6 @@ in
   networking.useDHCP = false;
   networking.useNetworkd = true;
   networking.tempAddresses = "disabled";
-  systemd.network.enable = true;
   systemd.network.networks."10-e" = {
     matchConfig.Name = "e*";
     addresses = [ { Address = "${ipAddress}/24"; } ];

@@ -271,6 +271,19 @@ in
   # Allow ssh from the tailnet only
   networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 22 ];
 
+  # Allow the dev-server ports forwarded by VS Code directly to host
+  # to be reachable over the tailnet
+  networking.firewall.interfaces."tailscale0".allowedTCPPortRanges = [
+    {
+      from = 3000;
+      to = 3002;
+    }
+    {
+      from = 8080;
+      to = 8082;
+    }
+  ];
+
   services.llama-cpp = {
     enable = true;
     package = pkgs.llama-cpp.override {

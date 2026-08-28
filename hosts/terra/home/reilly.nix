@@ -54,7 +54,7 @@
       hupboard = {
         IdentityFile = "~/.ssh/hupboard";
         User = "reilly";
-        HostName = "hupboard.home";
+        HostName = "hupboard";
         SetEnv = {
           TERM = "xterm-256color";
         };

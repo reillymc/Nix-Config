@@ -161,6 +161,7 @@
           "accessibility.signalOptions.volume" = 0;
           "chat.commandCenter.enabled" = false;
           "diffEditor.ignoreTrimWhitespace" = false;
+          "dev.containers.experimentalMountGitWorktreeCommonDir" = true;
           "editor.dragAndDrop" = false;
           "editor.formatOnSave" = true;
           "editor.hover.delay" = 600;
@@ -201,6 +202,7 @@
           "files.insertFinalNewline" = true;
           "git.confirmSync" = false;
           "git.decorations.enabled" = true;
+          "git.detectWorktrees" = true;
           "git.enableSmartCommit" = true;
           "git.mergeEditor" = true;
           "git.replaceTagsWhenPull" = true;
@@ -285,6 +287,10 @@
             "eamodio.gitlens"
             "streetsidesoftware.code-spell-checker"
           ];
+          "dev.containers.defaultFeatures" = {
+            "ghcr.io/reillymc/personal-devcontainer-features/opencode:0" = { };
+          };
+          "dev.containers.lockfile" = false;
           "remote.SSH.defaultExtensions" = [
             "eamodio.gitlens"
             "streetsidesoftware.code-spell-checker"
@@ -294,6 +300,7 @@
           "editor.selectionClipboard" = false; # enabled middle click cursor (disables paste)
           "window.menuStyle" = "custom"; # native context menu is scaled too large
           "remote.autoForwardPortsSource" = "hybrid"; # vscode keeps auto-setting this
+          "remote.localPortHost" = "allInterfaces"; # bind forwarded ports on all interfaces so the dev servers are reachable from tailnet/LAN
           "json.schemaDownload.trustedDomains" = {
             "https://schemastore.azurewebsites.net/" = true;
             "https://raw.githubusercontent.com/" = true;

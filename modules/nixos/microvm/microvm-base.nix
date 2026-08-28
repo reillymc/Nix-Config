@@ -132,6 +132,7 @@ in
         # squashfs/erofs will be built for it.
         source = "/nix/store";
         mountPoint = "/nix/.ro-store";
+        readOnly = true;
       }
     ];
 

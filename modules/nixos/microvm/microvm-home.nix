@@ -77,6 +77,7 @@
             color = "secondary";
           };
         };
+        model = "opencode-go/deepseek-v4-flash";
         provider."opencode-go".options.apiKey = "{file:api-key}";
       };
     };

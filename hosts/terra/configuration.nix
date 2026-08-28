@@ -63,8 +63,7 @@ in
   boot.initrd.luks.devices."luks-42d04de4-1b56-431b-b6e8-21277e8b3e94".device =
     "/dev/disk/by-uuid/42d04de4-1b56-431b-b6e8-21277e8b3e94";
 
-  # Disable as wifi is not required for current setup, only ethernet
-  networking.networkmanager.enable = false;
+  networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true;
   hardware.i2c.enable = true;

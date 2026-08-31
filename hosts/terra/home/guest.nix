@@ -20,7 +20,7 @@
     youtube.enable = true;
   };
 
-  home.persistence."/persist" = {
+  myhome.persistence = {
     hideMounts = true;
     directories = [
       "Desktop"

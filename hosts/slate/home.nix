@@ -74,8 +74,7 @@
 
   programs.zed-editor.enable = true;
 
-  home.persistence.main = {
-    persistentStoragePath = "/persist";
+  myhome.persistence = {
     hideMounts = true;
     allowTrash = true;
     directories = [
@@ -89,11 +88,8 @@
       "Public"
       "Resources"
       "Videos"
-      ".cache/rofi3.druncache"
-      ".config/Code"
       ".config/git/credentials"
       ".config/goa-1.0"
-      ".config/kdeconnect"
       ".config/libreoffice"
       ".config/mozilla"
       ".config/MusicBrainz"
@@ -101,7 +97,6 @@
       ".config/obsidian"
       ".config/spotify"
       ".config/vlc"
-      ".config/zed"
       ".expo"
       {
         directory = ".gnupg";
@@ -109,13 +104,11 @@
       }
       ".local/share/com.github.johnfactotum.Foliate"
       ".local/share/flatpak"
-      ".local/share/keyrings"
       ".local/share/news-flash"
       ".local/share/org.localsend.localsend_app"
       ".local/share/Steam"
       ".local/share/Trash"
       ".local/state/news-flash"
-      ".local/state/nix"
       ".local/state/showtime"
       {
         directory = ".ssh";
@@ -123,14 +116,10 @@
       }
       ".steam"
       ".var"
-      ".vscode-shared"
     ];
     files = [
       ".bash_history"
-      ".local/share/wallpaper-dark"
-      ".local/share/wallpaper"
       ".npmrc"
-      ".vscode/argv.json"
     ];
   };
 

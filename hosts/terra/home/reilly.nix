@@ -94,8 +94,7 @@
     })
   ];
 
-  home.persistence.main = {
-    persistentStoragePath = "/persist";
+  myhome.persistence = {
     hideMounts = true;
     allowTrash = true;
     directories = [
@@ -109,11 +108,8 @@
       "Public"
       "Resources"
       "Videos"
-      ".cache/rofi3.druncache"
       ".config/bruno"
-      ".config/Code"
       ".config/goa-1.0"
-      ".config/kdeconnect"
       ".config/libreoffice"
       ".config/mozilla"
       ".config/MusicBrainz"
@@ -121,7 +117,6 @@
       ".config/obsidian"
       ".config/spotify"
       ".config/vlc"
-      ".config/zed"
       {
         directory = ".gnupg";
         mode = "0700";
@@ -129,16 +124,13 @@
       ".local/share/com.github.johnfactotum.Foliate"
       ".local/share/flatpak"
       ".local/share/io.github.CyberTimon.RapidRAW"
-      ".local/share/keyrings"
       ".local/share/news-flash"
       ".local/share/org.localsend.localsend_app"
       ".local/share/PrismLauncher"
       ".local/share/Steam"
       ".local/share/Terraria"
       ".local/share/Trash"
-      ".local/share/zed"
       ".local/state/news-flash"
-      ".local/state/nix"
       ".local/state/showtime"
       {
         directory = ".ssh";
@@ -146,13 +138,9 @@
       }
       ".steam"
       ".var"
-      ".vscode-shared" # Recent projects, trusted folders etc
     ];
     files = [
       ".bash_history"
-      ".local/share/wallpaper-dark"
-      ".local/share/wallpaper"
-      ".vscode/argv.json"
     ];
   };
 

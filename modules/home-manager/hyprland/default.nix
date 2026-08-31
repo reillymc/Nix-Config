@@ -86,6 +86,16 @@ in
   ];
 
   config = lib.mkIf mynixos.hyprland.enable {
+    myhome.persistence.directories = [
+      ".local/share/keyrings"
+      ".config/kdeconnect"
+    ];
+
+    myhome.persistence.files = [
+      ".local/share/wallpaper"
+      ".local/share/wallpaper-dark"
+    ];
+
     wayland.windowManager.hyprland = {
       enable = true;
       # set the Hyprland and XDPH packages to null to use the ones from the NixOS module

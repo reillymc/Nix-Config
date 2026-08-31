@@ -315,7 +315,6 @@
           "github.copilot.enable" = {
             "*" = false;
           };
-
         };
         languageSnippets = {
           "typescriptreact" = {
@@ -357,6 +356,15 @@
     home.packages = with pkgs; [
       nixfmt
       nixd
+    ];
+
+    myhome.persistence.directories = [
+      ".config/Code"
+      ".vscode-shared"
+    ];
+
+    myhome.persistence.files = [
+      ".vscode/argv.json"
     ];
 
     xdg.desktopEntries."vscode-mist" = {

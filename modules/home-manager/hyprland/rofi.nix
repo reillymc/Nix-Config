@@ -68,6 +68,10 @@ in
     ];
   };
 
+  myhome.persistence.directories = [
+    ".cache/rofi3.druncache"
+  ];
+
   xdg.configFile."rofi/config.rasi".text = ''
     configuration {
       modi:                       "drun,filebrowser,window,emoji,ssh,calc";

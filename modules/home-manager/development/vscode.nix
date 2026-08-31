@@ -315,6 +315,7 @@
           "github.copilot.enable" = {
             "*" = false;
           };
+          "task.allowAutomaticTasks" = "on";
         };
         languageSnippets = {
           "typescriptreact" = {

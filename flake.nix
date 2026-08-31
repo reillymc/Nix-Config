@@ -47,6 +47,7 @@
         # "example" # Example host, can be removed or replaced
         "terra"
         "slate"
+        "mist"
       ];
     in
     {

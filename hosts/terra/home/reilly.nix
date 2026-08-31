@@ -10,7 +10,7 @@
   ];
 
   myhome.vscode.enable = true;
-  myhome.ssh-devvm.enable = true;
+  myhome.ssh-mist.enable = true;
 
   myhome.web-apps = {
     enable = true;

@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   ...
 }:
@@ -395,140 +394,130 @@ let
   };
 in
 {
-  options.microvm = {
-    extraZshInit = lib.mkOption {
-      type = lib.types.lines;
-      default = "";
-      description = "Extra lines to add to zsh initContent";
+  home.username = "dev";
+  home.homeDirectory = "/home/dev";
+
+  programs.zsh = {
+    enable = true;
+    history = {
+      size = 4000;
+      save = 10000000;
+      ignoreDups = true;
+      share = false;
+      append = true;
+    };
+    initContent = ''
+      source ${pkgs.ghostty.shell_integration}/zsh/ghostty-integration
+      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+      _git-project() {
+          local -a subs
+          subs=(
+              'init:create a new local project'
+              'clone:clone an existing project'
+              'branch:manage worktrees/branches'
+          )
+          if (( CURRENT == 2 )); then
+              _describe -t subcommands 'git project subcommand' subs
+              return
+          fi
+          case ''${words[2]} in
+              branch)
+                  local -a bsub
+                  bsub=(
+                      'add:fork a new branch+worktree from a base'
+                      'attach:attach a worktree to an existing branch'
+                      'remove:remove a worktree and its branch'
+                      'list:list worktrees'
+                  )
+                  if (( CURRENT == 3 )); then
+                      _describe -t branch 'branch subcommand' bsub
+                      return
+                  fi
+                  case ''${words[3]} in
+                      attach | remove)
+                          local -a branches
+                          branches=( ''${(f)"$(git for-each-ref --format='%(refname:short)' refs/heads refs/remotes 2>/dev/null)"} )
+                          _describe -t branches 'branch' branches
+                          return
+                          ;;
+                  esac
+                  ;;
+          esac
+          _files
+      }
+      compdef _git-project git-project
+    '';
+  };
+
+  programs.git = {
+    enable = true;
+    settings = {
+      user = {
+        name = "reillymc";
+        email = "dev@reillymc.com";
+      };
+      help = {
+        autocorrect = "prompt";
+      };
+      alias.project = "!git-project";
+      push.autoSetupRemote = true;
     };
   };
 
-  config = {
-    home.username = "dev";
-    home.homeDirectory = "/home/dev";
-
-    programs.zsh = {
-      enable = true;
-      history = {
-        size = 4000;
-        save = 10000000;
-        ignoreDups = true;
-        share = false;
-        append = true;
-      };
-      initContent = ''
-        source ${pkgs.ghostty.shell_integration}/zsh/ghostty-integration
-        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-
-        _git-project() {
-            local -a subs
-            subs=(
-                'init:create a new local project'
-                'clone:clone an existing project'
-                'branch:manage worktrees/branches'
-            )
-            if (( CURRENT == 2 )); then
-                _describe -t subcommands 'git project subcommand' subs
-                return
-            fi
-            case ''${words[2]} in
-                branch)
-                    local -a bsub
-                    bsub=(
-                        'add:fork a new branch+worktree from a base'
-                        'attach:attach a worktree to an existing branch'
-                        'remove:remove a worktree and its branch'
-                        'list:list worktrees'
-                    )
-                    if (( CURRENT == 3 )); then
-                        _describe -t branch 'branch subcommand' bsub
-                        return
-                    fi
-                    case ''${words[3]} in
-                        attach | remove)
-                            local -a branches
-                            branches=( ''${(f)"$(git for-each-ref --format='%(refname:short)' refs/heads refs/remotes 2>/dev/null)"} )
-                            _describe -t branches 'branch' branches
-                            return
-                            ;;
-                    esac
-                    ;;
-            esac
-            _files
-        }
-        compdef _git-project git-project
-      '';
+  programs.npm = {
+    settings = {
+      "ignore-scripts" = true;
+      "min-release-age" = 7;
+      "min-release-age-exclude" = [ "@reillymc/*" ];
     };
+  };
 
-    programs.git = {
-      enable = true;
-      settings = {
-        user = {
-          name = "reillymc";
-          email = "dev@reillymc.com";
+  programs.starship = {
+    enable = true;
+    settings = {
+      format = "$username$directory$git_branch$git_status$status$cmd_duration$jobs$time$character";
+    };
+  };
+
+  home.stateVersion = "26.05";
+
+  home.packages = [ git-project ];
+
+  programs.home-manager.enable = true;
+
+  programs.opencode = {
+    enable = true;
+    settings = {
+      autoupdate = false;
+      default_agent = "plan";
+      agent = {
+        plan = {
+          color = "primary";
         };
-        help = {
-          autocorrect = "prompt";
+        build = {
+          color = "secondary";
         };
-        alias.project = "!git-project";
-        push.autoSetupRemote = true;
       };
+      model = "opencode-go/glm-5.3-flash";
+      provider."opencode-go".options.apiKey = "{file:api-key}";
     };
+  };
 
-    programs.npm = {
-      settings = {
-        "ignore-scripts" = true;
-        "min-release-age" = 7;
-        "min-release-age-exclude" = [ "@reillymc/*" ];
-      };
-    };
-
-    programs.starship = {
-      enable = true;
-      settings = {
-        format = "$username$directory$git_branch$git_status$status$cmd_duration$jobs$time$character";
-      };
-    };
-
-    home.stateVersion = "26.05";
-
-    home.packages = [ git-project ];
-
-    programs.home-manager.enable = true;
-
-    programs.opencode = {
-      enable = true;
-      settings = {
-        autoupdate = false;
-        default_agent = "plan";
-        agent = {
-          plan = {
-            color = "primary";
-          };
-          build = {
-            color = "secondary";
-          };
-        };
-        model = "opencode-go/glm-5.3-flash";
-        provider."opencode-go".options.apiKey = "{file:api-key}";
-      };
-    };
-
-    home.persistence."/var/persist" = {
-      hideMounts = true;
-      directories = [
-        ".expo"
-        ".local/share/opencode"
-        ".local/state/opencode"
-        ".vscode-server"
-        {
-          directory = ".ssh";
-          mode = "0700";
-        }
-      ];
-      files = [
-        ".zsh_history"
-      ];
-    };
+  home.persistence."/var/persist" = {
+    hideMounts = true;
+    directories = [
+      ".expo"
+      ".local/share/opencode"
+      ".local/state/opencode"
+      ".vscode-server"
+      {
+        directory = ".ssh";
+        mode = "0700";
+      }
+    ];
+    files = [
+      ".zsh_history"
+    ];
   };
 }

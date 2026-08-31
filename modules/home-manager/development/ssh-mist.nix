@@ -5,31 +5,31 @@
   ...
 }:
 {
-  options.myhome.ssh-devvm.enable = lib.mkEnableOption "SSH agent forwarding + confirmation for the devvm";
+  options.myhome.ssh-mist.enable = lib.mkEnableOption "SSH agent forwarding + confirmation for the mist";
 
-  config = lib.mkIf config.myhome.ssh-devvm.enable {
+  config = lib.mkIf config.myhome.ssh-mist.enable {
     programs.ssh = {
       enable = lib.mkDefault true;
 
-      settings.devvm = {
+      settings.mist = {
         hostname = "192.168.83.6";
         user = "dev";
         forwardAgent = true;
-        identityAgent = "~/.ssh/devvm-agent.sock";
+        identityAgent = "~/.ssh/mist-agent.sock";
       };
     };
 
-    # Dedicated confirmation agent used for the devvm connection
-    systemd.user.services.ssh-agent-devvm = {
-      Unit.Description = "SSH agent for devvm (confirmation mode)";
+    # Dedicated confirmation agent used for the mist connection
+    systemd.user.services.ssh-agent-mist = {
+      Unit.Description = "SSH agent for mist (confirmation mode)";
 
       Service = {
-        ExecStartPre = "${pkgs.coreutils}/bin/rm -f %h/.ssh/devvm-agent.sock";
-        ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %h/.ssh/devvm-agent.sock";
+        ExecStartPre = "${pkgs.coreutils}/bin/rm -f %h/.ssh/mist-agent.sock";
+        ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %h/.ssh/mist-agent.sock";
         # Load the GitHub key with confirmation so every use prompts on host.
         # Retry briefly since the agent's socket may not be ready yet
-        ExecStartPost = pkgs.writeShellScript "ssh-add-devvm" ''
-          export SSH_AUTH_SOCK="$HOME/.ssh/devvm-agent.sock"
+        ExecStartPost = pkgs.writeShellScript "ssh-add-mist" ''
+          export SSH_AUTH_SOCK="$HOME/.ssh/mist-agent.sock"
           for _ in {1..10}; do
             ${pkgs.openssh}/bin/ssh-add -c "$HOME/.ssh/github" && exit 0
             ${pkgs.coreutils}/bin/sleep 0.5

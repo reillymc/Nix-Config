@@ -65,8 +65,8 @@ let
     fi
   '';
 
-  ghosttyDevvm = pkgs.writeShellScriptBin "ghostty-devvm" ''
-    exec uwsm app -- ghostty --theme='Adwaita Dark' -e ssh devvm
+  ghosttyMist = pkgs.writeShellScriptBin "ghostty-mist" ''
+    exec uwsm app -- ghostty --theme='Adwaita Dark' -e ssh mist
   '';
 
   heightRegular = "(monitor_h*${toString theme.size.popup.regular.height})";
@@ -162,7 +162,7 @@ in
           "$mod, Q, exec, kitty"
           "$mod, E, exec, uwsm app -- nautilus"
           "$mod, T, exec, uwsm app -- ghostty" # TODO: use terminal variable
-          "$mod ALT, T, exec, ${ghosttyDevvm}/bin/ghostty-devvm" # TODO: use terminal variable
+          "$mod ALT, T, exec, ${ghosttyMist}/bin/ghostty-mist" # TODO: use terminal variable
           "$mod SHIFT, left, movewindow, l"
           "$mod SHIFT, right, movewindow, r"
           "$mod SHIFT, up, movewindow, u"

@@ -359,10 +359,10 @@
       nixd
     ];
 
-    xdg.desktopEntries."vscode-devvm" = {
-      name = "VSCode (devvm)";
-      comment = "Code on the devvm over Remote SSH";
-      exec = "code --remote ssh-remote+devvm";
+    xdg.desktopEntries."vscode-mist" = {
+      name = "VSCode (mist)";
+      comment = "Code on the mist over Remote SSH";
+      exec = "code --remote ssh-remote+mist";
       icon = "vscode";
       terminal = false;
       categories = [

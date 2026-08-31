@@ -284,15 +284,15 @@ in
     }
   ];
 
-  services.llama-cpp = {
-    enable = true;
-    package = pkgs.llama-cpp.override {
-      cudaSupport = false;
-      rocmSupport = true;
-      metalSupport = false;
-      blasSupport = true;
-    };
-  };
+  # services.llama-cpp = {
+  #   enable = true;
+  #   package = pkgs.llama-cpp.override {
+  #     cudaSupport = false;
+  #     rocmSupport = true;
+  #     metalSupport = false;
+  #     blasSupport = true;
+  #   };
+  # };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

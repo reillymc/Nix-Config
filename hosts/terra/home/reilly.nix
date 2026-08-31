@@ -111,7 +111,6 @@
       ".config/bruno"
       ".config/goa-1.0"
       ".config/libreoffice"
-      ".config/mozilla"
       ".config/MusicBrainz"
       ".config/news-flash"
       ".config/obsidian"

@@ -5,14 +5,6 @@
   ...
 }:
 let
-  base = import ./base.nix {
-    inherit
-      lib
-      pkgs
-      config
-      ;
-  };
-
   appModules = [
     ./apps/immich.nix
     ./apps/jellyfin.nix
@@ -25,51 +17,20 @@ let
     ./apps/whatsapp.nix
   ];
 
-  apps = map (
-    path:
-    import path {
-      inherit
-        pkgs
-        config
-        lib
-        base
-        ;
-    }
-  ) appModules;
+  profiles = config.programs.firefox.profiles;
 
-  # Collect all profile names
-  profiles = lib.flatten (
-    map (app: lib.attrNames (app.config.programs.firefox.profiles or { })) apps
-  );
+  profileNames = lib.attrNames (lib.filterAttrs (name: _: name != "default") profiles);
 
-  # Compute IDs
-  profileIds = builtins.listToAttrs (
-    map (p: {
-      name = p;
-      value = base.mkProfileId p;
-    }) profiles
-  );
-
-  # Detect duplicate IDs (collision)
   idToNames = lib.foldl' (
     acc: name:
     let
-      id = profileIds.${name};
-      old = acc.${toString id} or [ ];
+      id = toString profiles.${name}.id;
+      old = acc.${id} or [ ];
     in
-    acc // { ${toString id} = old ++ [ name ]; }
-  ) { } (lib.attrNames profileIds);
+    acc // { ${id} = old ++ [ name ]; }
+  ) { } (lib.attrNames profiles);
 
   collisions = lib.filterAttrs (_: v: builtins.length v > 1) idToNames;
-
-  _ = lib.assertMsg (collisions == { }) ''
-    [web-apps] Collision detected in generated Firefox profile IDs!
-    ${lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (
-        id: names: "ID ${id} used by profiles: ${lib.concatStringsSep ", " names}"
-      ) collisions
-    )}
-  '';
 in
 {
   imports = appModules;
@@ -78,7 +39,37 @@ in
     myhome.web-apps.enable = lib.mkEnableOption "Enable Firefox-based Web Apps integration";
   };
 
-  config = lib.mkIf config.myhome.web-apps.enable {
-    programs.firefox.enable = true;
-  };
+  config = lib.mkIf config.myhome.web-apps.enable (
+    lib.mkMerge [
+      {
+        programs.firefox.enable = true;
+
+        assertions = [
+          {
+            assertion = collisions == { };
+            message = ''
+              [web-apps] Collision detected in generated Firefox profile IDs!
+              ${lib.concatStringsSep "\n" (
+                lib.mapAttrsToList (
+                  id: names: "ID ${id} used by profiles: ${lib.concatStringsSep ", " names}"
+                ) collisions
+              )}
+            '';
+          }
+        ];
+      }
+      {
+        myhome.persistence.directories = map (p: ".config/mozilla/firefox/${p}/storage") profileNames;
+        myhome.persistence.files = lib.concatMap (
+          p:
+          map (f: ".config/mozilla/firefox/${p}/${f}") [
+            "cookies.sqlite"
+            "storage.sqlite"
+            "content-prefs.sqlite"
+            "permissions.sqlite"
+          ]
+        ) profileNames;
+      }
+    ]
+  );
 }

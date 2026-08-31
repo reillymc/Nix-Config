@@ -7,6 +7,8 @@ let
   prefs = import ./prefs;
 in
 {
+  myhome.persistence.directories = [ ".config/mozilla/firefox/default" ];
+
   programs.firefox = {
     enable = true;
     configPath = "${config.xdg.configHome}/mozilla/firefox";

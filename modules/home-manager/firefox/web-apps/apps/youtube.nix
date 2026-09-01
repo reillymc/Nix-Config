@@ -6,17 +6,61 @@
 }:
 let
   base = import ../base.nix { inherit lib config pkgs; };
-  prefs = import ../../prefs;
-
-  app = {
-    id = "youtube";
-    name = "YouTube";
-    url = "https://www.youtube.com/feed/subscriptions";
-    icon = "youtube.svg";
+in
+base.mkWebAppModule {
+  id = "youtube";
+  name = "YouTube";
+  url = "https://www.youtube.com/feed/subscriptions";
+  addons = [
+    {
+      id = "uBlock0@raymondhill.net";
+      slug = "ublock-origin";
+    }
+    {
+      id = "sponsorBlocker@ajay.app";
+      slug = "sponsorblock";
+    }
+  ];
+  settings = {
+    "browser.theme.content-theme" = 0;
+    "browser.theme.toolbar-theme" = 0;
+    "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+    "browser.startup.homepage" = "https://www.youtube.com/feed/subscriptions";
+    "browser.startup.page" = 3;
+    # Toolbar layout. Excluding `fxa-toolbar-menu-button' keeps the account
+    # button (and its "Recent sessions" panel) out of the toolbar; the
+    # widget moves to the palette. `new-tab-button' in TabsToolbar keeps the
+    # new tab button at the end of the tab strip (it only shows when placed
+    # adjacent to the tabs). dirtyAreaCache must cover every area we place.
+    "browser.uiCustomization.state" = {
+      placements = {
+        "widget-overflow-fixed-list" = [ ];
+        "unified-extensions-area" = [ ];
+        "nav-bar" = [
+          "back-button"
+          "forward-button"
+          "stop-reload-button"
+          "urlbar-container"
+          "downloads-button"
+          "unified-extensions-button"
+        ];
+        "toolbar-menubar" = [ "menubar-items" ];
+        "TabsToolbar" = [ "new-tab-button" ];
+        "PersonalToolbar" = [ ];
+      };
+      seen = [ ];
+      dirtyAreaCache = [
+        "widget-overflow-fixed-list"
+        "unified-extensions-area"
+        "nav-bar"
+        "toolbar-menubar"
+        "TabsToolbar"
+        "PersonalToolbar"
+      ];
+      currentVersion = 23;
+      newElementCount = 0;
+    };
   };
-
-  cfg = config.myhome.web-apps.${app.id};
-
   userChrome = ''
     /* New page background color */
     #browser vbox#appcontent tabbrowser,
@@ -39,7 +83,13 @@ let
     #navigator-toolbox {
       flex-direction: row-reverse !important;
       border-bottom: none !important;
-      height: 48px
+      height: 48px;
+      /* Base toolbar button padding. The custom var drives the visual
+         (image padding) rules below; the Firefox var shrinks the hit area.
+         Back/forward and the menu button override both to keep the
+         tab-min-height-derived size. */
+      --toolbarbutton-inner-padding: 4px;
+      --toolbarbutton-padding-inner: 4px;
     }
 
     #toolbar-menubar {
@@ -67,7 +117,7 @@ let
     #urlbar-container:not(:focus-within) {
       width: 0px !important;
       opacity: 0 !important;
-      
+
       .urlbar-background, #searchbar{
         background-color: initial !important;
       }
@@ -128,39 +178,16 @@ let
 
     #PanelUI-menu-button {
       --toolbarbutton-inner-padding: calc((var(--tab-min-height) - 16px) / 2);
+      --toolbarbutton-padding-inner: calc((var(--tab-min-height) - 16px) / 2);
     }
 
     #forward-button, #back-button {
       --toolbarbutton-inner-padding: calc((var(--tab-min-height) - 16px) / 2);
+      --toolbarbutton-padding-inner: calc((var(--tab-min-height) - 16px) / 2);
     }
 
     .tabbrowser-tab[fadein]:not([pinned]):not([style*="max-width"]) {
     	max-width: 100% !important;
     }
   '';
-
-  settings = prefs.webApp // {
-    "browser.theme.content-theme" = 0;
-    "browser.theme.toolbar-theme" = 0;
-    "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-    "browser.startup.homepage" = "https://www.youtube.com/feed/subscriptions";
-    "browser.startup.page" = 3;
-  };
-in
-{
-  options = {
-    myhome.web-apps.${app.id}.enable = lib.mkEnableOption "${app.name} web app";
-  };
-
-  config = lib.mkIf cfg.enable {
-    # Firefox profile definition
-    programs.firefox.profiles.${app.id} = {
-      id = base.mkProfileId app.id;
-      inherit settings;
-      inherit userChrome;
-    };
-
-    # XDG desktop entry definition
-    xdg.desktopEntries.${app.id} = base.mkWebAppEntry app;
-  };
 }

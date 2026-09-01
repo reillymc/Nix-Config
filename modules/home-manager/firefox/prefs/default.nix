@@ -11,6 +11,17 @@ let
     "browser.rights.3.shown" = true;
     "browser.aboutwelcome.enabled" = false;
     "trailhead.firstrun.didSeeAboutWelcome" = true;
+
+    # Telemetry data-reporting policy: on fresh profiles Firefox opens
+    # datareporting.policy.firstRunURL (the mozilla.org privacy page) and/or
+    # shows an infobar. The bypass pref suppresses both; it is checked after
+    # Nimbus (which can override firstRunURL), so it is the reliable kill
+    # switch. Blanking the URL is belt-and-braces.
+    "datareporting.policy.dataSubmissionPolicyBypassNotification" = true;
+    "datareporting.policy.firstRunURL" = "";
+
+    # Separate Terms-of-Use notification flow (also fires on fresh profiles).
+    "termsofuse.bypassNotification" = true;
   };
 
   # TODO: transfer remaining imperative config here, including UI customisation, never save passwords etc
@@ -78,6 +89,13 @@ let
     "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
     "toolkit.legacyUserProfileCustomizations.windowIcon" = true;
     "browser.aboutConfig.showWarning" = false;
+    "signon.rememberSignons" = false;
+
+    # Suppress the first-run welcome/privacy-notice tab on freshly
+    # regenerated webapp profiles (no saved homepage_override.mstone).
+    "browser.startup.homepage_override.mstone" = "ignore";
+    "browser.startup.homepage_welcome_url" = "about:blank";
+    "browser.startup.homepage_welcome_url.additional" = "";
 
     "browser.newtabpage.activity-stream.enabled" = false;
     "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;

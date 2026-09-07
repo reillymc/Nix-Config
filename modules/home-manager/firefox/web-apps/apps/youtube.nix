@@ -20,22 +20,56 @@ base.mkWebAppModule {
       id = "sponsorBlocker@ajay.app";
       slug = "sponsorblock";
     }
+    {
+      id = "{762f9885-5a13-4abd-9c77-433dcd38b8fd}";
+      slug = "return-youtube-dislikes";
+    }
   ];
+  # Currently needed in order to persist session state
+  persistWholeProfile = true;
+  policies = {
+    "3rdparty".Extensions."uBlock0@raymondhill.net" = {
+      toOverwrite.filters = [
+        "! Hide all videos with the shorts indicator"
+        "www.youtube.com##ytd-thumbnail-overlay-time-status-renderer[overlay-style=\"SHORTS\"]:upward(ytd-video-renderer)"
+        ""
+        "! Remove generic shorts shelf except on history page"
+        "www.youtube.com##:matches-path(/^(?!\\/feed\\/history).*$/)ytd-reel-shelf-renderer"
+        ""
+        "! Remove rich shelf shorts section"
+        "www.youtube.com##ytd-rich-shelf-renderer[is-shorts],ytd-rich-shelf-renderer[is-shorts]:upward(ytd-rich-section-renderer)"
+        "www.youtube.com##ytd-rich-item-renderer[rendered-from-rich-grid] ytm-shorts-lockup-view-model:upward(ytd-rich-item-renderer[rendered-from-rich-grid])"
+        ""
+        "! Hide shorts button in sidebar"
+        "www.youtube.com##ytd-guide-entry-renderer:has(.ytd-guide-entry-renderer[title=\"Shorts\"])"
+        "! Tablet resolution"
+        "www.youtube.com##ytd-mini-guide-entry-renderer:has(.ytd-mini-guide-entry-renderer[title=\"Shorts\"])"
+        ""
+        "! Hide shorts tab on channel pages"
+        "www.youtube.com##yt-tab-shape[tab-title=\"Shorts\"]"
+        ""
+        "! Hide shorts filter/category on top of homepage and search pages"
+        "www.youtube.com##yt-chip-cloud-chip-renderer:has(.ytChipShapeInactive:has-text(/^Shorts$/i))"
+        ""
+        "! Hide shorts sections on search page"
+        "www.youtube.com##ytm-shorts-lockup-view-model-v2:upward(grid-shelf-view-model)"
+      ];
+    };
+  };
   settings = {
-    "browser.theme.content-theme" = 0;
-    "browser.theme.toolbar-theme" = 0;
+    "browser.theme.content-theme" = 2;
+    "browser.theme.toolbar-theme" = 2;
     "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-    "browser.startup.homepage" = "https://www.youtube.com/feed/subscriptions";
     "browser.startup.page" = 3;
-    # Toolbar layout. Excluding `fxa-toolbar-menu-button' keeps the account
-    # button (and its "Recent sessions" panel) out of the toolbar; the
-    # widget moves to the palette. `new-tab-button' in TabsToolbar keeps the
-    # new tab button at the end of the tab strip (it only shows when placed
-    # adjacent to the tabs). dirtyAreaCache must cover every area we place.
     "browser.uiCustomization.state" = {
       placements = {
         "widget-overflow-fixed-list" = [ ];
-        "unified-extensions-area" = [ ];
+        "unified-extensions-area" = [
+          "ublock0_raymondhill_net-browser-action"
+          "sponsorblocker_ajay_app-browser-action"
+          "newtaboverride_agenedia_com-browser-action"
+          "_762f9885-5a13-4abd-9c77-433dcd38b8fd_-browser-action"
+        ];
         "nav-bar" = [
           "back-button"
           "forward-button"
@@ -45,7 +79,10 @@ base.mkWebAppModule {
           "unified-extensions-button"
         ];
         "toolbar-menubar" = [ "menubar-items" ];
-        "TabsToolbar" = [ "new-tab-button" ];
+        "TabsToolbar" = [
+          "tabbrowser-tabs"
+          "new-tab-button"
+        ];
         "PersonalToolbar" = [ ];
       };
       seen = [ ];
@@ -78,7 +115,17 @@ base.mkWebAppModule {
       --tab-min-height: 32px !important;
       --tab-selected-bgcolor: #272727 !important;
       --urlbar-box-bgcolor: transparent !important;
+      --toolbarbutton-inner-padding: 4px !important;
     }
+
+    #navigator-toolbox,
+    #nav-bar,
+    #TabsToolbar,
+    #PersonalToolbar {
+      background-color: var(--toolbox-bgcolor) !important;
+      background-image: none !important;
+    }
+
 
     #navigator-toolbox {
       flex-direction: row-reverse !important;
@@ -103,9 +150,13 @@ base.mkWebAppModule {
     /* Move tabs into the main header space */
     #TabsToolbar {
       background-color: transparent;
-      border-bottom-width: 0xp;
+      border-bottom-width: 0px;
       align-items: center !important;
       margin-right: 48px;
+    }
+
+    .tabbrowser-tab[selected] .tab-background {
+      background: var(--tab-selected-bgcolor) !important;
     }
 
     /* Adjust the height for a compact look */

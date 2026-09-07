@@ -11,4 +11,5 @@ base.mkWebAppModule {
   id = "seerr";
   name = "Seerr";
   url = "https://seerr.homelab.reillymc.com/";
+  savePasswords = true;
 }

@@ -91,6 +91,10 @@ let
     "browser.aboutConfig.showWarning" = false;
     "signon.rememberSignons" = false;
 
+    # Value 14 = default 15 minus the profile-scope bit (1). Auto-disable
+    # stays on for user/app scopes, but profile-scope addons are trusted.
+    "extensions.autoDisableScopes" = 14;
+
     # Suppress the first-run welcome/privacy-notice tab on freshly
     # regenerated webapp profiles (no saved homepage_override.mstone).
     "browser.startup.homepage_override.mstone" = "ignore";

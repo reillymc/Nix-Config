@@ -11,4 +11,5 @@ base.mkWebAppModule {
   id = "messenger";
   name = "Messenger";
   url = "https://www.messenger.com";
+  grantNotifications = true;
 }

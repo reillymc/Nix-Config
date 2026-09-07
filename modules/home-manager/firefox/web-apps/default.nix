@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }:
@@ -58,18 +57,35 @@ in
           }
         ];
       }
-      {
-        myhome.persistence.directories = map (p: ".config/mozilla/firefox/${p}/storage") profileNames;
-        myhome.persistence.files = lib.concatMap (
-          p:
-          map (f: ".config/mozilla/firefox/${p}/${f}") [
-            "cookies.sqlite"
-            "storage.sqlite"
-            "content-prefs.sqlite"
-            "permissions.sqlite"
-          ]
-        ) profileNames;
-      }
+      (
+        let
+          wholeIds = builtins.filter (id: config.myhome.web-apps.${id}.persistWholeProfile or false) (
+            lib.attrNames (lib.removeAttrs config.myhome.web-apps [ "enable" ])
+          );
+          # Apps opting into full profile retention which is atomic-write safe
+          # for Firefox's temp+rename of files like session, extension state etc
+          wholeProfiles = builtins.filter (p: builtins.elem p wholeIds) profileNames;
+          selectiveProfiles = builtins.filter (p: !builtins.elem p wholeIds) profileNames;
+        in
+        {
+          myhome.persistence.directories =
+            map (p: ".config/mozilla/firefox/${p}") wholeProfiles
+            ++ map (p: ".config/mozilla/firefox/${p}/storage") selectiveProfiles
+            ++ map (p: ".config/mozilla/firefox/${p}/extensions") selectiveProfiles;
+          myhome.persistence.files = lib.concatMap (
+            p:
+            map (f: ".config/mozilla/firefox/${p}/${f}") [
+              "cookies.sqlite"
+              "storage.sqlite"
+              "content-prefs.sqlite"
+              "permissions.sqlite"
+              "logins.db"
+              "key4.db"
+              "cert9.db"
+            ]
+          ) selectiveProfiles;
+        }
+      )
     ]
   );
 }

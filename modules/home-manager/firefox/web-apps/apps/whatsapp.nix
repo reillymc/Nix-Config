@@ -11,4 +11,5 @@ base.mkWebAppModule {
   id = "whatsapp";
   name = "WhatsApp";
   url = "https://web.whatsapp.com";
+  grantNotifications = true;
 }

@@ -534,7 +534,7 @@ in
       enable = true;
       settings = {
         general = {
-          lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
+          lock_cmd = "pidof hyprlock || hyprlock --grace 5"; # avoid starting multiple hyprlock instances.
           before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
           after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
         };
@@ -563,17 +563,14 @@ in
           general = {
             hide_cursor = true;
             ignore_empty_input = true;
+            grace = 5;
           };
           animations = {
             enabled = true;
-            fade_in = {
-              duration = 1000;
-              bezier = "easeOutQuint";
-            };
-            fade_out = {
-              duration = 1000;
-              bezier = "easeOutQuint";
-            };
+            animation = [
+              "fadeIn, 1, 20, linear"
+              "fadeOut, 1, 4, linear"
+            ];
           };
           background = [
             {

@@ -1,5 +1,4 @@
 {
-  pkgs,
   ...
 }:
 
@@ -7,7 +6,6 @@
   imports = [
     ../../modules/home-manager
     ../../users/reilly.nix
-
   ];
 
   myhome.display = {
@@ -44,117 +42,18 @@
     };
   };
 
-  myhome.vscode.enable = true;
-
-  myhome.web-apps = {
-    enable = true;
-    apps.immich.enable = true;
-    apps.jellyfin.enable = true;
-    apps.seerr.enable = true;
-    apps.messenger.enable = true;
-    apps.navidrome.enable = true;
-    apps.proton-mail.enable = true;
-    apps.youtube.enable = true;
-    apps.whatsapp.enable = true;
-  };
-
   myhome.audio.devices = [
     "bluez_output.94_DB_56_D5_A1_18.1" # Bluetooth Headphones
     "alsa_output.pci-0000_00_1f.3.hdmi-stereo" # Speaker via monitor
   ];
 
-  home.packages = with pkgs; [
-    newsflash
-    obsidian
-    picard
-    proton-vpn
-    foliate
-    rapidraw
+  myhome.persistence.directories = [
+    ".config/git/credentials"
+    ".expo"
   ];
-
-  programs.zed-editor.enable = true;
-
-  myhome.persistence = {
-    hideMounts = true;
-    allowTrash = true;
-    directories = [
-      "Desktop"
-      "Documents"
-      "Downloads"
-      "Games"
-      "Music"
-      "Pictures"
-      "Projects"
-      "Public"
-      "Resources"
-      "Videos"
-      ".config/git/credentials"
-      ".config/goa-1.0"
-      ".config/libreoffice"
-      ".config/MusicBrainz"
-      ".config/news-flash"
-      ".config/obsidian"
-      ".config/spotify"
-      ".config/vlc"
-      ".expo"
-      {
-        directory = ".gnupg";
-        mode = "0700";
-      }
-      ".local/share/com.github.johnfactotum.Foliate"
-      ".local/share/flatpak"
-      ".local/share/news-flash"
-      ".local/share/org.localsend.localsend_app"
-      ".local/share/Steam"
-      ".local/share/Trash"
-      ".local/state/news-flash"
-      ".local/state/showtime"
-      {
-        directory = ".ssh";
-        mode = "0700";
-      }
-      ".steam"
-      ".var"
-    ];
-    files = [
-      ".bash_history"
-      ".npmrc"
-    ];
-  };
-
-  xdg.mimeApps = {
-    enable = true;
-
-    defaultApplications =
-      let
-        imageViewer = [ "org.gnome.Loupe.desktop" ];
-        textViewer = [ "dev.zed.Zed.desktop" ];
-        videoViewer = [ "vlc.desktop" ];
-        audioViewer = [ "org.gnome.Decibels.desktop" ];
-      in
-      {
-        "application/zip" = [ "org.gnome.Nautilus.desktop" ];
-        "application/pdf" = [ "org.gnome.Papers.desktop" ];
-        "application/atom+xml" = textViewer;
-        "application/x-shellscript" = textViewer;
-        "audio/mpeg" = audioViewer;
-        "application/sql" = textViewer;
-        "application/xml" = textViewer;
-        "video/quicktime" = videoViewer;
-        "video/mp4" = videoViewer;
-        "text/x-log" = textViewer;
-        "application/vnd.ms-publisher" = textViewer;
-        "image/jpeg" = imageViewer;
-        "image/jpg" = imageViewer;
-        "image/png" = imageViewer;
-        "image/gif" = imageViewer;
-        "image/webp" = imageViewer;
-        "image/avif" = imageViewer;
-        "image/heic" = imageViewer;
-        "image/heif" = imageViewer;
-        "image/tiff" = imageViewer;
-      };
-  };
+  myhome.persistence.files = [
+    ".npmrc"
+  ];
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

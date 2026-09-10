@@ -48,5 +48,4 @@
     "bluez_output.94_DB_56_D5_A1_18.1" # Bluetooth Headphones
     "alsa_output.pci-0000_0e_00.1.hdmi-stereo" # Speaker via monitor
   ];
-
 }

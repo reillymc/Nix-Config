@@ -17,6 +17,39 @@
   ];
   # Currently needed in order to persist session state
   persistWholeProfile = true;
+  search = {
+    force = true;
+    default = "youtube";
+    privateDefault = "youtube";
+    order = [ "youtube" ];
+    engines = {
+      youtube = {
+        name = "YouTube";
+        icon = "https://www.youtube.com/favicon.ico";
+        definedAliases = [ "yt" ];
+        urls = [
+          {
+            template = "https://www.youtube.com/results";
+            params = [
+              {
+                name = "search_query";
+                value = "{searchTerms}";
+              }
+            ];
+          }
+        ];
+      };
+      google.metaData.hidden = true;
+      ddg.metaData.hidden = true;
+      bing.metaData.hidden = true;
+      ecosia.metaData.hidden = true;
+      qwant.metaData.hidden = true;
+      perplexity.metaData.hidden = true;
+      wikipedia.metaData.hidden = true;
+      "ebay-au".metaData.hidden = true;
+      "ebay-uk".metaData.hidden = true;
+    };
+  };
   policies = {
     "3rdparty".Extensions."uBlock0@raymondhill.net" = {
       toOverwrite.filters = [

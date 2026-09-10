@@ -29,6 +29,7 @@
               ${newTabOverrideId} = {
                 type = "custom_url";
                 url = app.url;
+                focus_website = true;
               };
             };
           };

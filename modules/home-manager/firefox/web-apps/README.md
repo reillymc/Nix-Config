@@ -1,73 +1,53 @@
 # Firefox Web Apps
 
-Each "web app" is a **dedicated wrapped Firefox binary + dedicated profile**, launched from its own desktop entry with `-no-remote --profile`. Per-webapp: policies, extensions, userscripts, prefs, userChrome. Persistence-aware (impermanence).
+Each web app is a dedicated wrapped Firefox binary + dedicated profile, launched from its own desktop entry (`-no-remote --profile`). Per app: policies, extensions, userscripts, prefs, userChrome. Impermanence-aware.
 
 ## Adding a web app
 
 Create `apps/<id>.nix`:
 
 ```nix
-{ lib, config, pkgs, ... }:
-let base = import ../base.nix { inherit lib config pkgs; }; in
-base.mkWebAppModule {
-  id = "youtube";                                   # also the profile name + autoconfig derivation name
-  name = "YouTube";                                 # desktop entry display name
+{
+  name = "YouTube";                                 # default: <id>
   url = "https://www.youtube.com/feed/subscriptions";
-  # icon = "youtube.svg";                           # optional; default "icons/<id>.svg" (asserted to exist)
-  addons = [                                        # optional; force-installed from AMO
+  # icon = "youtube.svg";                           # default: icons/<id>.svg, asserted to exist
+  addons = [                                        # force-installed from AMO
     { id = "uBlock0@raymondhill.net"; slug = "ublock-origin"; }
-    { id = "sponsorBlocker@ajay.app"; slug = "sponsorblock"; }
   ];
-  settings = {                                      # optional extra profile prefs (user.js)
-    "browser.uiCustomization.state" = { … };        # toolbar layout (see apps/youtube.nix)
-  };
-  userChrome = '' … '';                             # optional; default = webAppSingleMinimal (collapse until 2nd tab)
-  policies = { };                                   # optional per-binary policy overrides (merged over baseline)
-  grantNotifications = false;                       # optional: pre-grant web notifications for the app origin
-  savePasswords = false;                            # optional: enable password saving for the base domain
-  persistWholeProfile = false;                      # optional: retain the whole profile dir (session restore; cf. youtube)
-  userscripts = [ { name = "…"; hosts = [ "host.example" ]; script = ''…''; } ];  # optional, see below
+  settings = { };                                   # extra profile prefs (user.js)
+  userChrome = '' … '';                             # default: webAppSingleMinimal
+  policies = { };                                   # per-binary overrides over policies.nix baseline
+  grantNotifications = false;                       # pre-grant notifications for the app origin
+  savePasswords = false;                            # set signon.rememberSignons
+  persistWholeProfile = false;                      # retain whole profile dir (session restore)
+  userscripts = [ { name = "…"; hosts = [ "host.example" ]; script = ''…''; } ];
 }
 ```
 
-Then `./apps/<id>.nix` must be listed in `default.nix`'s `appModules`, an icon goes into `icons/`, and hosts enable with `myhome.web-apps.<id>.enable = true;`. Persistence is wired automatically in `default.nix`: selective apps keep `storage/`, `extensions/`, `cookies.sqlite`, `storage.sqlite`, `content-prefs.sqlite`, `permissions.sqlite`, `logins.db`, `key4.db`, `cert9.db`; apps with `persistWholeProfile = true` (youtube) retain the entire profile dir — the only way session restore and a stable extensions registry survive reboots (see below).
+Register it in the `apps` registry in `default.nix`, add the icon to `icons/`, enable per host with `myhome.web-apps.apps.<id>.enable = true;`. Only `url` is required; `enable` is the only field hosts should set on a built-in. Overriding other built-in fields is unsupported. Custom apps may be defined inline under `myhome.web-apps.apps.<id>` but still need their icon in `icons/`.
 
-## What the factory generates
+## Generated per app
 
-- **Wrapped binary** (`mkWebAppPackage`): `pkgs.firefox.override` merging, in order: baseline policies (`policies.nix`) → app `policies` → generated `ExtensionSettings` + `3rdparty` → plus `extraPrefsFiles` (autoconfig).
-- **Profile** `programs.firefox.profiles.<id>`: settings merged `prefs.webApp // { browser.startup.homepage = url; } // settings // UUID-pinning pref`; `userChrome`.
-- **Desktop entry** `xdg.desktopEntries.<id>`: execs the wrapped binary.
-- **Enable option** `myhome.web-apps.<id>.enable` + icon-existence assertion.
-- **Convenience options**: `browser.startup.homepage` defaults to `url`; `grantNotifications` adds `Permissions.Notifications.Allow` with the origin derived from `url`; `savePasswords` sets `signon.rememberSignons`; `persistWholeProfile` opts into full profile-dir persistence. Merged before app-provided `settings`/`policies`, so explicit values win.
+- Binary: `pkgs.firefox.override` with baseline policies → app `policies` → generated `ExtensionSettings` + `3rdparty` managed storage; `extraPrefsFiles` for autoconfig.
+- Profile `programs.firefox.profiles.<id>`: `prefs.webApp` + homepage + `settings` + pinned extension UUIDs; `userChrome`.
+- Desktop entry `xdg.desktopEntries.<id>` running the wrapped binary.
+- Persistence: selective profiles keep `storage/`, `extensions/`, `cookies.sqlite`, `storage.sqlite`, `content-prefs.sqlite`, `permissions.sqlite`, `logins.db`, `key4.db`, `cert9.db`; `persistWholeProfile` keeps the whole profile dir.
 
-## Extension management (policy-based)
+## Extensions
 
-`ExtensionSettings` follows the NixOS wiki pattern: `"*".installation_mode = "blocked"` (non-declared addons are uninstalled/blocked) and per declared addon `{ installation_mode = "force_installed"; install_url = "https://addons.mozilla.org/firefox/downloads/latest/<slug>/latest.xpi"; updates_disabled = true; }`.
+`ExtensionSettings` blocks undeclared addons (`"*".installation_mode = "blocked"`); declared addons are `force_installed` via `https://addons.mozilla.org/firefox/downloads/latest/<slug>/latest.xpi` with `updates_disabled = true`. `id` must be the real gecko id (AMO `guid`). Policies are per wrapped binary; global `programs.firefox.policies` stays default-profile-only. Do not use HM `extensions.settings.<id>.settings` seeding (breaks IndexedDB persistence).
 
-- Addons are `{ id = "<gecko addon id>"; slug = "<amo slug>"; }` — the id must be the addon's real gecko id (AMO API: `guid`); the slug drives the `latest.xpi` URL. Install-state retention is opt-in: only `persistWholeProfile` profiles (youtube) keep `extensions.json` and skip per-boot re-install (no `onInstalled` pages, offline boots keep working). Selective profiles re-install their addons every boot from AMO (`latest.xpi`, versions float; `updates_disabled` blocks in-browser updates).
-- Policy management is **per-binary** — that's why each webapp wraps its own Firefox. Global `programs.firefox.policies` (firefox.nix) stays default-profile-only.
-- **Do not** use HM `extensions.settings.<id>.settings` seeding: it force-disables the IndexedDB storage backend → extension data lands on tmpfs and is lost every boot.
+Extension UUIDs are pinned deterministically (`mkUuid`, sha256 of addon id), keeping `storage/default/moz-extension+++<uuid>/` stable across profile regeneration. Selective profiles do not persist `extensions.json` (atomic-written), so addons reinstall each boot; `persistWholeProfile` keeps the registry and session.
 
-## Extension data persistence
+New Tab Override is force-installed in every webapp; its managed-storage config points new tabs at the app URL and forces `focus_website = true` (focus the web page, not the address bar). Other extensions can be configured the same way via `3rdparty` iff they read `browser.storage.managed`.
 
-`webAppExtensionPrefs` pins `extensions.webextensions.uuids` (deterministic sha256-derived UUIDs via `mkUuid`), keeping `storage/default/moz-extension+++<uuid>/` stable across profile regeneration. That dir is persisted for selective profiles, so extension `storage.local` (uBlock lists, SponsorBlock DB) survives reboots. **Never remove the UUID pref.**
+## Userscripts
 
-Selective profiles do **not** persist `extensions.json` — it is atomic-written (temp+rename), which neither a symlink nor a bind mount can carry — so their force-installed addons are re-installed each boot (`autoDisableScopes = 14` keeps them enabled). A profile that needs a stable registry and session restore sets `persistWholeProfile = true`; the whole dir persists, so `extensions.json` writes land inside the retained directory.
+Deployed via enterprise autoconfig (`extraPrefsFiles` → `mozilla.cfg`): a frame script registered with the message manager observes `document-element-inserted`, host-gates, and injects via page-context `eval`. `mozilla.cfg` and frame script must be ES5; injected code may be modern JS. Progress is logged to the `webapps.log` pref (`webapps.step`, `webapps.bootstrap`).
 
-## New Tab Override
+## Constraints
 
-`newtaboverride@agenedia.com` is force-installed in every webapp and configured via the `3rdparty` **managed-storage** policy (`type = custom_url`, `url = <app.url>`) — managed keys override local settings, so new tabs always open the app URL. Declaratively configuring other extensions works the same way **if** the addon reads `browser.storage.managed` (SponsorBlock: no). uBlock is configured this way in `apps/youtube.nix`: `3rdparty.Extensions."uBlock0@raymondhill.net".toOverwrite.filters` (schema: `managed_storage.json` inside the xpi) seeds "My filters" on every launch — idempotent, but reverts hand edits to that pane.
-
-## Userscript injection (no extension)
-
-`userscripts` are deployed via Firefox **enterprise autoconfig**: the nixpkgs wrapper writes `lib/firefox/mozilla.cfg` (shipped `defaults/pref/autoconfig.js` bootstrap, `obscure_value = 0`), and `extraPrefsFiles` contents are appended into it. The generated config is **ES5 only** (the autoconfig JS dialect may reject ES6). `mozilla.cfg` is generated **only for apps that declare `userscripts`**, and its single job is the frame-script bootstrap: registers the embedded frame script with the message manager using a **`data:` URI**. The frame script (content process) observes `document-element-inserted`, host-gates, and injects via `content.wrappedJSObject.eval(code)` — page context, `@grant none` semantics, userscript body unmodified.
-
-Every step is logged to the `webapps.log` pref (append-style history, first entry = running FF version), plus `webapps.step` (last step) and `webapps.bootstrap` (final state).
-
-## Hard constraints (do not fight these)
-
-- **Signing**: release Firefox rejects unsigned extensions in every scope/install path — local xpi wrappers are impossible; only AMO-signed addons.
-- **Fission**: `document-element-inserted` must be observed in the content process (frame script), never the parent.
-- **ES5** in `mozilla.cfg` + frame script; injected page-context code may be modern JS.
-- **`browser.uiCustomization.state` widget ids are sanitized** addon ids: lowercase, `@`/`.` → `_`, plus `-browser-action` (e.g. `ublock0_raymondhill_net-browser-action`). Raw addon-id forms silently fail to match and Firefox auto-pins the widget to the nav-bar. Pre-place ids in `unified-extensions-area` to keep buttons out of the toolbar.
-- **Nix**: escape JS template literals in `''` strings as `''${…}`;
+- Release Firefox accepts only AMO-signed addons.
+- `document-element-inserted` must be observed in the content process, never the parent.
+- `browser.uiCustomization.state` widget ids are sanitized addon ids: lowercase, `@`/`.` → `_`, plus `-browser-action`. Pre-place them in `unified-extensions-area`.
+- Escape JS template literals in `''` strings as `''${…}`;

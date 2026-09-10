@@ -1,12 +1,4 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
-}:
 let
-  base = import ../base.nix { inherit lib config pkgs; };
-
   # Video zoom control: adds a segmented control to the Jellyfin video OSD
   # and remembers the chosen zoom per title in page localStorage.
   zoomScript = ''
@@ -202,8 +194,7 @@ let
     })();
   '';
 in
-base.mkWebAppModule {
-  id = "jellyfin";
+{
   name = "Jellyfin";
   url = "https://jellyfin.homelab.reillymc.com/web";
   grantNotifications = true;

@@ -14,15 +14,15 @@
 
   myhome.web-apps = {
     enable = true;
-    immich.enable = true;
-    jellyfin.enable = true;
-    seerr.enable = true;
-    messenger.enable = true;
-    navidrome.enable = true;
-    paperless.enable = true;
-    proton-mail.enable = true;
-    youtube.enable = true;
-    whatsapp.enable = true;
+    apps.immich.enable = true;
+    apps.jellyfin.enable = true;
+    apps.seerr.enable = true;
+    apps.messenger.enable = true;
+    apps.navidrome.enable = true;
+    apps.paperless.enable = true;
+    apps.proton-mail.enable = true;
+    apps.youtube.enable = true;
+    apps.whatsapp.enable = true;
   };
 
   programs.zed-editor.enable = true;

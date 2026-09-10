@@ -1,91 +1,203 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }:
 let
-  appModules = [
-    ./apps/immich.nix
-    ./apps/jellyfin.nix
-    ./apps/seerr.nix
-    ./apps/messenger.nix
-    ./apps/navidrome.nix
-    ./apps/paperless.nix
-    ./apps/proton-mail.nix
-    ./apps/youtube.nix
-    ./apps/whatsapp.nix
-  ];
+  helpers = import ./lib { inherit lib pkgs config; };
+  inherit (helpers) mkAppConfig;
 
-  profiles = config.programs.firefox.profiles;
+  # NOTE: the submodule below holds pure data only (options, no config).
+  appSubmodule = lib.types.submodule (
+    { name, ... }:
+    {
+      options = {
+        enable = lib.mkEnableOption "${name} web app";
 
-  profileNames = lib.attrNames (lib.filterAttrs (name: _: name != "default") profiles);
+        name = lib.mkOption {
+          type = lib.types.str;
+          default = name;
+          description = "Desktop entry display name.";
+        };
+
+        url = lib.mkOption {
+          type = lib.types.str;
+          description = "App URL. Also the new-tab URL and default homepage.";
+        };
+
+        icon = lib.mkOption {
+          type = lib.types.str;
+          default = "${name}.svg";
+          description = "Icon file in icons/ (asserted to exist).";
+        };
+
+        addons = lib.mkOption {
+          type = lib.types.listOf (
+            lib.types.submodule {
+              options = {
+                id = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Addon's real gecko id (AMO API guid).";
+                };
+                slug = lib.mkOption {
+                  type = lib.types.str;
+                  description = "AMO slug, drives the latest.xpi install URL.";
+                };
+              };
+            }
+          );
+          default = [ ];
+        };
+
+        settings = lib.mkOption {
+          type = lib.types.attrs;
+          default = { };
+          description = "Extra profile prefs (user.js), merged over defaults.";
+        };
+
+        userChrome = lib.mkOption {
+          type = lib.types.nullOr lib.types.lines;
+          default = null;
+          description = "Custom userChrome; defaults to webAppSingleMinimal.";
+        };
+
+        policies = lib.mkOption {
+          type = lib.types.attrs;
+          default = { };
+          description = "Per-binary policy overrides, merged over the baseline.";
+        };
+
+        search = lib.mkOption {
+          type = lib.types.attrs;
+          default = { };
+          description = "Firefox search config for the profile (force/default/engines); empty disables.";
+        };
+
+        grantNotifications = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Pre-grant web notifications for the app origin.";
+        };
+
+        savePasswords = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Enable password saving for the app.";
+        };
+
+        persistWholeProfile = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Retain the whole profile dir (session restore).";
+        };
+
+        userscripts = lib.mkOption {
+          type = lib.types.listOf (
+            lib.types.submodule {
+              options = {
+                name = lib.mkOption { type = lib.types.str; };
+                hosts = lib.mkOption { type = lib.types.listOf lib.types.str; };
+                script = lib.mkOption { type = lib.types.lines; };
+              };
+            }
+          );
+          default = [ ];
+        };
+      };
+    }
+  );
+
+  enabledApps = lib.filterAttrs (_: app: app.enable) config.myhome.web-apps.apps;
+  appConfigs = lib.mapAttrs mkAppConfig enabledApps;
+  wholeIds = lib.attrNames (lib.filterAttrs (_: app: app.persistWholeProfile) enabledApps);
+  selectiveIds = lib.attrNames (lib.filterAttrs (_: app: !app.persistWholeProfile) enabledApps);
+
+  webAppIds = lib.mapAttrs (id: _: helpers.mkProfileId id) enabledApps;
 
   idToNames = lib.foldl' (
     acc: name:
     let
-      id = toString profiles.${name}.id;
-      old = acc.${id} or [ ];
+      key = toString webAppIds.${name};
+      old = acc.${key} or [ ];
     in
-    acc // { ${id} = old ++ [ name ]; }
-  ) { } (lib.attrNames profiles);
+    acc // { ${key} = old ++ [ name ]; }
+  ) { } (lib.attrNames enabledApps);
 
   collisions = lib.filterAttrs (_: v: builtins.length v > 1) idToNames;
+
+  defaultProfileId = config.programs.firefox.profiles.default.id or 0;
+  defaultCollisions = lib.filterAttrs (_: id: id == defaultProfileId) webAppIds;
 in
 {
-  imports = appModules;
+  options.myhome.web-apps = {
+    enable = lib.mkEnableOption "Enable Firefox-based Web Apps integration";
 
-  options = {
-    myhome.web-apps.enable = lib.mkEnableOption "Enable Firefox-based Web Apps integration";
+    apps = lib.mkOption {
+      type = lib.types.attrsOf appSubmodule;
+      default = { };
+      description = "Firefox web apps. Built-ins are provided as definitions below (overridable); custom apps can be added.";
+    };
   };
 
-  config = lib.mkIf config.myhome.web-apps.enable (
-    lib.mkMerge [
-      {
-        programs.firefox.enable = true;
+  config = lib.mkMerge [
+    {
+      myhome.web-apps.apps = {
+        immich = import ./apps/immich.nix;
+        jellyfin = import ./apps/jellyfin.nix;
+        messenger = import ./apps/messenger.nix;
+        navidrome = import ./apps/navidrome.nix;
+        paperless = import ./apps/paperless.nix;
+        proton-mail = import ./apps/proton-mail.nix;
+        seerr = import ./apps/seerr.nix;
+        whatsapp = import ./apps/whatsapp.nix;
+        youtube = import ./apps/youtube.nix;
+      };
+    }
+    (lib.mkIf config.myhome.web-apps.enable {
+      programs.firefox.enable = true;
 
-        assertions = [
-          {
-            assertion = collisions == { };
-            message = ''
-              [web-apps] Collision detected in generated Firefox profile IDs!
-              ${lib.concatStringsSep "\n" (
-                lib.mapAttrsToList (
-                  id: names: "ID ${id} used by profiles: ${lib.concatStringsSep ", " names}"
-                ) collisions
-              )}
-            '';
-          }
-        ];
-      }
-      (
-        let
-          wholeIds = builtins.filter (id: config.myhome.web-apps.${id}.persistWholeProfile or false) (
-            lib.attrNames (lib.removeAttrs config.myhome.web-apps [ "enable" ])
-          );
-          # Apps opting into full profile retention which is atomic-write safe
-          # for Firefox's temp+rename of files like session, extension state etc
-          wholeProfiles = builtins.filter (p: builtins.elem p wholeIds) profileNames;
-          selectiveProfiles = builtins.filter (p: !builtins.elem p wholeIds) profileNames;
-        in
+      programs.firefox.profiles = lib.mapAttrs (_: c: c.profile) appConfigs;
+
+      xdg.desktopEntries = lib.mapAttrs (_: c: c.desktopEntry) appConfigs;
+
+      assertions = [
         {
-          myhome.persistence.directories =
-            map (p: ".config/mozilla/firefox/${p}") wholeProfiles
-            ++ map (p: ".config/mozilla/firefox/${p}/storage") selectiveProfiles
-            ++ map (p: ".config/mozilla/firefox/${p}/extensions") selectiveProfiles;
-          myhome.persistence.files = lib.concatMap (
-            p:
-            map (f: ".config/mozilla/firefox/${p}/${f}") [
-              "cookies.sqlite"
-              "storage.sqlite"
-              "content-prefs.sqlite"
-              "permissions.sqlite"
-              "logins.db"
-              "key4.db"
-              "cert9.db"
-            ]
-          ) selectiveProfiles;
+          assertion = collisions == { };
+          message = ''
+            [web-apps] Collision detected in generated Firefox profile IDs!
+            ${lib.concatStringsSep "\n" (
+              lib.mapAttrsToList (
+                id: names: "ID ${id} used by profiles: ${lib.concatStringsSep ", " names}"
+              ) collisions
+            )}
+          '';
         }
-      )
-    ]
-  );
+        {
+          assertion = defaultCollisions == { };
+          message = ''
+            [web-apps] Generated profile ID collides with the default profile ID (${toString defaultProfileId}): ${lib.concatStringsSep ", " (lib.attrNames defaultCollisions)}
+          '';
+        }
+      ]
+      ++ lib.mapAttrsToList (_: c: c.assertion) appConfigs;
+
+      myhome.persistence.directories =
+        map (p: ".config/mozilla/firefox/${p}") wholeIds
+        ++ map (p: ".config/mozilla/firefox/${p}/storage") selectiveIds
+        ++ map (p: ".config/mozilla/firefox/${p}/extensions") selectiveIds;
+      myhome.persistence.files = lib.concatMap (
+        p:
+        map (f: ".config/mozilla/firefox/${p}/${f}") [
+          "cookies.sqlite"
+          "storage.sqlite"
+          "content-prefs.sqlite"
+          "permissions.sqlite"
+          "logins.db"
+          "key4.db"
+          "cert9.db"
+        ]
+      ) selectiveIds;
+    })
+  ];
 }

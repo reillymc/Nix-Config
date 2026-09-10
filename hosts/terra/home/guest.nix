@@ -15,9 +15,9 @@
 
   myhome.web-apps = {
     enable = true;
-    jellyfin.enable = true;
-    seerr.enable = true;
-    youtube.enable = true;
+    apps.jellyfin.enable = true;
+    apps.seerr.enable = true;
+    apps.youtube.enable = true;
   };
 
   myhome.persistence = {

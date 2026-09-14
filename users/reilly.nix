@@ -39,6 +39,9 @@
         ControlMaster = "no";
         ControlPath = "~/.ssh/master-%r@%n:%p";
         ControlPersist = "no";
+        SetEnv = {
+          TERM = "xterm-256color";
+        };
       };
 
       silverserver = {

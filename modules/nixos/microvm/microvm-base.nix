@@ -11,6 +11,15 @@
 
   mynixos.microvm.guest.enable = true;
 
+  # Avoid guests clock drifting behind when the host suspends
+  microvm.kernelParams = [ "clocksource=kvm-clock" ];
+
+  services.chrony = {
+    enable = true;
+    makestep.enable = false;
+    extraConfig = "makestep 1 -1";
+  };
+
   # Fix for microvm shutdown hang (issue #170):
   # Without this, systemd tries to unmount /nix/store during shutdown,
   # but umount lives in /nix/store, causing a deadlock.

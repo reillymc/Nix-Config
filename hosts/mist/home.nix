@@ -499,7 +499,7 @@ in
           color = "secondary";
         };
       };
-      model = "opencode-go/glm-5.3-flash";
+      model = "opencode-go/deepseek-v4.1-flash";
       provider."opencode-go".options.apiKey = "{file:api-key}";
     };
   };

@@ -130,10 +130,8 @@ let
     text = ''
       set -euo pipefail
 
-      echo "Removing old generations..."
+      sudo nix-collect-garbage --delete-older-than 30d
       nix-collect-garbage --delete-older-than 30d
-
-      echo "Optimising store..."
       nix store optimise
     '';
   };

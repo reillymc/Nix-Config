@@ -76,6 +76,9 @@
         ""
         "! Hide shorts sections on search page"
         "www.youtube.com##ytm-shorts-lockup-view-model-v2:upward(grid-shelf-view-model)"
+        ""
+        "! Hide most relevant on subscriptions page"
+        "www.youtube.com##ytd-browse[page-subtype=\"subscriptions\"] ytd-rich-section-renderer"
       ];
     };
   };

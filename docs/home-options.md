@@ -1,79 +1,6 @@
-# Home Manager Modules Options
-
-## _module\.args
-
-Additional arguments passed to each module in addition to ones
-like ` lib `, ` config `,
-and ` pkgs `, ` modulesPath `\.
-
-This option is also available to all submodules\. Submodules do not
-inherit args from their parent module, nor do they provide args to
-their parent module or sibling submodules\. The sole exception to
-this is the argument ` name ` which is provided by
-parent modules to a submodule and contains the attribute name
-the submodule is bound to, or a unique generated name if it is
-not bound to an attribute\.
-
-Some arguments are already passed by default, of which the
-following *cannot* be changed with this option:
-
- - ` lib `: The nixpkgs library\.
-
- - ` config `: The results of all options after merging the values from all modules together\.
-
- - ` options `: The options declared in all modules\.
-
- - ` specialArgs `: The ` specialArgs ` argument passed to ` evalModules `\.
-
- - All attributes of ` specialArgs `
-   
-   Whereas option values can generally depend on other option values
-   thanks to laziness, this does not apply to ` imports `, which
-   must be computed statically before anything else\.
-   
-   For this reason, callers of the module system can provide ` specialArgs `
-   which are available during import resolution\.
-   
-   For NixOS, ` specialArgs ` includes
-   ` modulesPath `, which allows you to import
-   extra modules from the nixpkgs package tree without having to
-   somehow make the module aware of the location of the
-   ` nixpkgs ` or NixOS directories\.
-   
-   ```
-   { modulesPath, ... }: {
-     imports = [
-       (modulesPath + "/profiles/minimal.nix")
-     ];
-   }
-   ```
-
-For NixOS, the default value for this option includes at least this argument:
-
- - ` pkgs `: The nixpkgs package set according to
-   the ` nixpkgs.pkgs ` option\.
-
-
-
-*Type:*
-lazy attribute set of raw value
-
-
-
-*Default:*
-
-```nix
-{ }
-```
-
-*Declared by:*
- - [\<nixpkgs/lib/modules\.nix>](https://github.com/NixOS/nixpkgs/blob//lib/modules.nix)
-
-
+# Home Manager Configuration Options
 
 ## myhome\.audio\.devices
-
-
 
 A list of audio outputs that should be actively used by the system, e\.g\. in audio output cycle script\.
 Order determines device priority\. E\.g\. first device will be default if connected, else second and so on\.
@@ -107,7 +34,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/audio/devices\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/audio/devices.nix)
+ - [modules/home-manager/audio/devices\.nix](../modules/home-manager/audio/devices.nix)
 
 
 
@@ -131,7 +58,7 @@ submodule
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/brightness.nix)
+ - [modules/home-manager/display/brightness\.nix](../modules/home-manager/display/brightness.nix)
 
 
 
@@ -147,7 +74,7 @@ Time of day when ‘day’ (max brightness) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/brightness.nix)
+ - [modules/home-manager/display/brightness\.nix](../modules/home-manager/display/brightness.nix)
 
 
 
@@ -163,7 +90,31 @@ Time of day when ‘night’ (min brightness) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/brightness\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/brightness.nix)
+ - [modules/home-manager/display/brightness\.nix](../modules/home-manager/display/brightness.nix)
+
+
+
+## myhome\.display\.brightness\.step
+
+
+
+Brightness increment applied per adjustment\.
+
+
+
+*Type:*
+signed integer
+
+
+
+*Default:*
+
+```nix
+20
+```
+
+*Declared by:*
+ - [modules/home-manager/display/brightness\.nix](../modules/home-manager/display/brightness.nix)
 
 
 
@@ -207,7 +158,7 @@ list of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -231,7 +182,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -257,7 +208,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -281,7 +232,7 @@ false
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -297,7 +248,7 @@ Monitor model name, e\.g\. eiq-495KCSUW
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -313,7 +264,7 @@ Output name, e\.g\. DP-1
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -337,7 +288,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -361,7 +312,7 @@ signed integer
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -385,7 +336,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -409,7 +360,7 @@ floating point number
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/monitors.nix)
+ - [modules/home-manager/display/monitors\.nix](../modules/home-manager/display/monitors.nix)
 
 
 
@@ -433,7 +384,7 @@ submodule
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/night-shift.nix)
+ - [modules/home-manager/display/night-shift\.nix](../modules/home-manager/display/night-shift.nix)
 
 
 
@@ -449,7 +400,7 @@ Time of day when ‘day’ (normal color temperature) starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/night-shift.nix)
+ - [modules/home-manager/display/night-shift\.nix](../modules/home-manager/display/night-shift.nix)
 
 
 
@@ -465,7 +416,7 @@ Time of day when ‘night’ (night shift temperature) window starts (HH:MM)\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/night-shift\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/night-shift.nix)
+ - [modules/home-manager/display/night-shift\.nix](../modules/home-manager/display/night-shift.nix)
 
 
 
@@ -493,7 +444,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/layout\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/layout.nix)
+ - [modules/home-manager/display/layout\.nix](../modules/home-manager/display/layout.nix)
 
 
 
@@ -561,32 +512,7 @@ attribute set
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/theme\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/display/theme.nix)
-
-
-
-## myhome\.myUnfreePackages
-
-
-
-List of predicates to allow unfree packages\.
-These will be merged, letting allowUnfreePredicate be defined in a modular way\.
-
-
-
-*Type:*
-list of string
-
-
-
-*Default:*
-
-```nix
-[ ]
-```
-
-*Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/unfree-packages\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/options/unfree-packages.nix)
+ - [modules/home-manager/display/theme\.nix](../modules/home-manager/display/theme.nix)
 
 
 
@@ -618,7 +544,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/development/ssh-mist\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/development/ssh-mist.nix)
+ - [modules/home-manager/development/ssh-mist\.nix](../modules/home-manager/development/ssh-mist.nix)
 
 
 
@@ -650,7 +576,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup.nix)
+ - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
 
 
 
@@ -674,7 +600,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup.nix)
+ - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
 
 
 
@@ -699,7 +625,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup.nix)
+ - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
 
 
 
@@ -723,7 +649,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup.nix)
+ - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
 
 
 
@@ -748,7 +674,7 @@ attribute set
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state/backup.nix)
+ - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
 
 
 
@@ -758,19 +684,13 @@ attribute set
 
 Directories (relative to ` home.homeDirectory') to persist via impermanence and back up via  `myhome\.state\.backup’\.
 
-An entry is a path string, or an attribute set with:
-
- - \`directory’: the path\.
- - ` persist': impermanence directory options (e.g.  `mode’, ` user',  `group’, ` hideMount',  `allowTrash’), plus ` enable' (default  `true’)\.
- - ` backup':  `enable’ (default \`true’)\.
-
-\`persist\.enable = false’ skips impermanence (e\.g\. a path already inside
-a broader persisted tree) while keeping the backup\.
+Each entry is either a path string or an attribute set accepting
+` directory',  `persist’, and \`backup’\.
 
 
 
 *Type:*
-list of (string or (attribute set))
+list of (string or (submodule))
 
 
 
@@ -781,7 +701,7 @@ list of (string or (attribute set))
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state)
+ - [modules/home-manager/state](../modules/home-manager/state)
 
 
 
@@ -791,18 +711,13 @@ list of (string or (attribute set))
 
 Files (relative to ` home.homeDirectory') to persist via impermanence and back up via  `myhome\.state\.backup’\.
 
-An entry is a path string, or an attribute set with:
-
- - \`file’: the path\.
- - ` persist': impermanence file options (e.g.  `method’), plus ` enable' (default  `true’)\.
- - ` backup':  `enable’ (default \`true’)\.
-
-\`persist\.enable = false’ skips impermanence while keeping the backup\.
+Each entry is either a path string or an attribute set accepting
+` file',  `persist’, and \`backup’\.
 
 
 
 *Type:*
-list of (string or (attribute set))
+list of (string or (submodule))
 
 
 
@@ -813,7 +728,7 @@ list of (string or (attribute set))
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state)
+ - [modules/home-manager/state](../modules/home-manager/state)
 
 
 
@@ -839,7 +754,32 @@ attribute set
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/state)
+ - [modules/home-manager/state](../modules/home-manager/state)
+
+
+
+## myhome\.unfreePackages
+
+
+
+List of predicates to allow unfree packages\.
+These will be merged, letting allowUnfreePredicate be defined in a modular way\.
+
+
+
+*Type:*
+list of string
+
+
+
+*Default:*
+
+```nix
+[ ]
+```
+
+*Declared by:*
+ - [modules/home-manager/unfree-packages\.nix](../modules/home-manager/unfree-packages.nix)
 
 
 
@@ -847,7 +787,7 @@ attribute set
 
 
 
-Whether to enable enables vscode\.
+Whether to enable VSCode\.
 
 
 
@@ -871,7 +811,31 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/development/vscode\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/development/vscode.nix)
+ - [modules/home-manager/development/vscode\.nix](../modules/home-manager/development/vscode.nix)
+
+
+
+## myhome\.vscode\.configDir
+
+
+
+Absolute path to a live checkout of this repo; enables nixd NixOS/Home Manager option evaluation\. Set to null to disable\.
+
+
+
+*Type:*
+null or string
+
+
+
+*Default:*
+
+```nix
+"~/Projects/Nix-Config"
+```
+
+*Declared by:*
+ - [modules/home-manager/development/vscode\.nix](../modules/home-manager/development/vscode.nix)
 
 
 
@@ -879,7 +843,7 @@ true
 
 
 
-Whether to enable Enable Firefox-based Web Apps integration\.
+Whether to enable Firefox-based Web Apps integration\.
 
 
 
@@ -903,7 +867,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -927,7 +891,7 @@ attribute set of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -959,7 +923,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -983,7 +947,7 @@ list of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -999,7 +963,7 @@ Addon’s real gecko id (AMO API guid)\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1015,7 +979,7 @@ AMO slug, drives the latest\.xpi install URL\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1039,7 +1003,7 @@ false
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1063,7 +1027,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1087,7 +1051,7 @@ string
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1111,7 +1075,7 @@ false
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1135,7 +1099,7 @@ attribute set
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1159,7 +1123,7 @@ false
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1183,7 +1147,7 @@ attribute set
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1207,7 +1171,7 @@ attribute set
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1223,7 +1187,7 @@ App URL\. Also the new-tab URL and default homepage\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1247,7 +1211,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1271,7 +1235,7 @@ list of (submodule)
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1295,7 +1259,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1311,7 +1275,7 @@ Name of the userscript\.
 string
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 
 
@@ -1327,6 +1291,6 @@ Userscript source\.
 strings concatenated with “\\n”
 
 *Declared by:*
- - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/home-manager/firefox/web-apps)
+ - [modules/home-manager/firefox/web-apps](../modules/home-manager/firefox/web-apps)
 
 

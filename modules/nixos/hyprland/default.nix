@@ -8,7 +8,7 @@
   imports = [ ./thumbnailers.nix ];
 
   options = {
-    mynixos.hyprland.enable = lib.mkEnableOption "enables hyprland";
+    mynixos.hyprland.enable = lib.mkEnableOption "Hyprland";
   };
 
   config = lib.mkIf config.mynixos.hyprland.enable {

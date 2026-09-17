@@ -5,7 +5,7 @@ let
 in
 {
   options.mynixos.hardware.logitech.device.mx4.enable =
-    lib.mkEnableOption "Enable Logitech MX Master 4 mouse support";
+    lib.mkEnableOption "Logitech MX Master 4 mouse support";
 
   config = lib.mkIf cfg.enable {
     mynixos.hardware.logitech.devices = [

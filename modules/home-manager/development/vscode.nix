@@ -2,16 +2,25 @@
   pkgs,
   lib,
   config,
-  configDir,
   ...
 }:
+let
+  cfg = config.myhome.vscode;
+in
 {
   options = {
-    myhome.vscode.enable = lib.mkEnableOption "enables vscode";
+    myhome.vscode.enable = lib.mkEnableOption "VSCode";
+
+    myhome.vscode.configDir = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = config.home.homeDirectory + "/Projects/Nix-Config";
+      defaultText = lib.literalExpression "\"~/Projects/Nix-Config\"";
+      description = "Absolute path to a live checkout of this repo; enables nixd NixOS/Home Manager option evaluation. Set to null to disable.";
+    };
   };
 
-  config = lib.mkIf config.myhome.vscode.enable {
-    myhome.myUnfreePackages = [
+  config = lib.mkIf cfg.enable {
+    myhome.unfreePackages = [
       "vscode"
       "vscode-extension-ms-vscode-remote-remote-containers"
       "vscode-extension-ms-vscode-remote-remote-ssh"
@@ -250,14 +259,16 @@
               formatting = {
                 command = [ "nixfmt" ];
               };
+            }
+            // lib.optionalAttrs (cfg.configDir != null) {
               options = {
                 nixos = {
                   "expr" =
-                    "let f = builtins.getFlake \"${configDir}\"; nixpkgs = f.inputs.nixpkgs; in (import (nixpkgs + \"/nixos/lib/eval-config.nix\") { system = \"x86_64-linux\"; modules = [ { _module.check = false; } \"${configDir}/modules/nixos\" ]; }).options";
+                    "let f = builtins.getFlake \"${cfg.configDir}\"; nixpkgs = f.inputs.nixpkgs; in (import (nixpkgs + \"/nixos/lib/eval-config.nix\") { system = \"x86_64-linux\"; modules = [ { _module.check = false; } \"${cfg.configDir}/modules/nixos\" ]; }).options";
                 };
                 "home-manager" = {
                   "expr" =
-                    "let f = builtins.getFlake \"${configDir}\"; nixpkgs = f.inputs.nixpkgs; pkgs = import nixpkgs { system = \"x86_64-linux\"; }; hm = f.inputs.home-manager; extendedLib = import (hm + \"/modules/lib/stdlib-extended.nix\") nixpkgs.lib; hmModules = import (hm + \"/modules/modules.nix\") { inherit pkgs; lib = extendedLib; check = false; minimal = false; }; hmEval = extendedLib.evalModules { modules = [ { home.stateVersion = \"25.05\"; } \"${configDir}/modules/home-manager\" ] ++ hmModules; class = \"homeManager\"; specialArgs = { modulesPath = toString (hm + \"/modules\"); configDir = \"/fake/configDir\"; theme = \"dark\"; }; }; in hmEval.options";
+                    "let f = builtins.getFlake \"${cfg.configDir}\"; nixpkgs = f.inputs.nixpkgs; pkgs = import nixpkgs { system = \"x86_64-linux\"; }; hm = f.inputs.home-manager; extendedLib = import (hm + \"/modules/lib/stdlib-extended.nix\") nixpkgs.lib; hmModules = import (hm + \"/modules/modules.nix\") { inherit pkgs; lib = extendedLib; check = false; minimal = false; }; hmEval = extendedLib.evalModules { modules = [ { home.stateVersion = \"25.05\"; } \"${cfg.configDir}/modules/home-manager\" ] ++ hmModules; class = \"homeManager\"; specialArgs = { modulesPath = toString (hm + \"/modules\"); theme = \"dark\"; }; }; in hmEval.options";
                 };
               };
             };

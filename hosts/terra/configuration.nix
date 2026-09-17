@@ -27,7 +27,7 @@ let
     configDir = "/home/reilly/Projects/Nix-Config";
 
     # Unfree packages that need to be allowed
-    myUnfreePackages = [
+    unfreePackages = [
       "obsidian"
     ];
   };
@@ -149,7 +149,6 @@ in
     extraSpecialArgs = {
       inherit inputs mynixos;
       theme = "dark"; # Default, overridden by specialisations
-      configDir = mynixos.configDir; # allow overriding per user if required (e.g. vscode autocomplete)
     };
     users = {
       "reilly" = import ./home/reilly.nix;

@@ -5,6 +5,8 @@
   ...
 }:
 let
+  resources = import ../../../resources;
+
   openInCodeScript = ''
     # Source: https://github.com/jamescalderon/code-nautilus
 
@@ -153,12 +155,12 @@ in
     home.file."Resources/.directory".text = ''
       [Desktop Entry]
       Type=Directory
-      Icon=${mynixos.configDir}/resources/icons/folders/folder-shoe-box.svg
+      Icon=${resources.icons.folders.shoeBox}
     '';
     home.file."Games/.directory".text = ''
       [Desktop Entry]
       Type=Directory
-      Icon=${mynixos.configDir}/resources/icons/folders/folder-input-gaming.svg
+      Icon=${resources.icons.folders.inputGaming}
     '';
   };
 }

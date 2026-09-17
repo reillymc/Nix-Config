@@ -13,7 +13,7 @@ in
     ./devices
   ];
 
-  options.mynixos.hardware.logitech.enable = lib.mkEnableOption "Enable Logitech device support";
+  options.mynixos.hardware.logitech.enable = lib.mkEnableOption "Logitech device support";
   options.mynixos.hardware.logitech.devices = lib.mkOption {
     type = lib.types.listOf lib.types.str;
     default = [ ];

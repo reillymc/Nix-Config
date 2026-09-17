@@ -7,7 +7,7 @@
 {
 
   options = {
-    mynixos.gnome.enable = lib.mkEnableOption "enables gnome";
+    mynixos.gnome.enable = lib.mkEnableOption "GNOME Desktop Environment";
   };
 
   config = lib.mkIf config.mynixos.gnome.enable {

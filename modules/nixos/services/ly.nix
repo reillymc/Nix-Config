@@ -8,7 +8,7 @@ let
 in
 {
   options = {
-    mynixos.ly.enable = lib.mkEnableOption "Enable ly display manager";
+    mynixos.ly.enable = lib.mkEnableOption "ly display manager";
   };
 
   config = lib.mkIf cfg.enable {

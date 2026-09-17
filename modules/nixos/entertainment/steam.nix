@@ -5,7 +5,7 @@
 }:
 {
   options = {
-    mynixos.steam.enable = lib.mkEnableOption "enables steam";
+    mynixos.steam.enable = lib.mkEnableOption "Steam";
   };
 
   config = lib.mkIf config.mynixos.steam.enable {
@@ -14,7 +14,7 @@
       gamescopeSession.enable = true;
     };
 
-    mynixos.myUnfreePackages = [
+    mynixos.unfreePackages = [
       "steam"
       "steam-unwrapped"
     ];

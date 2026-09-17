@@ -6,7 +6,7 @@
 }:
 {
   options = {
-    mynixos.docker.enable = lib.mkEnableOption "enables docker";
+    mynixos.docker.enable = lib.mkEnableOption "Docker";
   };
 
   config = lib.mkIf config.mynixos.docker.enable {

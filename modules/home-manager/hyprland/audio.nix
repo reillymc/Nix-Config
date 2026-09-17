@@ -2,11 +2,12 @@
   pkgs,
   lib,
   config,
-  mynixos,
   ...
 }:
 
 let
+  resources = import ../../../resources;
+
   toggleMicrophone = pkgs.writeShellApplication {
     name = "toggleMicrophone";
 
@@ -37,7 +38,7 @@ let
     text = ''
       set -euo pipefail
 
-      SOUND="${mynixos.configDir}/resources/sounds/audioOutputToggle.ogg"
+      SOUND="${resources.sounds.audioOutputToggle}"
 
       AUDIO_DEVICES=(
       ${lib.concatStringsSep "\n" (map (d: ''"${d}"'') (config.myhome.audio.devices or [ ]))}

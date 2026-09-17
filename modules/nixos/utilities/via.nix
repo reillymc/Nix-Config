@@ -6,7 +6,7 @@
 }:
 {
   options = {
-    mynixos.via.enable = lib.mkEnableOption "enables via";
+    mynixos.via.enable = lib.mkEnableOption "VIA keyboard configurer";
   };
 
   config = lib.mkIf config.mynixos.via.enable {
@@ -18,7 +18,7 @@
       via
     ];
 
-    mynixos.myUnfreePackages = [
+    mynixos.unfreePackages = [
       "via"
     ];
   };

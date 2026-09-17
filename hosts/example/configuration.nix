@@ -5,6 +5,7 @@
 let
   mynixos = {
     hyprland.enable = true;
+    configDir = "<repo directory>";
   };
 in
 {
@@ -37,7 +38,6 @@ in
     extraSpecialArgs = {
       inherit inputs mynixos;
       theme = "dark";
-      configDir = "<repo directory>";
     };
     users = {
       "example-user" = import ./home.nix;

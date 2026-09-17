@@ -5,7 +5,7 @@ let
 in
 {
   options.mynixos.hardware.logitech.device.m720.enable =
-    lib.mkEnableOption "Enable Logitech M720 mouse support";
+    lib.mkEnableOption "Logitech M720 mouse support";
 
   config = lib.mkIf cfg.enable {
     mynixos.hardware.logitech.devices = [

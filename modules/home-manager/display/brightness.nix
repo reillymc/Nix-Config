@@ -28,7 +28,7 @@ let
       MIN_TIME_STRING="${config.myhome.display.brightness.minTime}"
 
       BRIGHTNESS_EXPONENT=3
-      STEP=${toString (config.myhome.display.brightness.step or 20)}
+      STEP=${toString config.myhome.display.brightness.step}
 
       COOLDOWN_SECONDS=10
       STATE_FILE="/run/user/$(id -u)/displayBrightness.state"
@@ -375,36 +375,62 @@ let
   isScheduled = schedule.maxTime != null && schedule.minTime != null;
 in
 {
-  systemd.user.services.displayBrightness = {
-    Unit = {
-      Description = "Display brightness helper";
-      StartLimitIntervalSec = "30s";
-      StartLimitBurst = 3;
+  options.myhome.display.brightness = lib.mkOption {
+    type = lib.types.submodule {
+      options = {
+        maxTime = lib.mkOption {
+          type = lib.types.str;
+          description = "Time of day when 'day' (max brightness) window starts (HH:MM).";
+        };
+
+        minTime = lib.mkOption {
+          type = lib.types.str;
+          description = "Time of day when 'night' (min brightness) window starts (HH:MM).";
+        };
+
+        step = lib.mkOption {
+          type = lib.types.int;
+          default = 20;
+          description = "Brightness increment applied per adjustment.";
+        };
+      };
     };
-    Service = {
-      ExecStart = "${displayBrightness}/bin/displayBrightness auto";
-      Type = "oneshot";
-      Restart = "on-failure";
-      RestartSec = "10s";
-      TimeoutStartSec = "60s";
-    };
+    default = { };
+    description = "Configuration for automatically adjusting monitor brightness on schedule.";
   };
 
-  systemd.user.timers.displayBrightnessMax = lib.mkIf isScheduled {
-
-    Unit.Description = "timer for displayBrightness service";
-    Timer = {
-      Unit = "displayBrightness.service";
-      OnCalendar = [
-        "*-*-* ${config.myhome.display.brightness.maxTime}:00"
-        "*-*-* ${config.myhome.display.brightness.minTime}:00"
-      ];
-      Persistent = true;
+  config = {
+    systemd.user.services.displayBrightness = {
+      Unit = {
+        Description = "Display brightness helper";
+        StartLimitIntervalSec = "30s";
+        StartLimitBurst = 3;
+      };
+      Service = {
+        ExecStart = "${displayBrightness}/bin/displayBrightness auto";
+        Type = "oneshot";
+        Restart = "on-failure";
+        RestartSec = "10s";
+        TimeoutStartSec = "60s";
+      };
     };
-    Install.WantedBy = [ "timers.target" ];
-  };
 
-  home.packages = [
-    displayBrightness
-  ];
+    systemd.user.timers.displayBrightnessMax = lib.mkIf isScheduled {
+
+      Unit.Description = "timer for displayBrightness service";
+      Timer = {
+        Unit = "displayBrightness.service";
+        OnCalendar = [
+          "*-*-* ${config.myhome.display.brightness.maxTime}:00"
+          "*-*-* ${config.myhome.display.brightness.minTime}:00"
+        ];
+        Persistent = true;
+      };
+      Install.WantedBy = [ "timers.target" ];
+    };
+
+    home.packages = [
+      displayBrightness
+    ];
+  };
 }

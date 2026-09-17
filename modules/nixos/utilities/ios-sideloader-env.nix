@@ -6,7 +6,7 @@
 }:
 {
   options = {
-    mynixos.utilities.iosSideloaderEnv.enable = lib.mkEnableOption "Enable usbmuxd service and nix-ld with ios-sideloader dependencies. Sideloader currently needs to be installed manually.";
+    mynixos.utilities.iosSideloaderEnv.enable = lib.mkEnableOption "usbmuxd and nix-ld for iOS sideloading (the sideloader itself is installed manually)";
   };
 
   config = lib.mkIf config.mynixos.utilities.iosSideloaderEnv.enable {

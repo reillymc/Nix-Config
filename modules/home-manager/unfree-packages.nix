@@ -3,7 +3,7 @@
 {
   options = {
     myhome = {
-      myUnfreePackages = lib.mkOption {
+      unfreePackages = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [ ];
         description = ''

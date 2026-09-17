@@ -5,7 +5,7 @@
   ...
 }:
 {
-  options.mynixos.nautilus.enable = lib.mkEnableOption "Enable Nautilus";
+  options.mynixos.nautilus.enable = lib.mkEnableOption "Nautilus";
 
   config = lib.mkIf config.mynixos.nautilus.enable {
 

@@ -142,7 +142,7 @@ let
 in
 {
   options.myhome.web-apps = {
-    enable = lib.mkEnableOption "Enable Firefox-based Web Apps integration";
+    enable = lib.mkEnableOption "Firefox-based Web Apps integration";
 
     apps = lib.mkOption {
       type = lib.types.attrsOf appSubmodule;

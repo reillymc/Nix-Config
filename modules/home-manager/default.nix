@@ -1,11 +1,10 @@
 {
   imports = [
+    ./audio
     ./development
     ./display
     ./hyprland
-    ./options/audio
-    ./options/display
-    ./options/unfree-packages.nix
+    ./unfree-packages.nix
     ./firefox
     ./state
     ./utilities

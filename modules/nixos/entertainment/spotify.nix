@@ -52,16 +52,16 @@ let
 in
 {
   options = {
-    mynixos.spotify.enable = lib.mkEnableOption "Enable Spotify";
+    mynixos.spotify.enable = lib.mkEnableOption "Spotify";
     # This is for educational purposes only. This demonstrates how to override an application.
-    mynixos.spotify.adblock.enable = lib.mkEnableOption "Disable ads";
+    mynixos.spotify.adblock.enable = lib.mkEnableOption "Spotify ad blocking";
   };
 
   config = lib.mkIf config.mynixos.spotify.enable {
     environment.systemPackages =
       if config.mynixos.spotify.adblock.enable then [ spotifyPatched ] else [ pkgs.spotify ];
 
-    mynixos.myUnfreePackages = [
+    mynixos.unfreePackages = [
       "spotify"
     ];
   };

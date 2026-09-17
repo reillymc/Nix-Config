@@ -71,6 +71,30 @@ lazy attribute set of raw value
 
 
 
+## mynixos\.configDir
+
+
+
+Path to configuration location\. Used for utility scripts and resources\.
+
+
+
+*Type:*
+absolute path
+
+
+
+*Default:*
+
+```nix
+"/etx/nixos"
+```
+
+*Declared by:*
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos)
+
+
+
 ## mynixos\.docker\.enable
 
 
@@ -99,7 +123,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/docker\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/docker.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/docker\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/docker.nix)
 
 
 
@@ -131,7 +155,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/gnome](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/gnome)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/gnome](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/gnome)
 
 
 
@@ -163,7 +187,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech)
 
 
 
@@ -195,7 +219,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech/devices/m720\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech/devices/m720.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech/devices/m720\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech/devices/m720.nix)
 
 
 
@@ -227,7 +251,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech/devices/mx4\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech/devices/mx4.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech/devices/mx4\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech/devices/mx4.nix)
 
 
 
@@ -251,7 +275,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hardware/logitech)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hardware/logitech)
 
 
 
@@ -283,7 +307,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hyprland](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/hyprland)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hyprland](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/hyprland)
 
 
 
@@ -315,7 +339,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/ly\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/ly.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/services/ly\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/services/ly.nix)
 
 
 
@@ -339,7 +363,7 @@ list of string
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos)
 
 
 
@@ -371,127 +395,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/nautilus\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/nautilus.nix)
-
-
-
-## mynixos\.rclone\.enable
-
-
-
-Whether to enable enables rclone\.
-
-
-
-*Type:*
-boolean
-
-
-
-*Default:*
-
-```nix
-false
-```
-
-
-
-*Example:*
-
-```nix
-true
-```
-
-*Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/rclone\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/rclone.nix)
-
-
-
-## mynixos\.services\.paperless\.enable
-
-
-
-Whether to enable Enable Paperless\.
-
-
-
-*Type:*
-boolean
-
-
-
-*Default:*
-
-```nix
-false
-```
-
-
-
-*Example:*
-
-```nix
-true
-```
-
-*Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/paperless\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/paperless.nix)
-
-
-
-## mynixos\.services\.paperless\.backupDir
-
-
-
-Directory to back up Paperless data to\.
-
-
-
-*Type:*
-string
-
-
-
-*Default:*
-
-```nix
-"/var/backup/paperless"
-```
-
-
-
-*Example:*
-
-```nix
-"/srv/backup/paperless"
-```
-
-*Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/paperless\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/paperless.nix)
-
-
-
-## mynixos\.services\.paperless\.openPort
-
-
-
-Whether to open the firewall port (28981) for the Paperless web interface\.
-
-
-
-*Type:*
-boolean
-
-
-
-*Default:*
-
-```nix
-false
-```
-
-*Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/paperless\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/services/paperless.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/nautilus\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/nautilus.nix)
 
 
 
@@ -523,7 +427,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/entertainment/spotify.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/entertainment/spotify.nix)
 
 
 
@@ -555,7 +459,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/entertainment/spotify.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/entertainment/spotify\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/entertainment/spotify.nix)
 
 
 
@@ -587,7 +491,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/entertainment/steam\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/entertainment/steam.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/entertainment/steam\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/entertainment/steam.nix)
 
 
 
@@ -611,7 +515,7 @@ submodule
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/theme\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/theme.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/theme\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/theme.nix)
 
 
 
@@ -635,7 +539,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/theme\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/theme.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/theme\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/theme.nix)
 
 
 
@@ -659,7 +563,7 @@ null
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/theme\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/theme.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/theme\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/theme.nix)
 
 
 
@@ -691,7 +595,7 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/ios-sideloader-env\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/ios-sideloader-env.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/ios-sideloader-env\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/ios-sideloader-env.nix)
 
 
 
@@ -723,6 +627,6 @@ true
 ```
 
 *Declared by:*
- - [/nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/via\.nix](file:///nix/store/4kgh69axccv2lzn3a5dc0np27h91i3kg-source/modules/nixos/utilities/via.nix)
+ - [/nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/via\.nix](file:///nix/store/0x6r8nlayjdl4xk2xxr10ifbb5qrbvy5-source/modules/nixos/utilities/via.nix)
 
 

@@ -5,9 +5,9 @@
     ./hyprland
     ./options/audio
     ./options/display
-    ./options/persistence.nix
     ./options/unfree-packages.nix
     ./firefox
+    ./state
     ./utilities
   ];
 
@@ -15,8 +15,11 @@
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
 
-    myhome.persistence.directories = [
-      ".local/state/nix"
+    myhome.state.directories = [
+      {
+        directory = ".local/state/nix";
+        backup.enable = false;
+      }
     ];
   };
 }

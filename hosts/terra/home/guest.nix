@@ -20,19 +20,31 @@
     apps.youtube.enable = true;
   };
 
-  myhome.persistence = {
-    hideMounts = true;
+  myhome.state = {
+    persist.hideMounts = true;
     directories = [
-      "Desktop"
+      {
+        directory = "Desktop";
+        backup.enable = false;
+      }
       "Documents"
-      "Downloads"
+      {
+        directory = "Downloads";
+        backup.enable = false;
+      }
       "Music"
       "Pictures"
-      "Public"
+      {
+        directory = "Public";
+        backup.enable = false;
+      }
       "Videos"
     ];
     files = [
-      ".bash_history"
+      {
+        file = ".bash_history";
+        backup.enable = false;
+      }
     ];
   };
 

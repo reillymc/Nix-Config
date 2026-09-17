@@ -86,14 +86,26 @@ in
   ];
 
   config = lib.mkIf mynixos.hyprland.enable {
-    myhome.persistence.directories = [
-      ".local/share/keyrings"
-      ".config/kdeconnect"
+    myhome.state.directories = [
+      {
+        directory = ".local/share/keyrings";
+        backup.enable = false;
+      }
+      {
+        directory = ".config/kdeconnect";
+        backup.enable = false;
+      }
     ];
 
-    myhome.persistence.files = [
-      ".local/share/wallpaper"
-      ".local/share/wallpaper-dark"
+    myhome.state.files = [
+      {
+        file = ".local/share/wallpaper";
+        backup.enable = false;
+      }
+      {
+        file = ".local/share/wallpaper-dark";
+        backup.enable = false;
+      }
     ];
 
     wayland.windowManager.hyprland = {

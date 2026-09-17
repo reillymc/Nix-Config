@@ -7,7 +7,12 @@ let
   prefs = import ./prefs;
 in
 {
-  myhome.persistence.directories = [ ".config/mozilla/firefox/default" ];
+  myhome.state.directories = [
+    {
+      directory = ".config/mozilla/firefox/default";
+      backup.enable = false;
+    }
+  ];
 
   programs.firefox = {
     enable = true;

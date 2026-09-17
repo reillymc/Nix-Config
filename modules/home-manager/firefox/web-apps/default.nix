@@ -48,6 +48,7 @@ let
             }
           );
           default = [ ];
+          description = "AMO addons to install into the app profile.";
         };
 
         settings = lib.mkOption {
@@ -96,13 +97,23 @@ let
           type = lib.types.listOf (
             lib.types.submodule {
               options = {
-                name = lib.mkOption { type = lib.types.str; };
-                hosts = lib.mkOption { type = lib.types.listOf lib.types.str; };
-                script = lib.mkOption { type = lib.types.lines; };
+                name = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Name of the userscript.";
+                };
+                hosts = lib.mkOption {
+                  type = lib.types.listOf lib.types.str;
+                  description = "Hosts the userscript applies to.";
+                };
+                script = lib.mkOption {
+                  type = lib.types.lines;
+                  description = "Userscript source.";
+                };
               };
             }
           );
           default = [ ];
+          description = "Userscripts to install into the app profile.";
         };
       };
     }
@@ -182,21 +193,35 @@ in
       ]
       ++ lib.mapAttrsToList (_: c: c.assertion) appConfigs;
 
-      myhome.persistence.directories =
-        map (p: ".config/mozilla/firefox/${p}") wholeIds
-        ++ map (p: ".config/mozilla/firefox/${p}/storage") selectiveIds
-        ++ map (p: ".config/mozilla/firefox/${p}/extensions") selectiveIds;
-      myhome.persistence.files = lib.concatMap (
+      myhome.state.directories =
+        map (p: {
+          directory = ".config/mozilla/firefox/${p}";
+          backup.enable = false;
+        }) wholeIds
+        ++ map (p: {
+          directory = ".config/mozilla/firefox/${p}/storage";
+          backup.enable = false;
+        }) selectiveIds
+        ++ map (p: {
+          directory = ".config/mozilla/firefox/${p}/extensions";
+          backup.enable = false;
+        }) selectiveIds;
+      myhome.state.files = lib.concatMap (
         p:
-        map (f: ".config/mozilla/firefox/${p}/${f}") [
-          "cookies.sqlite"
-          "storage.sqlite"
-          "content-prefs.sqlite"
-          "permissions.sqlite"
-          "logins.db"
-          "key4.db"
-          "cert9.db"
-        ]
+        map
+          (f: {
+            file = ".config/mozilla/firefox/${p}/${f}";
+            backup.enable = false;
+          })
+          [
+            "cookies.sqlite"
+            "storage.sqlite"
+            "content-prefs.sqlite"
+            "permissions.sqlite"
+            "logins.db"
+            "key4.db"
+            "cert9.db"
+          ]
       ) selectiveIds;
     })
   ];

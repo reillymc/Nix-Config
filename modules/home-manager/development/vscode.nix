@@ -359,13 +359,22 @@
       nixd
     ];
 
-    myhome.persistence.directories = [
-      ".config/Code"
-      ".vscode-shared"
+    myhome.state.directories = [
+      {
+        directory = ".config/Code";
+        backup.enable = false;
+      }
+      {
+        directory = ".vscode-shared";
+        backup.enable = false;
+      }
     ];
 
-    myhome.persistence.files = [
-      ".vscode/argv.json"
+    myhome.state.files = [
+      {
+        file = ".vscode/argv.json";
+        backup.enable = false;
+      }
     ];
 
     xdg.desktopEntries."vscode-mist" = {

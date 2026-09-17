@@ -19,38 +19,26 @@ let
   ];
 in
 {
-  "terra/restic-backup/env.age".publicKeys = [
-    terra
+  "terra/reilly/restic-backup/env.age".publicKeys = [
     reilly
   ];
-  "terra/restic-backup/password.age".publicKeys = [
-    terra
+  "terra/reilly/restic-backup/password.age".publicKeys = [
     reilly
   ];
-  "terra/restic-backup/repo.age".publicKeys = [
-    terra
+  "terra/reilly/restic-backup/repo.age".publicKeys = [
     reilly
   ];
-  "slate/restic-backup/env.age".publicKeys = [
-    slate
+  "slate/reilly/restic-backup/env.age".publicKeys = [
     reilly
   ];
-  "slate/restic-backup/password.age".publicKeys = [
-    slate
+  "slate/reilly/restic-backup/password.age".publicKeys = [
     reilly
   ];
-  "slate/restic-backup/repo.age".publicKeys = [
-    slate
+  "slate/reilly/restic-backup/repo.age".publicKeys = [
     reilly
   ];
-  "guest/password.age".publicKeys = [
-    # guest
-  ]
-  ++ systems;
-  "reilly/password.age".publicKeys = [
-    reilly
-  ]
-  ++ systems;
+  "guest/password.age".publicKeys = systems;
+  "reilly/password.age".publicKeys = systems;
 
   "mist/age-identity.age".publicKeys = [
     reilly

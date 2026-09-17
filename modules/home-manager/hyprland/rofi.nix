@@ -68,8 +68,11 @@ in
     ];
   };
 
-  myhome.persistence.directories = [
-    ".cache/rofi3.druncache"
+  myhome.state.directories = [
+    {
+      directory = ".cache/rofi3.druncache";
+      backup.enable = false;
+    }
   ];
 
   xdg.configFile."rofi/config.rasi".text = ''

@@ -1,9 +1,12 @@
 {
+  config,
+  inputs,
   ...
 }:
 
 {
   imports = [
+    inputs.agenix.homeManagerModules.default
     ../../modules/home-manager
     ../../users/reilly.nix
   ];
@@ -47,13 +50,46 @@
     "alsa_output.pci-0000_00_1f.3.hdmi-stereo" # Speaker via monitor
   ];
 
-  myhome.persistence.directories = [
-    ".config/git/credentials"
-    ".expo"
-  ];
-  myhome.persistence.files = [
-    ".npmrc"
-  ];
+  age = {
+    secretsDir = "${config.home.homeDirectory}/.local/share/agenix";
+    secrets = {
+      "restic-backup/env".file = ../../secrets/slate/reilly/restic-backup/env.age;
+      "restic-backup/password".file = ../../secrets/slate/reilly/restic-backup/password.age;
+      "restic-backup/repo".file = ../../secrets/slate/reilly/restic-backup/repo.age;
+    };
+  };
+
+  myhome.state = {
+    backup = {
+      enable = true;
+      settings = {
+        repositoryFile = config.age.secrets."restic-backup/repo".path;
+        passwordFile = config.age.secrets."restic-backup/password".path;
+        environmentFile = config.age.secrets."restic-backup/env".path;
+      };
+      notify = {
+        startUrl = "https://healthchecks.homelab.reillymc.com/ping/5a5f523e-97f8-4256-9672-defe69f4d0c5/start";
+        successUrl = "https://healthchecks.homelab.reillymc.com/ping/5a5f523e-97f8-4256-9672-defe69f4d0c5";
+        failureUrl = "https://healthchecks.homelab.reillymc.com/ping/5a5f523e-97f8-4256-9672-defe69f4d0c5/fail";
+      };
+    };
+    directories = [
+      {
+        directory = ".config/git/credentials";
+        backup.enable = false;
+      }
+      {
+        directory = ".expo";
+        backup.enable = false;
+      }
+    ];
+    files = [
+      {
+        file = ".npmrc";
+        backup.enable = false;
+      }
+    ];
+  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

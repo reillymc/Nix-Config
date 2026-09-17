@@ -11,8 +11,14 @@
     ./ssh-mist.nix
   ];
 
-  config.myhome.persistence.directories = lib.mkIf config.programs.zed-editor.enable [
-    ".config/zed"
-    ".local/share/zed"
+  config.myhome.state.directories = lib.mkIf config.programs.zed-editor.enable [
+    {
+      directory = ".config/zed";
+      backup.enable = false;
+    }
+    {
+      directory = ".local/share/zed";
+      backup.enable = false;
+    }
   ];
 }

@@ -86,48 +86,122 @@
     })
   ];
 
-  myhome.persistence = {
-    hideMounts = true;
-    allowTrash = true;
+  myhome.state = {
+    persist = {
+      hideMounts = true;
+      allowTrash = true;
+    };
     directories = [
-      "Desktop"
+      {
+        directory = "Desktop";
+        backup.enable = false;
+      }
       "Documents"
-      "Downloads"
+      {
+        directory = "Downloads";
+        backup.enable = false;
+      }
       "Games"
       "Music"
       "Pictures"
       "Projects"
-      "Public"
+      {
+        directory = "Public";
+        backup.enable = false;
+      }
       "Resources"
       "Videos"
-      ".config/goa-1.0"
-      ".config/libreoffice"
-      ".config/MusicBrainz"
-      ".config/news-flash"
-      ".config/obsidian"
-      ".config/spotify"
-      ".config/vlc"
+      {
+        directory = ".config/goa-1.0";
+        backup.enable = false;
+      }
+      {
+        directory = ".config/libreoffice";
+        backup.enable = false;
+      }
+      {
+        directory = ".config/MusicBrainz";
+        backup.enable = false;
+      }
+      {
+        directory = ".config/news-flash";
+        backup.enable = false;
+      }
+      {
+        directory = ".config/obsidian";
+        backup.enable = false;
+      }
+      {
+        directory = ".config/spotify";
+        backup.enable = false;
+      }
+      {
+        directory = ".config/vlc";
+        backup.enable = false;
+      }
       {
         directory = ".gnupg";
-        mode = "0700";
+        persist.mode = "0700";
+        backup.enable = false;
       }
       ".local/share/com.github.johnfactotum.Foliate"
-      ".local/share/flatpak"
-      ".local/share/news-flash"
-      ".local/share/org.localsend.localsend_app"
-      ".local/share/Steam"
-      ".local/share/Trash"
-      ".local/state/news-flash"
-      ".local/state/showtime"
+      {
+        directory = ".local/share/flatpak";
+        backup.enable = false;
+      }
+      {
+        directory = ".local/share/news-flash";
+        backup.enable = false;
+      }
+      {
+        directory = ".local/share/org.localsend.localsend_app";
+        backup.enable = false;
+      }
+      {
+        directory = ".local/share/Steam";
+        backup.enable = false;
+      }
+      # The steamapps tree is persisted as part of `.local/share/Steam' above;
+      # only the Proton prefixes are worth backing up, so this entry opts out of
+      # persistence to avoid a redundant nested bind mount.
+      {
+        directory = ".local/share/Steam/steamapps/compatdata";
+        persist.enable = false;
+      }
+      {
+        directory = ".local/share/systemd/timers";
+        backup.enable = false;
+      }
+      {
+        directory = ".local/share/Trash";
+        backup.enable = false;
+      }
+      {
+        directory = ".local/state/news-flash";
+        backup.enable = false;
+      }
+      {
+        directory = ".local/state/showtime";
+        backup.enable = false;
+      }
       {
         directory = ".ssh";
-        mode = "0700";
+        persist.mode = "0700";
       }
-      ".steam"
-      ".var"
+      {
+        directory = ".steam";
+        backup.enable = false;
+      }
+      {
+        directory = ".var";
+        backup.enable = false;
+      }
     ];
     files = [
-      ".bash_history"
+      {
+        file = ".bash_history";
+        backup.enable = false;
+      }
     ];
   };
 

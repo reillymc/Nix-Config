@@ -202,66 +202,6 @@ in
     };
   };
 
-  services.restic.backups = {
-    daily = {
-      initialize = true;
-      environmentFile = config.age.secrets."restic-backup/env".path;
-      repositoryFile = config.age.secrets."restic-backup/repo".path;
-      passwordFile = config.age.secrets."restic-backup/password".path;
-
-      paths = [
-        "${config.users.users.reilly.home}/.local/share/Steam/steamapps/compatdata"
-        "${config.users.users.reilly.home}/.ssh"
-        "${config.users.users.reilly.home}/Documents"
-        "${config.users.users.reilly.home}/Games"
-        "${config.users.users.reilly.home}/Music"
-        "${config.users.users.reilly.home}/Pictures"
-        "${config.users.users.reilly.home}/Projects"
-        "${config.users.users.reilly.home}/Resources"
-        "${config.users.users.reilly.home}/Videos"
-      ];
-
-      exclude = [
-        "${config.users.users.reilly.home}/.local"
-        "${config.users.users.reilly.home}/Downloads"
-        "${config.users.users.reilly.home}/Projects/**/node_modules"
-        "${config.users.users.reilly.home}/Projects/**/.expo"
-        "${config.users.users.reilly.home}/Projects/**/.svelte-kit"
-        "${config.users.users.reilly.home}/Projects/**/dist"
-        "${config.users.users.reilly.home}/Projects/**/lib"
-        "${config.users.users.reilly.home}/Projects/**/bin"
-        "${config.users.users.reilly.home}/Projects/**/target"
-        "${config.users.users.reilly.home}/Projects/**/logs"
-      ];
-
-      pruneOpts = [
-        "--keep-daily 14"
-        "--keep-weekly 5"
-        "--keep-monthly 12"
-        "--keep-yearly 20"
-      ];
-
-      checkOpts = [
-        "--read-data-subset=5G"
-      ];
-    };
-  };
-
-  systemd.services.restic-backups-daily.unitConfig.OnFailure =
-    "notify-failed-restic-backups-daily.service";
-  systemd.services.restic-backups-daily.unitConfig.OnSuccess =
-    "notify-success-restic-backups-daily.service";
-
-  systemd.services."notify-failed-restic-backups-daily" = {
-    serviceConfig.Type = "oneshot";
-    script = "${pkgs.curl}/bin/curl https://healthchecks.homelab.reillymc.com/ping/062aac27-12cb-4d9c-944d-8f64357f76e2/fail";
-  };
-
-  systemd.services."notify-success-restic-backups-daily" = {
-    serviceConfig.Type = "oneshot";
-    script = "${pkgs.curl}/bin/curl https://healthchecks.homelab.reillymc.com/ping/062aac27-12cb-4d9c-944d-8f64357f76e2";
-  };
-
   programs.localsend.enable = true;
   programs.nix-index.enable = true;
 

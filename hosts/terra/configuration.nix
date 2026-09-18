@@ -64,6 +64,16 @@ in
 
   networking.networkmanager.enable = true;
 
+  networking.nameservers = [
+    "1.1.1.1"
+    "1.0.0.1"
+    "2606:4700:4700::1111"
+    "2606:4700:4700::1001"
+  ];
+  # Use the servers above for all public lookups; modem/ISP DNS is only
+  # consulted for the local search domains it advertises.
+  services.resolved.settings.Resolve.Domains = [ "~." ];
+
   hardware.bluetooth.enable = true;
   hardware.i2c.enable = true;
 

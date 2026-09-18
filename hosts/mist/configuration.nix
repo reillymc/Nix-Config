@@ -82,8 +82,8 @@
     routes = [ { Gateway = "192.168.83.1"; } ];
   };
   networking.nameservers = [
-    "8.8.8.8"
     "1.1.1.1"
+    "8.8.8.8"
   ];
 
   networking.firewall.enable = true;

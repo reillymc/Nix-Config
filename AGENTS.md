@@ -2,13 +2,7 @@
 
 Read before running Nix commands.
 
-Keep this file updated: record new gotchas, project quirks, and general best
-practices as you discover them. Additions must be concise, technical English —
-one line per point where possible; extend existing entries rather than
-duplicating, and keep session-specific detail out. Only record durable repo
-conventions, structure, or setup — not changelog-style notes about individual
-changes or current implementation details; update or remove an entry when it
-changes instead of appending to it.
+This file should only be updated sparingly in the case of genuine project-scoped gotchas, quirks, and general best practices as you discover them. Additions must be concise, technical English — one line per point where possible; extend existing entries rather than duplicating, and keep session-specific detail out. Only record durable repo conventions, structure, or setup — not changelog-style notes about individual changes or current implementation details; update or remove an entry when it changes instead of appending to it.
 
 ## Environment
 

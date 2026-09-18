@@ -508,6 +508,8 @@ in
     hideMounts = true;
     directories = [
       ".expo"
+      # Persist opencode's runtime-fetched model catalog
+      ".cache/opencode"
       ".local/share/opencode"
       ".local/state/opencode"
       ".vscode-server"

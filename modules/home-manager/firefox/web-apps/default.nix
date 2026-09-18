@@ -84,13 +84,17 @@ let
         savePasswords = lib.mkOption {
           type = lib.types.bool;
           default = false;
-          description = "Enable password saving for the app.";
+          description = ''
+            Enable password saving for the app. Pair with `persistWholeProfile':
+            Firefox writes its login store (`logins.json') atomically, so saved
+            logins only survive reboots with whole-profile persistence.
+          '';
         };
 
         persistWholeProfile = lib.mkOption {
           type = lib.types.bool;
           default = false;
-          description = "Retain the whole profile dir (session restore).";
+          description = "Retain the whole profile dir (saved logins, extension registry, session restore).";
         };
 
         userscripts = lib.mkOption {
@@ -218,7 +222,6 @@ in
             "storage.sqlite"
             "content-prefs.sqlite"
             "permissions.sqlite"
-            "logins.db"
             "key4.db"
             "cert9.db"
           ]

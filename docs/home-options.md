@@ -1059,7 +1059,7 @@ string
 
 
 
-Retain the whole profile dir (session restore)\.
+Retain the whole profile dir (saved logins, extension registry, session restore)\.
 
 
 
@@ -1107,7 +1107,8 @@ attribute set
 
 
 
-Enable password saving for the app\.
+Enable password saving for the app\. Pair with ` persistWholeProfile': Firefox writes its login store ( `logins\.json’) atomically, so saved
+logins only survive reboots with whole-profile persistence\.
 
 
 

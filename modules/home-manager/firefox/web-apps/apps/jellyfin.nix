@@ -199,6 +199,7 @@ in
   url = "https://jellyfin.homelab.reillymc.com/web";
   grantNotifications = true;
   savePasswords = true;
+  persistWholeProfile = true;
   userscripts = [
     {
       name = "Jellyfin Fixed Zoom";

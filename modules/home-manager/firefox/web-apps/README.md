@@ -18,8 +18,8 @@ Create `apps/<id>.nix`:
   userChrome = '' … '';                             # default: webAppSingleMinimal
   policies = { };                                   # per-binary overrides over policies.nix baseline
   grantNotifications = false;                       # pre-grant notifications for the app origin
-  savePasswords = false;                            # set signon.rememberSignons
-  persistWholeProfile = false;                      # retain whole profile dir (session restore)
+  savePasswords = false;                            # set signon.rememberSignons; pair with persistWholeProfile
+  persistWholeProfile = false;                      # retain whole profile dir (logins, extensions, session)
   userscripts = [ { name = "…"; hosts = [ "host.example" ]; script = ''…''; } ];
 }
 ```
@@ -31,13 +31,13 @@ Register it in the `apps` registry in `default.nix`, add the icon to `icons/`, e
 - Binary: `pkgs.firefox.override` with baseline policies → app `policies` → generated `ExtensionSettings` + `3rdparty` managed storage; `extraPrefsFiles` for autoconfig.
 - Profile `programs.firefox.profiles.<id>`: `prefs.webApp` + homepage + `settings` + pinned extension UUIDs; `userChrome`.
 - Desktop entry `xdg.desktopEntries.<id>` running the wrapped binary.
-- Persistence: selective profiles keep `storage/`, `extensions/`, `cookies.sqlite`, `storage.sqlite`, `content-prefs.sqlite`, `permissions.sqlite`, `logins.db`, `key4.db`, `cert9.db`; `persistWholeProfile` keeps the whole profile dir.
+- Persistence: selective profiles keep `storage/`, `extensions/`, `cookies.sqlite`, `storage.sqlite`, `content-prefs.sqlite`, `permissions.sqlite`, `key4.db`, `cert9.db`; `persistWholeProfile` keeps the whole profile dir. Saved logins live in `logins.json` (+ `logins-backup.json`) and are written atomically, so individual-file persistence cannot retain them; apps with `savePasswords` set `persistWholeProfile`.
 
 ## Extensions
 
 `ExtensionSettings` blocks undeclared addons (`"*".installation_mode = "blocked"`); declared addons are `force_installed` via `https://addons.mozilla.org/firefox/downloads/latest/<slug>/latest.xpi` with `updates_disabled = true`. `id` must be the real gecko id (AMO `guid`). Policies are per wrapped binary; global `programs.firefox.policies` stays default-profile-only. Do not use HM `extensions.settings.<id>.settings` seeding (breaks IndexedDB persistence).
 
-Extension UUIDs are pinned deterministically (`mkUuid`, sha256 of addon id), keeping `storage/default/moz-extension+++<uuid>/` stable across profile regeneration. Selective profiles do not persist `extensions.json` (atomic-written), so addons reinstall each boot; `persistWholeProfile` keeps the registry and session.
+Extension UUIDs are pinned deterministically (`mkUuid`, sha256 of addon id), keeping `storage/default/moz-extension+++<uuid>/` stable across profile regeneration. Selective profiles do not persist `extensions.json` (atomic-written, like `logins.json`), so addons reinstall each boot; `persistWholeProfile` keeps the registry and session.
 
 New Tab Override is force-installed in every webapp; its managed-storage config points new tabs at the app URL and forces `focus_website = true` (focus the web page, not the address bar). Other extensions can be configured the same way via `3rdparty` iff they read `browser.storage.managed`.
 

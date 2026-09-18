@@ -19,6 +19,14 @@ let
   ];
 in
 {
+  "terra/healthchecks/ping-key.age".publicKeys = [
+    terra
+  ]
+  ++ users;
+  "slate/healthchecks/ping-key.age".publicKeys = [
+    slate
+  ]
+  ++ users;
   "terra/reilly/restic-backup/env.age".publicKeys = [
     reilly
   ];

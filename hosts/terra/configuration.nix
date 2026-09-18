@@ -5,6 +5,11 @@
   ...
 }:
 let
+  metrics = import ../../lib/metrics.nix {
+    lib = pkgs.lib;
+    inherit pkgs;
+  };
+
   mynixos = {
     steam.enable = true;
     hyprland.enable = true;
@@ -23,6 +28,47 @@ let
     theme.schedule = {
       lightTime = "07:00";
       darkTime = "19:00";
+    };
+    healthchecks = {
+      enable = true;
+      baseUrl = "https://healthchecks.homelab.reillymc.com/ping";
+      pingKeyFile = "/run/agenix/healthchecks/ping-key";
+      checks = [
+        "nix-gc"
+        {
+          service = "nix-optimise";
+          logs.events = [
+            "success"
+            "failure"
+          ];
+        }
+        "fwupd-refresh"
+        {
+          slug = "disk";
+          command = metrics.disk { };
+          failureThreshold = 3;
+        }
+        {
+          slug = "failed-units";
+          command = metrics.failedUnits { };
+        }
+        {
+          slug = "temp-cpu";
+          command = metrics.temperature {
+            max = 95;
+            names = [ "k10temp" ];
+          };
+          failureThreshold = 3;
+        }
+        {
+          slug = "temp-nvme";
+          command = metrics.temperature {
+            max = 80;
+            names = [ "nvme" ];
+          };
+          failureThreshold = 3;
+        }
+      ];
     };
     configDir = "/home/reilly/Projects/Nix-Config";
 

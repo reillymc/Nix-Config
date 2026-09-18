@@ -182,6 +182,149 @@ list of string
 
 
 
+## mynixos\.healthchecks\.enable
+
+
+
+Whether to enable Healthchecks pings for systemd services\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+*Declared by:*
+ - [modules/nixos/healthchecks\.nix](../modules/nixos/healthchecks.nix)
+
+
+
+## mynixos\.healthchecks\.baseUrl
+
+
+
+Base ping URL, without the project ping key or slug\. Endpoints are
+derived as ` <baseUrl>/<pingKey>/<slug>[/start|/fail] `\.
+
+
+
+*Type:*
+string
+
+
+
+*Example:*
+
+```nix
+"https://healthchecks.homelab.reillymc.com/ping"
+```
+
+*Declared by:*
+ - [modules/nixos/healthchecks\.nix](../modules/nixos/healthchecks.nix)
+
+
+
+## mynixos\.healthchecks\.checks
+
+
+
+Services and commands to report to Healthchecks\. Each entry is either a
+service name (also used as the slug) or an attribute set accepting
+` service ` or ` command `, ` slug `, ` start `, ` logs `, ` timer `, and
+` failureThreshold `\.
+
+
+
+*Type:*
+list of (string or (submodule))
+
+
+
+*Default:*
+
+```nix
+[ ]
+```
+
+
+
+*Example:*
+
+```nix
+[ "nix-gc" ]
+```
+
+*Declared by:*
+ - [modules/nixos/healthchecks\.nix](../modules/nixos/healthchecks.nix)
+
+
+
+## mynixos\.healthchecks\.pingKeyFile
+
+
+
+Runtime path to the age-decrypted project ping key\. The key is read at
+ping time and never embedded in the Nix store or unit files\.
+
+
+
+*Type:*
+string
+
+
+
+*Example:*
+
+```nix
+"/run/agenix/healthchecks/ping-key"
+```
+
+*Declared by:*
+ - [modules/nixos/healthchecks\.nix](../modules/nixos/healthchecks.nix)
+
+
+
+## mynixos\.healthchecks\.slugPrefix
+
+
+
+Prefix prepended (with a hyphen) to every slug\. System checks are
+host-wide and usually need no prefix; user checks use their username as
+prefix, so slugs stay unique within a project\.
+
+
+
+*Type:*
+string
+
+
+
+*Default:*
+
+```nix
+""
+```
+
+*Declared by:*
+ - [modules/nixos/healthchecks\.nix](../modules/nixos/healthchecks.nix)
+
+
+
 ## mynixos\.hyprland\.enable
 
 

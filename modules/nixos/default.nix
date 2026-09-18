@@ -9,6 +9,7 @@
     ./entertainment
     ./gnome
     ./hardware
+    ./healthchecks.nix
     ./hyprland
     ./services
     ./theme.nix

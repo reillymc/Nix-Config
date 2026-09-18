@@ -35,6 +35,38 @@
     };
   };
 
+  myhome.healthchecks.checks = [
+    {
+      service = "restic-backups-daily";
+      logs = {
+        events = [
+          "success"
+          "failure"
+        ];
+        maxBytes = 20000;
+      };
+    }
+  ];
+
+  myhome.notify = {
+    enable = true;
+    services = [
+      {
+        service = "restic-backups-daily";
+        failure = {
+          title = "Backup failed";
+          urgency = "critical";
+          appName = "restic";
+        };
+        success = {
+          title = "Backup complete";
+          urgency = "low";
+          appName = "restic";
+        };
+      }
+    ];
+  };
+
   myhome.state = {
     backup = {
       enable = true;
@@ -42,11 +74,6 @@
         repositoryFile = config.age.secrets."restic-backup/repo".path;
         passwordFile = config.age.secrets."restic-backup/password".path;
         environmentFile = config.age.secrets."restic-backup/env".path;
-      };
-      notify = {
-        startUrl = "https://healthchecks.homelab.reillymc.com/ping/062aac27-12cb-4d9c-944d-8f64357f76e2/start";
-        successUrl = "https://healthchecks.homelab.reillymc.com/ping/062aac27-12cb-4d9c-944d-8f64357f76e2";
-        failureUrl = "https://healthchecks.homelab.reillymc.com/ping/062aac27-12cb-4d9c-944d-8f64357f76e2/fail";
       };
     };
     directories = [

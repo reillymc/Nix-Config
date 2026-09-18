@@ -516,6 +516,222 @@ attribute set
 
 
 
+## myhome\.healthchecks\.enable
+
+
+
+Whether to enable Healthchecks pings for systemd user services\.
+Defaults to ` mynixos.healthchecks.enable ` when Home Manager runs as a
+NixOS module\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+*Declared by:*
+ - [modules/home-manager/healthchecks\.nix](../modules/home-manager/healthchecks.nix)
+
+
+
+## myhome\.healthchecks\.baseUrl
+
+
+
+Base ping URL, without the project ping key or slug\. Endpoints are
+derived as ` <baseUrl>/<pingKey>/<slug>[/start|/fail] `\.
+
+Defaults to ` mynixos.healthchecks.baseUrl ` when Home Manager runs as a
+NixOS module\.
+
+
+
+*Type:*
+string
+
+
+
+*Example:*
+
+```nix
+"https://healthchecks.homelab.reillymc.com/ping"
+```
+
+*Declared by:*
+ - [modules/home-manager/healthchecks\.nix](../modules/home-manager/healthchecks.nix)
+
+
+
+## myhome\.healthchecks\.checks
+
+
+
+Systemd user services to hook up to Healthchecks\. Each entry is either
+a service name (also used as the slug) or an attribute set accepting
+` service `, ` slug `, ` start `, and ` logs `\.
+
+
+
+*Type:*
+list of (string or (submodule))
+
+
+
+*Default:*
+
+```nix
+[ ]
+```
+
+
+
+*Example:*
+
+```nix
+[ "restic-backups-daily" ]
+```
+
+*Declared by:*
+ - [modules/home-manager/healthchecks\.nix](../modules/home-manager/healthchecks.nix)
+
+
+
+## myhome\.healthchecks\.pingKeyFile
+
+
+
+Runtime path to the age-decrypted project ping key\. The key is read at
+ping time and never embedded in the Nix store or unit files\.
+
+Defaults to ` mynixos.healthchecks.pingKeyFile ` when Home Manager runs
+as a NixOS module\.
+
+
+
+*Type:*
+string
+
+
+
+*Example:*
+
+```nix
+"/run/agenix/healthchecks/ping-key"
+```
+
+*Declared by:*
+ - [modules/home-manager/healthchecks\.nix](../modules/home-manager/healthchecks.nix)
+
+
+
+## myhome\.healthchecks\.slugPrefix
+
+
+
+Prefix prepended (with a hyphen) to every slug\. Namespaces checks when
+several users share one Healthchecks project, since slugs must be
+unique within a project\.
+
+
+
+*Type:*
+string
+
+
+
+*Default:*
+
+```nix
+config.home.username
+```
+
+*Declared by:*
+ - [modules/home-manager/healthchecks\.nix](../modules/home-manager/healthchecks.nix)
+
+
+
+## myhome\.notify\.enable
+
+
+
+Whether to enable desktop notifications for systemd user services\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+*Declared by:*
+ - [modules/home-manager/notify\.nix](../modules/home-manager/notify.nix)
+
+
+
+## myhome\.notify\.services
+
+
+
+Systemd user services to show desktop notifications for\. Each entry is
+either a service name (notified on failure) or an attribute set
+accepting ` service `, ` failure `, and ` success `\.
+
+
+
+*Type:*
+list of (string or (submodule))
+
+
+
+*Default:*
+
+```nix
+[ ]
+```
+
+
+
+*Example:*
+
+```nix
+[ "restic-backups-daily" ]
+```
+
+*Declared by:*
+ - [modules/home-manager/notify\.nix](../modules/home-manager/notify.nix)
+
+
+
 ## myhome\.ssh-mist\.enable
 
 
@@ -573,79 +789,6 @@ false
 
 ```nix
 true
-```
-
-*Declared by:*
- - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
-
-
-
-## myhome\.state\.backup\.notify\.failureUrl
-
-
-
-URL pinged after a failed backup (e\.g\. healthchecks \`/fail’)\.
-
-
-
-*Type:*
-null or string
-
-
-
-*Default:*
-
-```nix
-null
-```
-
-*Declared by:*
- - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
-
-
-
-## myhome\.state\.backup\.notify\.startUrl
-
-
-
-URL pinged before the backup starts (e\.g\. healthchecks \`/start’)\.
-Lets healthchecks measure the run duration\.
-
-
-
-*Type:*
-null or string
-
-
-
-*Default:*
-
-```nix
-null
-```
-
-*Declared by:*
- - [modules/home-manager/state/backup\.nix](../modules/home-manager/state/backup.nix)
-
-
-
-## myhome\.state\.backup\.notify\.successUrl
-
-
-
-URL pinged after a successful backup (e\.g\. healthchecks)\.
-
-
-
-*Type:*
-null or string
-
-
-
-*Default:*
-
-```nix
-null
 ```
 
 *Declared by:*

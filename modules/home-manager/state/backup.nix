@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -17,8 +16,6 @@ let
   toAbsolute = p: if lib.hasPrefix "/" p then p else "${home}/${p}";
 
   backupPaths = lib.unique (map toAbsolute (map statePath marked));
-
-  startPing = lib.optional (cfg.notify.startUrl != null) "notify-start-restic-backups-daily.service";
 in
 {
   options.myhome.state.backup = {
@@ -41,29 +38,6 @@ in
         `checkOpts', `timerConfig', `exclude') are overridden by keys set here.
         `paths' is derived from `myhome.state' and is always forced.
       '';
-    };
-
-    notify = {
-      startUrl = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = ''
-          URL pinged before the backup starts (e.g. healthchecks `/start').
-          Lets healthchecks measure the run duration.
-        '';
-      };
-
-      successUrl = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "URL pinged after a successful backup (e.g. healthchecks).";
-      };
-
-      failureUrl = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "URL pinged after a failed backup (e.g. healthchecks `/fail').";
-      };
     };
   };
 
@@ -88,10 +62,14 @@ in
         "--keep-weekly 5"
         "--keep-monthly 12"
         "--keep-yearly 20"
+        "--quiet"
       ];
 
+      # Backblaze free egress is 3x stored/month; a random 3.33% of packs per
+      # day reads ~1x/month (~64% of packs verified in 30 days, ~95% in 90)
+      # and uses 33% of free egress relative to the repo size monthly.
       checkOpts = [
-        "--read-data-subset=5G"
+        "--read-data-subset=3.33%"
       ];
 
       timerConfig = {
@@ -120,47 +98,12 @@ in
     systemd.user.services = {
       "restic-backups-daily" = {
         Unit = {
-          After = [ "agenix.service" ] ++ startPing;
-          Wants = [ "agenix.service" ] ++ startPing;
-          OnFailure = [ "notify-failed-restic-backups-daily.service" ];
-          OnSuccess = [ "notify-success-restic-backups-daily.service" ];
+          After = [ "agenix.service" ];
+          Wants = [ "agenix.service" ];
         };
         Service = {
           PrivateTmp = true;
           TimeoutStartSec = "1h";
-        };
-      };
-
-      "notify-start-restic-backups-daily" = lib.mkIf (cfg.notify.startUrl != null) {
-        Service = {
-          Type = "oneshot";
-          ExecStart = "${pkgs.curl}/bin/curl --fail --silent --show-error --max-time 10 ${lib.escapeShellArg cfg.notify.startUrl}";
-        };
-      };
-
-      "notify-failed-restic-backups-daily" = {
-        Service = {
-          Type = "oneshot";
-          Environment = [ "DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus" ];
-          ExecStart = [
-            "-${pkgs.libnotify}/bin/notify-send --app-name=restic --urgency=critical \"Backup failed\""
-          ]
-          ++
-            lib.optional (cfg.notify.failureUrl != null)
-              "${pkgs.curl}/bin/curl --fail --silent --show-error --max-time 10 ${lib.escapeShellArg cfg.notify.failureUrl}";
-        };
-      };
-
-      "notify-success-restic-backups-daily" = {
-        Service = {
-          Type = "oneshot";
-          Environment = [ "DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus" ];
-          ExecStart = [
-            "-${pkgs.libnotify}/bin/notify-send --app-name=restic --urgency=low \"Backup complete\""
-          ]
-          ++
-            lib.optional (cfg.notify.successUrl != null)
-              "${pkgs.curl}/bin/curl --fail --silent --show-error --max-time 10 ${lib.escapeShellArg cfg.notify.successUrl}";
         };
       };
     };

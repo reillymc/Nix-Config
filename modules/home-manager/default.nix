@@ -3,7 +3,9 @@
     ./audio
     ./development
     ./display
+    ./healthchecks.nix
     ./hyprland
+    ./notify.nix
     ./unfree-packages.nix
     ./firefox
     ./state

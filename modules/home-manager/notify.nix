@@ -20,37 +20,10 @@ let
         '';
       };
 
-      body = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "Optional notification body.";
-      };
-
-      urgency = lib.mkOption {
-        type = lib.types.nullOr (
-          lib.types.enum [
-            "low"
-            "normal"
-            "critical"
-          ]
-        );
-        default = null;
-        description = ''
-          Notification urgency; defaults to `critical` for failures and `low`
-          for successes.
-        '';
-      };
-
       appName = lib.mkOption {
         type = lib.types.nullOr lib.types.str;
         default = null;
         description = "Application name shown by the notification daemon; defaults to `systemd`.";
-      };
-
-      icon = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "Optional icon name or path.";
       };
     };
   };
@@ -59,23 +32,23 @@ let
     options = {
       service = lib.mkOption {
         type = lib.types.str;
-        example = "restic-backups-daily.service";
+        example = "restic-backups-daily";
         description = ''
-          Name of the systemd user service to notify about. A `.service` suffix
-          is optional.
+          Name of the systemd user service to notify about, without the
+          `.service` suffix.
         '';
       };
 
       failure = lib.mkOption {
         type = lib.types.nullOr eventType;
         default = { };
-        description = "Failure notification. `null` disables it.";
+        description = "Failure notification (sent with `normal` urgency). `null` disables it.";
       };
 
       success = lib.mkOption {
         type = lib.types.nullOr eventType;
         default = null;
-        description = "Success notification. Disabled by default.";
+        description = "Success notification (sent with `low` urgency). Disabled by default.";
       };
     };
   };
@@ -91,21 +64,15 @@ let
             ev.title
           else
             "${service} ${if kind == "failure" then "failed" else "succeeded"}";
-        body = ev.body or null;
-        urgency =
-          if (ev.urgency or null) != null then
-            ev.urgency
-          else
-            (if kind == "failure" then "critical" else "low");
         appName = if (ev.appName or null) != null then ev.appName else "systemd";
-        icon = ev.icon or null;
+        urgency = if kind == "failure" then "normal" else "low";
       };
 
   normalize =
     e:
     let
       entry = if lib.isString e then { service = e; } else e;
-      service = lib.removeSuffix ".service" entry.service;
+      service = entry.service;
     in
     {
       inherit service;
@@ -164,19 +131,21 @@ in
         }
       ];
 
-      systemd.user.services = lib.mkIf (services != [ ]) (
-        lib.mkMerge (
-          lib.concatMap (
-            s:
-            lib.optional (s.failure != null) (mkUnit s.service "failure" s.failure)
-            ++ lib.optional (s.success != null) (mkUnit s.service "success" s.success)
-            ++ [
-              {
-                ${s.service}.Unit = notify.mkHooks { inherit (s) service failure success; };
-              }
-            ]
-          ) services
-        )
+      systemd.user.services = lib.mkMerge (
+        lib.concatMap (
+          s:
+          lib.optional (s.failure != null) (mkUnit s.service "failure" s.failure)
+          ++ lib.optional (s.success != null) (mkUnit s.service "success" s.success)
+          ++ [
+            {
+              ${s.service}.Unit = notify.mkHooks {
+                inherit (s) service;
+                failure = s.failure != null;
+                success = s.success != null;
+              };
+            }
+          ]
+        ) services
       );
     })
   ];

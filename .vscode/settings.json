@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "healthchecks",
         "immich",
         "nixos",
         "pkgs",
@@ -20,7 +21,7 @@
                     "expr": "let f = builtins.getFlake \"${workspaceFolder}\"; nixpkgs = f.inputs.nixpkgs; in (import (nixpkgs + \"/nixos/lib/eval-config.nix\") { system = \"x86_64-linux\"; modules = [ { _module.check = false; } \"${workspaceFolder}/modules/nixos\" ]; }).options"
                 },
                 "home-manager": {
-                    "expr": "let f = builtins.getFlake \"${workspaceFolder}\"; nixpkgs = f.inputs.nixpkgs; pkgs = import nixpkgs { system = \"x86_64-linux\"; }; hm = f.inputs.home-manager; extendedLib = import (hm + \"/modules/lib/stdlib-extended.nix\") nixpkgs.lib; hmModules = import (hm + \"/modules/modules.nix\") { inherit pkgs; lib = extendedLib; check = false; minimal = false; }; hmEval = extendedLib.evalModules { modules = [ { home.stateVersion = \"25.05\"; } \"${workspaceFolder}/modules/home-manager\" ] ++ hmModules; class = \"homeManager\"; specialArgs = { modulesPath = toString (hm + \"/modules\"); configDir = \"/fake/configDir\"; theme = \"dark\"; }; }; in hmEval.options"
+                    "expr": "let f = builtins.getFlake \"${workspaceFolder}\"; nixpkgs = f.inputs.nixpkgs; pkgs = import nixpkgs { system = \"x86_64-linux\"; }; hm = f.inputs.home-manager; extendedLib = import (hm + \"/modules/lib/stdlib-extended.nix\") nixpkgs.lib; hmModules = import (hm + \"/modules/modules.nix\") { inherit pkgs; lib = extendedLib; check = false; minimal = false; }; hmEval = extendedLib.evalModules { modules = [ { home.stateVersion = \"25.05\"; } \"${workspaceFolder}/modules/home-manager\" ] ++ hmModules; class = \"homeManager\"; specialArgs = { modulesPath = toString (hm + \"/modules\"); theme = \"dark\"; }; }; in hmEval.options"
                 }
             }
         }

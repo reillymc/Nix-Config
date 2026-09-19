@@ -35,38 +35,35 @@ let
       pingKeyFile = "/run/agenix/healthchecks/ping-key";
       checks = [
         "nix-gc"
-        {
-          service = "nix-optimise";
-          logs.events = [
-            "success"
-            "failure"
-          ];
-        }
+        "nix-optimise"
         "fwupd-refresh"
         {
           slug = "disk";
           command = metrics.disk { };
-          failureThreshold = 3;
+          timer = "*-*-* 09:00:00";
         }
         {
           slug = "failed-units";
-          command = metrics.failedUnits { };
+          command = metrics.failedUnits;
         }
         {
-          slug = "temp-cpu";
+          slug = "temp";
           command = metrics.temperature {
-            max = 95;
-            names = [ "k10temp" ];
+            sensors = [
+              {
+                name = "k10temp";
+                max = 95;
+              }
+              {
+                name = "amdgpu";
+                max = 95;
+              }
+              {
+                name = "nvme";
+                max = 85;
+              }
+            ];
           };
-          failureThreshold = 3;
-        }
-        {
-          slug = "temp-nvme";
-          command = metrics.temperature {
-            max = 80;
-            names = [ "nvme" ];
-          };
-          failureThreshold = 3;
         }
       ];
     };

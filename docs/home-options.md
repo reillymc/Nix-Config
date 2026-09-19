@@ -583,8 +583,9 @@ string
 
 
 Systemd user services to hook up to Healthchecks\. Each entry is either
-a service name (also used as the slug) or an attribute set accepting
-` service `, ` slug `, ` start `, and ` logs `\.
+a service name without the ` .service ` suffix (also used as the slug) or
+an attribute set accepting ` service ` and ` slug `\. Checks ping start,
+success, and failure, attaching the invocation’s journal output\.
 
 
 

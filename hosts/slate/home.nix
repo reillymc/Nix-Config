@@ -59,18 +59,7 @@
     };
   };
 
-  myhome.healthchecks.checks = [
-    {
-      service = "restic-backups-daily";
-      logs = {
-        events = [
-          "success"
-          "failure"
-        ];
-        maxBytes = 20000;
-      };
-    }
-  ];
+  myhome.healthchecks.checks = [ "restic-backups-daily" ];
 
   myhome.notify = {
     enable = true;
@@ -79,18 +68,15 @@
         service = "restic-backups-daily";
         failure = {
           title = "Backup failed";
-          urgency = "critical";
           appName = "restic";
         };
         success = {
           title = "Backup complete";
-          urgency = "low";
           appName = "restic";
         };
       }
     ];
   };
-
   myhome.state = {
     backup = {
       enable = true;

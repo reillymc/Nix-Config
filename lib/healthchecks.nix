@@ -3,23 +3,23 @@
   pkgs,
 }:
 rec {
+  hooks = import ./systemd-hooks.nix { inherit lib; };
+
   slugPattern = "[a-z0-9_-]+";
 
   isValidSlug = slug: builtins.match slugPattern slug != null;
+
+  logMaxBytes = 100000;
+
+  logMaxLines = 200;
 
   mkPingScript =
     {
       baseUrl,
       pingKeyFile,
-      curl ? pkgs.curl,
     }:
     pkgs.writeShellScript "healthchecks-ping" ''
       set -eu
-
-      if [ "$#" -lt 1 ]; then
-        echo "usage: $0 <slug> [start|success|fail|log] [body-file]" >&2
-        exit 2
-      fi
 
       slug="$1"
       event="''${2:-success}"
@@ -29,7 +29,6 @@ rec {
         start) suffix="/start" ;;
         success) suffix="" ;;
         fail) suffix="/fail" ;;
-        log) suffix="/log" ;;
         *)
           echo "healthchecks-ping: unknown event '$event'" >&2
           exit 2
@@ -37,26 +36,27 @@ rec {
       esac
 
       key="$(< ${lib.escapeShellArg pingKeyFile})"
-      url="${lib.removeSuffix "/" baseUrl}/''${key}/''${slug}''${suffix}"
+      url=${lib.escapeShellArg (lib.removeSuffix "/" baseUrl)}"/''${key}/''${slug}''${suffix}"
 
+      # The ping key is part of the URL and is a project-wide secret; hand the
+      # URL to curl through a config on stdin so it stays out of the process
+      # list.
+      escaped=''${url//\\/\\\\}
+      escaped=''${escaped//\"/\\\"}
+
+      curl_args=(
+        --fail
+        --silent
+        --show-error
+        --max-time 10
+      )
+      # Start pings are ordered before the hooked service, so don't retry them.
+      [ "$event" = "start" ] || curl_args+=( --retry 3 )
       if [ -n "$body" ]; then
-        exec ${lib.getExe curl} \
-          --fail \
-          --silent \
-          --show-error \
-          --max-time 10 \
-          --retry 3 \
-          --data-binary "@$body" \
-          "$url"
-      else
-        exec ${lib.getExe curl} \
-          --fail \
-          --silent \
-          --show-error \
-          --max-time 10 \
-          --retry 3 \
-          "$url"
+        curl_args+=( --data-binary "@$body" )
       fi
+
+      printf 'url = "%s"\n' "$escaped" | ${lib.getExe pkgs.curl} --config - "''${curl_args[@]}"
     '';
 
   mkJournalPingScript =
@@ -66,68 +66,76 @@ rec {
       slug,
       event,
       scope ? "user",
-      lines ? 200,
-      maxBytes ? 100000,
-      systemd ? pkgs.systemd,
     }:
     let
-      unit = "${lib.removeSuffix ".service" service}.service";
+      unit = lib.escapeShellArg "${service}.service";
       userFlag = lib.optionalString (scope == "user") "--user ";
     in
     pkgs.writeShellScript "healthchecks-journal-ping" ''
       set -eu
 
-      tmp="$(mktemp)"
-      trap 'rm -f "$tmp"' EXIT
-
-      unit=${lib.escapeShellArg unit}
+      tmp="$(${lib.getExe' pkgs.coreutils "mktemp"} --tmpdir healthchecks-journal.XXXXXX)"
+      trap '${lib.getExe' pkgs.coreutils "rm"} -f "$tmp"' EXIT
 
       capture() {
         local id
-        id="$(${lib.getExe' systemd "systemctl"} ${userFlag}show -p InvocationID --value "$unit" 2>/dev/null || true)"
+        id="$(${lib.getExe' pkgs.systemd "systemctl"} ${userFlag}show -p InvocationID --value ${unit} 2>/dev/null || true)"
         if [ -n "$id" ]; then
-          ${lib.getExe' systemd "journalctl"} ${userFlag}-u "$unit" "_SYSTEMD_INVOCATION_ID=$id" --no-pager --quiet -o cat
+          ${lib.getExe' pkgs.systemd "journalctl"} ${userFlag}-u ${unit} "_SYSTEMD_INVOCATION_ID=$id" --no-pager --quiet -o cat
         else
-          ${lib.getExe' systemd "journalctl"} ${userFlag}-u "$unit" -n ${toString lines} --no-pager --quiet -o cat
+          ${lib.getExe' pkgs.systemd "journalctl"} ${userFlag}-u ${unit} -n ${toString logMaxLines} --no-pager --quiet -o cat
         fi
       }
 
-      if capture 2>/dev/null | tail -c ${toString maxBytes} > "$tmp" && [ -s "$tmp" ]; then
+      if capture 2>/dev/null | ${lib.getExe' pkgs.coreutils "tail"} -c ${toString logMaxBytes} > "$tmp" && [ -s "$tmp" ]; then
         ${pingScript} ${lib.escapeShellArg slug} ${lib.escapeShellArg event} "$tmp"
       else
         ${pingScript} ${lib.escapeShellArg slug} ${lib.escapeShellArg event}
       fi
     '';
 
+  mkServiceCommands =
+    {
+      pingScript,
+      scope,
+      check,
+    }:
+    let
+      journal =
+        event:
+        toString (mkJournalPingScript {
+          inherit pingScript scope event;
+          inherit (check) service slug;
+        });
+    in
+    {
+      inherit (check) slug;
+      startCommand = "${pingScript} ${lib.escapeShellArg check.slug} start";
+      successCommand = journal "success";
+      failureCommand = journal "fail";
+    };
+
   mkCommandPingScript =
     {
       pingScript,
       slug,
       command,
-      failureThreshold ? 1,
-      maxBytes ? 100000,
-      stateDir ? "/var/lib/healthchecks",
     }:
     pkgs.writeShellScript "healthchecks-command-ping" ''
       set -eu
 
-      tmp="$(mktemp)"
-      trap 'rm -f "$tmp"' EXIT
-
-      state=${lib.escapeShellArg "${stateDir}/${slug}.state"}
+      tmp="$(${lib.getExe' pkgs.coreutils "mktemp"} --tmpdir healthchecks-command.XXXXXX)"
+      trap '${lib.getExe' pkgs.coreutils "rm"} -f "$tmp"' EXIT
 
       status=0
-      if [ ${toString maxBytes} -gt 0 ]; then
-        ${command} > "$tmp" 2>&1 || status=$?
-        ${lib.getExe' pkgs.coreutils "tail"} -c ${toString maxBytes} "$tmp" > "$tmp.cut"
-        ${lib.getExe' pkgs.coreutils "mv"} "$tmp.cut" "$tmp"
-      else
-        ${command} > /dev/null 2>&1 || status=$?
-      fi
+      ${command} > "$tmp" 2>&1 || status=$?
+
+      ${lib.getExe' pkgs.coreutils "tail"} -c ${toString logMaxBytes} "$tmp" > "$tmp.cut"
+      ${lib.getExe' pkgs.coreutils "mv"} "$tmp.cut" "$tmp"
 
       send() {
         local event="$1"
-        if [ ${toString maxBytes} -gt 0 ]; then
+        if [ -s "$tmp" ]; then
           ${pingScript} ${lib.escapeShellArg slug} "$event" "$tmp" || true
         else
           ${pingScript} ${lib.escapeShellArg slug} "$event" || true
@@ -135,27 +143,10 @@ rec {
       }
 
       if [ "$status" -eq 0 ]; then
-        rm -f "$state"
         send success
-        exit 0
+      else
+        send fail
       fi
-
-      count=1
-      if [ ${toString failureThreshold} -gt 1 ]; then
-        if [ -f "$state" ]; then
-          count=$(( $(${lib.getExe' pkgs.coreutils "cat"} "$state") + 1 ))
-        fi
-        printf '%s\n' "$count" > "$state"
-      fi
-
-      if [ "$count" -lt ${toString failureThreshold} ]; then
-        echo "below failure threshold ($count/${toString failureThreshold})"
-        send success
-        exit 0
-      fi
-
-      send fail
-      exit 0
     '';
 
   mkCommandUnits =
@@ -163,25 +154,14 @@ rec {
       pingScript,
       slug,
       command,
-      failureThreshold ? 1,
-      maxBytes ? 100000,
-      stateDir ? "/var/lib/healthchecks",
     }:
     {
       "healthchecks-${slug}" = {
-        Unit.Description = "Healthchecks metric check for ${slug}";
+        Unit.Description = "Healthchecks check for ${slug}";
         Service = {
           Type = "oneshot";
-          StateDirectory = "healthchecks";
           ExecStart = toString (mkCommandPingScript {
-            inherit
-              pingScript
-              slug
-              command
-              failureThreshold
-              maxBytes
-              stateDir
-              ;
+            inherit pingScript slug command;
           });
         };
       };
@@ -221,16 +201,10 @@ rec {
     };
 
   mkHooks =
-    {
-      slug,
-      start ? true,
-    }:
-    {
-      OnSuccess = [ "healthchecks-${slug}-success.service" ];
-      OnFailure = [ "healthchecks-${slug}-failure.service" ];
-    }
-    // lib.optionalAttrs start {
-      After = [ "healthchecks-${slug}-start.service" ];
-      Wants = [ "healthchecks-${slug}-start.service" ];
+    { slug }:
+    hooks {
+      prefix = "healthchecks";
+      name = slug;
+      start = true;
     };
 }

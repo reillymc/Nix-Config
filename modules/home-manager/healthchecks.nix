@@ -16,10 +16,10 @@ let
       options = {
         service = lib.mkOption {
           type = lib.types.str;
-          example = "restic-backups-daily.service";
+          example = "restic-backups-daily";
           description = ''
-            Name of the systemd user service to hook. A `.service` suffix is
-            optional.
+            Name of the systemd user service to hook, without the `.service`
+            suffix.
           '';
         };
 
@@ -32,72 +32,9 @@ let
             Healthchecks slug for this check, before `slugPrefix` is applied.
           '';
         };
-
-        start = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = ''
-            Send a `/start` ping before the service runs so Healthchecks can
-            measure the run duration.
-          '';
-        };
-
-        logs = lib.mkOption {
-          type = lib.types.nullOr (
-            lib.types.submodule {
-              options = {
-                events = lib.mkOption {
-                  type = lib.types.listOf (
-                    lib.types.enum [
-                      "success"
-                      "failure"
-                    ]
-                  );
-                  default = [ "failure" ];
-                  description = "Events that attach the service's journal output.";
-                };
-
-                lines = lib.mkOption {
-                  type = lib.types.ints.positive;
-                  default = 200;
-                  description = ''
-                    Journal lines captured when the unit's invocation id is
-                    unavailable.
-                  '';
-                };
-
-                maxBytes = lib.mkOption {
-                  type = lib.types.ints.positive;
-                  default = 100000;
-                  description = ''
-                    Maximum number of log bytes attached. Healthchecks stores
-                    the first 100000 bytes of a request body.
-                  '';
-                };
-              };
-            }
-          );
-          default = { };
-          description = ''
-            Attach the service's systemd journal output to its pings. `null`
-            disables logging; the default attaches the failed invocation's log.
-            Journal output can contain sensitive data.
-          '';
-        };
       };
     }
   );
-
-  normalizeLogs =
-    logs:
-    if logs == null then
-      null
-    else
-      {
-        events = logs.events or [ "failure" ];
-        lines = logs.lines or 200;
-        maxBytes = logs.maxBytes or 100000;
-      };
 
   normalize =
     e:
@@ -107,18 +44,14 @@ let
           {
             service = e;
             slug = e;
-            start = true;
-            logs = { };
           }
         else
           e;
-      service = lib.removeSuffix ".service" entry.service;
+      service = entry.service;
     in
     {
       inherit service;
-      slug = lib.optionalString (cfg.slugPrefix != "") "${cfg.slugPrefix}-" + entry.slug;
-      start = entry.start;
-      logs = normalizeLogs entry.logs;
+      slug = (lib.optionalString (cfg.slugPrefix != "") "${cfg.slugPrefix}-") + entry.slug;
     };
 
   checks = map normalize cfg.checks;
@@ -129,33 +62,10 @@ let
 
   mkCommands =
     c:
-    let
-      plain = event: "${ping} ${lib.escapeShellArg c.slug} ${event}";
-
-      logged =
-        event:
-        toString (
-          healthchecks.mkJournalPingScript {
-            pingScript = ping;
-            inherit (c) service slug;
-            inherit event;
-            scope = "user";
-            inherit (c.logs) lines maxBytes;
-          }
-        );
-
-      eventCommand =
-        kind:
-        let
-          event = if kind == "failure" then "fail" else "success";
-        in
-        if c.logs != null && lib.elem kind c.logs.events then logged event else plain event;
-    in
-    {
-      inherit (c) slug;
-      startCommand = plain "start";
-      successCommand = eventCommand "success";
-      failureCommand = eventCommand "failure";
+    healthchecks.mkServiceCommands {
+      pingScript = ping;
+      scope = "user";
+      check = c;
     };
 in
 {
@@ -209,8 +119,9 @@ in
       example = lib.literalExpression ''[ "restic-backups-daily" ]'';
       description = ''
         Systemd user services to hook up to Healthchecks. Each entry is either
-        a service name (also used as the slug) or an attribute set accepting
-        `service`, `slug`, `start`, and `logs`.
+        a service name without the `.service` suffix (also used as the slug) or
+        an attribute set accepting `service` and `slug`. Checks ping start,
+        success, and failure, attaching the invocation's journal output.
       '';
     };
   };
@@ -220,6 +131,13 @@ in
       myhome.healthchecks.enable = lib.mkDefault ((mynixos.healthchecks or { }).enable or false);
       myhome.healthchecks.baseUrl = lib.mkDefault ((mynixos.healthchecks or { }).baseUrl or "");
       myhome.healthchecks.pingKeyFile = lib.mkDefault ((mynixos.healthchecks or { }).pingKeyFile or "");
+
+      assertions = [
+        {
+          assertion = cfg.checks == [ ] || cfg.enable;
+          message = "myhome.healthchecks: `checks` is set but `myhome.healthchecks.enable` is false.";
+        }
+      ];
     }
 
     (lib.mkIf cfg.enable {
@@ -244,25 +162,15 @@ in
           assertion = lib.all (c: builtins.hasAttr c.service config.systemd.user.services) checks;
           message = "myhome.healthchecks: every check's `service` must be a defined systemd user service.";
         }
-        {
-          assertion = lib.all (c: c.logs == null || c.logs.events != [ ]) checks;
-          message = "myhome.healthchecks: `logs.events` must not be empty; use `logs = null` to disable logging.";
-        }
-        {
-          assertion = lib.all (c: c.logs == null || c.logs.maxBytes <= 100000) checks;
-          message = "myhome.healthchecks: `logs.maxBytes` must not exceed 100000 (Healthchecks stores the first 100 kB).";
-        }
       ];
 
-      systemd.user.services = lib.mkIf (checks != [ ]) (
-        lib.mkMerge (
-          lib.concatMap (c: [
-            (healthchecks.mkUnits (mkCommands c))
-            {
-              ${c.service}.Unit = healthchecks.mkHooks { inherit (c) slug start; };
-            }
-          ]) checks
-        )
+      systemd.user.services = lib.mkMerge (
+        lib.concatMap (c: [
+          (healthchecks.mkUnits (mkCommands c))
+          {
+            ${c.service}.Unit = healthchecks.mkHooks { inherit (c) slug; };
+          }
+        ]) checks
       );
     })
   ];

@@ -244,9 +244,10 @@ string
 
 
 Services and commands to report to Healthchecks\. Each entry is either a
-service name (also used as the slug) or an attribute set accepting
-` service ` or ` command `, ` slug `, ` start `, ` logs `, ` timer `, and
-` failureThreshold `\.
+service name without the ` .service ` suffix (also used as the slug) or an
+attribute set accepting ` service ` or ` command `, ` slug `, and ` timer `\.
+Service checks ping start, success, and failure, attaching the
+invocation’s journal output; command checks attach their output\.
 
 
 

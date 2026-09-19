@@ -5,7 +5,6 @@
 let
   mynixos = {
     hyprland.enable = true;
-    configDir = "<repo directory>";
   };
 in
 {

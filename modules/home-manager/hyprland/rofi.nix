@@ -31,7 +31,15 @@ let
     targetHeight=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.height)} / 100))
     targetWidth=$((monitorHeight * ${toString (themeLib.toPercentInt theme.size.popup.regular.width)} / 100))
 
-    pkill rofi || rofi -show drun -drun-match-fields 'name' -config ~/.config/rofi/config.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }"
+    launch() {
+      rofi -show drun -drun-match-fields 'name' -config ~/.config/rofi/config.rasi -theme-str "window { height: ''${targetHeight}px; width: ''${targetWidth}px; }"
+    }
+
+    if [ "$1" = "--open" ]; then
+      pgrep -x rofi >/dev/null 2>&1 || launch
+    else
+      pkill rofi || launch
+    fi
   '';
 
   powerMenu = pkgs.writeShellScriptBin "powerMenu" ''
@@ -47,7 +55,7 @@ let
         systemctl suspend
         ;;
       "󰗽")
-        hyprctl dispatch exit
+        hyprctl dispatch 'hl.dsp.exit()'
         ;;
       "")
         systemctl reboot

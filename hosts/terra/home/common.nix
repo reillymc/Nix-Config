@@ -9,8 +9,18 @@
   # 5k ultrawide seems to suffer from poor performance when using the iGPU
   wayland.windowManager.hyprland.settings = {
     env = [
-      "AQ_DRM_DEVICES,/dev/dri/amd-dgpu:/dev/dri/amd-igpu"
-      # "AQ_DRM_DEVICES,/dev/dri/amd-igpu:/dev/dri/amd-dgpu"
+      {
+        _args = [
+          "AQ_DRM_DEVICES"
+          "/dev/dri/amd-dgpu:/dev/dri/amd-igpu"
+        ];
+      }
+      # {
+      #   _args = [
+      #     "AQ_DRM_DEVICES"
+      #     "/dev/dri/amd-igpu:/dev/dri/amd-dgpu"
+      #   ];
+      # }
     ];
   };
 

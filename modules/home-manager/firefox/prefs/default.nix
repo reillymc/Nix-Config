@@ -6,6 +6,7 @@ let
     "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
     "browser.newtabpage.activity-stream.feeds.topsites" = false;
     "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+    "browser.newtabpage.activity-stream.showWeather" = false;
 
     # Don't open firefox privacy notice tab on first launch
     "browser.rights.3.shown" = true;
@@ -22,6 +23,11 @@ let
 
     # Separate Terms-of-Use notification flow (also fires on fresh profiles).
     "termsofuse.bypassNotification" = true;
+
+    # Suppress the "Open previous tabs?" startup infobar (shown once when a
+    # restorable session exists). SessionStore skips it when this count pref
+    # is >= 2 (or negative).
+    "browser.startup.couldRestoreSession.count" = 2;
   };
 
   # TODO: transfer remaining imperative config here, including UI customisation, never save passwords etc

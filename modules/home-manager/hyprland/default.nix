@@ -9,6 +9,9 @@ let
   themeLib = import ../../../lib/theme.nix { inherit lib; };
   theme = config.myhome.display.theme;
 
+  cursorName = if theme.mode == "light" then "Bibata-Modern-Classic" else "Bibata-Modern-Ice";
+  cursorSize = 24;
+
   monitors = map (
     mon:
     {
@@ -605,6 +608,7 @@ in
 
         -- Programs to be launched on start-up (will not be relaunched on Hyprland reload)
         hl.on("hyprland.start", function()
+          hl.exec_cmd("uwsm finalize")
           hl.exec_cmd("dbus-update-activation-environment --systemd PATH")
           hl.exec_cmd("systemctl --user start hyprpolkitagent")
           hl.exec_cmd("uwsm app -- hyprpaper")
@@ -917,69 +921,40 @@ in
       gtk.enable = true;
       hyprcursor.enable = true;
       package = pkgs.bibata-cursors;
-      name = if theme.mode == "light" then "Bibata-Modern-Classic" else "Bibata-Modern-Ice";
-      size = 16;
+      name = cursorName;
+      size = cursorSize;
     };
 
     dconf.settings."org/gnome/desktop/wm/preferences".button-layout = ":";
-    dconf.settings."org/gnome/desktop/interface".gtk-enable-primary-paste = true;
+    dconf.settings."org/gnome/desktop/interface" = {
+      gtk-enable-primary-paste = true;
+      cursor-theme = cursorName;
+      cursor-size = cursorSize;
+    };
 
     fonts.fontconfig.enable = true;
 
-    systemd.user.services.switchToDarkCursor = {
-      Unit = {
-        Description = "Switch to dark cursor (hyprland)";
-        After = [ "wayland-session-waitenv.service" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Bibata-Modern-Ice 24";
-        Type = "oneshot";
-      };
-      Install = {
-        WantedBy = [ "wayland-session@hyprland.desktop.target" ];
-      };
-    };
+    home.activation.setHyprlandCursor = lib.hm.dag.entryAfter [ "reloadSystemd" ] ''
+      runtimeDir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 
-    systemd.user.services.switchToLightCursor = {
-      Unit = {
-        Description = "Switch to light cursor (hyprland)";
-        After = [ "wayland-session-waitenv.service" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Bibata-Modern-Classic 24";
-        Type = "oneshot";
-      };
-      Install = {
-        WantedBy = [ "wayland-session@hyprland.desktop.target" ];
-      };
-    };
+      signature="''${HYPRLAND_INSTANCE_SIGNATURE:-}"
+      if [[ -z "$signature" ]]; then
+        for socket in "$runtimeDir"/hypr/*/.socket.sock; do
+          if [[ -S "$socket" ]]; then
+            signature="$(basename "$(dirname "$socket")")"
+            break
+          fi
+        done
+      fi
 
-    systemd.user.timers.switchToDarkCursor = lib.mkIf (mynixos.theme.schedule.darkTime != null) {
-      Unit = {
-        Description = "Timer to switch to dark cursor (hyprland)";
-      };
-      Timer = {
-        OnCalendar = "*-*-* ${mynixos.theme.schedule.darkTime}:00";
-        Unit = "switchToDarkCursor.service";
-        Persistent = true;
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
+      if [[ -n "$signature" && -S "$runtimeDir/hypr/$signature/.socket.sock" ]]; then
+        env XDG_RUNTIME_DIR="$runtimeDir" HYPRLAND_INSTANCE_SIGNATURE="$signature" \
+          ${pkgs.hyprland}/bin/hyprctl setcursor ${cursorName} ${toString cursorSize} || true
+      fi
 
-    systemd.user.timers.switchToLightCursor = lib.mkIf (mynixos.theme.schedule.lightTime != null) {
-      Unit = {
-        Description = "Timer to switch to light cursor (hyprland)";
-      };
-      Timer = {
-        OnCalendar = "*-*-* ${mynixos.theme.schedule.lightTime}:00";
-        Unit = "switchToLightCursor.service";
-        Persistent = true;
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
+      env XDG_RUNTIME_DIR="$runtimeDir" ${pkgs.systemd}/bin/systemctl --user set-environment \
+        XCURSOR_THEME=${cursorName} XCURSOR_SIZE=${toString cursorSize} \
+        HYPRCURSOR_THEME=${cursorName} HYPRCURSOR_SIZE=${toString cursorSize} || true
+    '';
   };
 }

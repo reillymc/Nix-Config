@@ -408,6 +408,10 @@ in
     };
     initContent = ''
       source ${pkgs.ghostty.shell_integration}/zsh/ghostty-integration
+      bindkey '^[[1;3D' backward-word
+      bindkey '^[[1;3C' forward-word
+      bindkey '^[[1;5D' backward-word
+      bindkey '^[[1;5C' forward-word
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
       _git-project() {

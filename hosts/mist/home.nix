@@ -11,6 +11,7 @@ let
       pkgs.coreutils
       pkgs.git
       pkgs.gawk
+      pkgs.docker
     ];
 
     text = ''
@@ -82,6 +83,29 @@ let
                   /^worktree / { path = substr($0, 10); next }
                   /^bare/ { print path; exit }
               '
+      }
+
+      cleanup_containers() {
+          worktree="$1"
+          branch="$2"
+
+          compose_dir="$worktree/.devcontainer"
+          compose_file=""
+          for candidate in docker-compose.yml docker-compose.yaml compose.yml compose.yaml; do
+              if [ -f "$compose_dir/$candidate" ]; then
+                  compose_file="$candidate"
+                  break
+              fi
+          done
+          [ -n "$compose_file" ] || return 0
+
+          slug="$(printf '%s' "$branch" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9._-' '-' | tr -s '-' | sed 's/^-//; s/-$//')"
+          [ -n "$slug" ] || slug="default"
+
+          printf 'git project: stopping containers for %s\n' "$branch" >&2
+          if ! (cd "$compose_dir" && WORKTREE_SLUG="$slug" docker compose down --volumes --remove-orphans --timeout 2); then
+              printf 'git project: warning: failed to stop containers for %s\n' "$branch" >&2
+          fi
       }
 
       # copy .devcontainer/.env from the main worktree into a new worktree
@@ -322,6 +346,7 @@ let
 
           if [ "$force" -eq 1 ]; then
               if [ -n "$path" ]; then
+                  cleanup_containers "$path" "$name"
                   printf 'git project: force-removing worktree %s\n' "$path"
                   git worktree remove --force "$path"
               else
@@ -340,6 +365,8 @@ let
           if [ -z "$path" ]; then
               die "no worktree on branch '$name'"
           fi
+
+          cleanup_containers "$path" "$name"
 
           printf 'git project: removing worktree %s\n' "$path"
           if ! git worktree remove "$path"; then

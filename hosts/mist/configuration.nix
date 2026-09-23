@@ -9,6 +9,7 @@
   imports = [
     inputs.home-manager.nixosModules.default
     ../../modules/nixos/microvm/role.nix
+    ../../modules/nixos/utilities/docker.nix
     ./secrets.nix
   ];
 
@@ -117,7 +118,9 @@
   zramSwap.memoryPercent = 50; # Adjust based on how much RAM to allocate for compressed swap
   boot.kernel.sysctl."vm.swappiness" = 10;
 
-  virtualisation.docker.enable = true;
+  mynixos.docker.enable = true;
+
+  systemd.services.docker.serviceConfig.TimeoutStopSec = "3s";
 
   programs.nix-ld.enable = true; # Required for vscode-server to work
   programs.zsh.enable = true; # Required for vscode-server to work

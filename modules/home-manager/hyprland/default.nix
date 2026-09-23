@@ -39,18 +39,6 @@ let
     fi
   '';
 
-  startup = pkgs.writeShellScriptBin "startup" ''
-    # Get the current hour in 24-hour format (e.g. 06, 14, etc.)
-    current_hour=$(date +%H)
-
-    # Convert to an integer (to avoid issues with leading zeros)
-    current_hour=$((10#$current_hour))
-
-    # Waybar fails to start if started too early, so delay and restart service
-    sleep 3
-    systemctl --user restart waybar # Workaround for waybar systemd service failing to start at launch
-  '';
-
   search = pkgs.writeShellScriptBin "search" ''
     # Requires wl-clipboard, TODO: ensure dependency is handled independently of clipse
     firefox --new-tab https://www.google.com/search?q="$(wl-paste --primary)"
@@ -608,12 +596,7 @@ in
 
         -- Programs to be launched on start-up (will not be relaunched on Hyprland reload)
         hl.on("hyprland.start", function()
-          hl.exec_cmd("uwsm finalize")
-          hl.exec_cmd("dbus-update-activation-environment --systemd PATH")
-          hl.exec_cmd("systemctl --user start hyprpolkitagent")
-          hl.exec_cmd("uwsm app -- hyprpaper")
           hl.exec_cmd("uwsm app -- kdeconnectd")
-          hl.exec_cmd("${startup}/bin/startup")
         end)
 
         -- Float, resize and center windows whose title matches the configured list
@@ -792,14 +775,16 @@ in
         end)
         hl.bind(mod .. " + SHIFT + L", hl.dsp.layout("swapwithmaster master"))
 
-        -- hl.bind(mod .. " + z", function()
-        --   hl.config({ cursor = { zoom_factor = hl.get_config("cursor:zoom_factor") + 0.08 } })
-        -- end)
-        -- hl.bind(mod .. " + SHIFT + z", function()
-        --   hl.config({ cursor = { zoom_factor = 1.0 } })
-        -- end)
+         hl.bind(mod .. " + z", function()
+           hl.config({ cursor = { zoom_factor = hl.get_config("cursor:zoom_factor") + 0.08 } })
+         end)
+         hl.bind(mod .. " + SHIFT + z", function()
+           hl.config({ cursor = { zoom_factor = 1.0 } })
+         end)
       '';
     };
+
+    services.hyprpolkitagent.enable = true;
 
     services.hypridle = {
       enable = true;

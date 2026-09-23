@@ -17,10 +17,7 @@ in
 {
   programs.waybar = {
     enable = true;
-    systemd = {
-      enable = true;
-      targets = [ "hyprland-session.target" ];
-    };
+    systemd.enable = true;
     # setting per monitor
     settings = map (monitor: {
       output = monitor.output;

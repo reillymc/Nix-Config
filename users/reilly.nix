@@ -245,15 +245,8 @@
     Unit = {
       Description = "Auto-connect Bluetooth headphones";
 
-      Wants = [
-        "graphical-session.target"
-        "wireplumber.service"
-      ];
-
-      After = [
-        "graphical-session.target"
-        "wireplumber.service"
-      ];
+      Wants = [ "wireplumber.service" ];
+      After = [ "wireplumber.service" ];
     };
 
     Install = {
@@ -261,10 +254,10 @@
     };
 
     Service = {
-      Type = "oneshot";
+      Type = "exec";
 
       ExecStart = pkgs.writeShellScript "bt-connect" ''
-        set -euo pipefail
+        set -uo pipefail
 
         # Trigger PipeWire/WirePlumber socket activation if needed.
         ${pkgs.wireplumber}/bin/wpctl status >/dev/null 2>&1 || true
@@ -279,7 +272,7 @@
 
         echo "Attempting to connect headphones..."
 
-        exec ${pkgs.bluez}/bin/bluetoothctl connect 94:DB:56:D5:A1:18
+        ${pkgs.bluez}/bin/bluetoothctl connect 94:DB:56:D5:A1:18 || true
       '';
     };
   };

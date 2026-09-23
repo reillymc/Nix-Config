@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   ...
 }:
 
@@ -59,6 +60,38 @@ in
           size = 73728; # 72 GiB
         }
       ];
+    };
+  };
+
+  systemd.targets.microvms = {
+    wantedBy = lib.mkForce [ ];
+    wants = [ "systemd-networkd.service" ];
+    after = [ "systemd-networkd.service" ];
+  };
+  systemd.timers.microvm-autostart = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "0";
+      AccuracySec = "1s";
+      Unit = "microvms.target";
+    };
+  };
+
+  systemd.services."microvm@mist" = {
+    overrideStrategy = "asDropin";
+    serviceConfig = {
+      CPUWeight = 50;
+      IOWeight = 50;
+      Nice = 5;
+      TimeoutStopSec = "20s";
+    };
+  };
+  systemd.services."microvm-virtiofsd@mist" = {
+    overrideStrategy = "asDropin";
+    serviceConfig = {
+      CPUWeight = 50;
+      IOWeight = 50;
+      Nice = 5;
     };
   };
 }

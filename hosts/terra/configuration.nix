@@ -13,6 +13,7 @@ let
   mynixos = {
     steam.enable = true;
     hyprland.enable = true;
+    kdeconnect.enable = true;
     nautilus.enable = true;
     spotify = {
       enable = true;
@@ -35,7 +36,6 @@ let
       pingKeyFile = "/run/agenix/healthchecks/ping-key";
       checks = [
         "nix-gc"
-        "nix-optimise"
         "fwupd-refresh"
         {
           slug = "disk";
@@ -86,8 +86,6 @@ in
     ./secrets.nix
   ];
 
-  hardware.enableRedistributableFirmware = true;
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -100,12 +98,16 @@ in
   ];
   boot.initrd.systemd.enable = true;
   boot.loader.timeout = 1;
-  systemd.network.wait-online.enable = false;
 
   boot.initrd.luks.devices."luks-42d04de4-1b56-431b-b6e8-21277e8b3e94".device =
     "/dev/disk/by-uuid/42d04de4-1b56-431b-b6e8-21277e8b3e94";
 
   networking.networkmanager.enable = true;
+
+  nix.settings = {
+    max-jobs = 2;
+    cores = 2;
+  };
 
   networking.nameservers = [
     "1.1.1.1"
@@ -147,9 +149,6 @@ in
     ];
   };
 
-  # Set your time zone.
-  time.timeZone = "Europe/London";
-
   security.polkit.enable = true;
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
@@ -171,12 +170,12 @@ in
     pulse.enable = true;
   };
 
+  services.fwupd.enable = true;
   services.tailscale.enable = true;
   services.flatpak.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
-    mutableUsers = false;
     users = {
       reilly = {
         isNormalUser = true;
@@ -201,7 +200,7 @@ in
     useUserPackages = true;
     extraSpecialArgs = {
       inherit inputs mynixos;
-      theme = "dark"; # Default, overridden by specialisations
+      theme = "dark"; # Base system theme; light is a specialisation
     };
     users = {
       "reilly" = import ./home/reilly.nix;

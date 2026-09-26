@@ -13,6 +13,7 @@ let
   mynixos = {
     steam.enable = true;
     hyprland.enable = true;
+    kdeconnect.enable = true;
     docker.enable = true;
     nautilus.enable = true;
     spotify = {
@@ -35,7 +36,6 @@ let
       pingKeyFile = "/run/agenix/healthchecks/ping-key";
       checks = [
         "nix-gc"
-        "nix-optimise"
         "fwupd-refresh"
         {
           slug = "disk";
@@ -86,8 +86,6 @@ in
     ./secrets.nix
   ];
 
-  hardware.enableRedistributableFirmware = true;
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -111,7 +109,6 @@ in
   ];
   boot.kernelModules = [ "i2c-dev" ];
   boot.loader.timeout = 1;
-  systemd.network.wait-online.enable = false;
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -162,9 +159,6 @@ in
     ];
   };
 
-  # Set your time zone.
-  time.timeZone = "Europe/London";
-
   # Enable sound with pipewire.
   security.rtkit.enable = true;
   services.pipewire = {
@@ -174,11 +168,11 @@ in
     pulse.enable = true;
   };
 
+  services.fwupd.enable = true;
   services.tailscale.enable = true;
   services.flatpak.enable = true;
 
   users = {
-    mutableUsers = false;
     users.reilly = {
       isNormalUser = true;
       createHome = true;
@@ -199,7 +193,7 @@ in
     useUserPackages = true;
     extraSpecialArgs = {
       inherit inputs mynixos;
-      theme = "dark"; # Default, overridden by specialisations
+      theme = "dark"; # Base system theme; light is a specialisation
     };
     users = {
       "reilly" = import ./home.nix;

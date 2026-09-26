@@ -358,6 +358,38 @@ true
 
 
 
+## mynixos\.kdeconnect\.enable
+
+
+
+Whether to enable KDE Connect\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+*Declared by:*
+ - [modules/nixos/utilities/kdeconnect\.nix](../modules/nixos/utilities/kdeconnect.nix)
+
+
+
 ## mynixos\.ly\.enable
 
 
@@ -522,7 +554,7 @@ true
 
 
 
-Configuration for automatically switching system theme\.
+Configuration for automatically switching system theme\. Both ` lightTime ` and ` darkTime ` must be set for the theme specialisation and timers to be created; leave unset on hosts without a desktop theme\.
 
 
 

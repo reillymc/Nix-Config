@@ -14,7 +14,8 @@
       enable = true;
       # Speed up boot times (~5s) by not starting the docker daemon until it's actually needed.
       enableOnBoot = false;
-      daemon.settings.shutdown-timeout = 5;
+      daemon.settings.shutdown-timeout = 30;
+      logDriver = "journald";
       autoPrune.enable = true;
     };
 

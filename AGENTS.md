@@ -26,7 +26,7 @@ This file should only be updated sparingly in the case of genuine project-scoped
    - Standard users to check: `terra/reilly`, `terra/guest`, `slate/reilly`, `mist/dev` (0 failing assertions).
    - Flakes ignore untracked files: after adding or moving files use `path:.#...` (or stage them).
    - Options carrying removed-option shims (impermanence `home.persistence.main.{directories,files}`) error when serialised; inspect with `--apply 'xs: map (x: x.directory) xs'` or rely on assertions.
-4. Real builds: `<hostname>-build [test|switch|boot] [light|dark]` (`test` default, self-escalates via sudo, theme defaults by time of day). Also `<hostname>-update`, `<hostname>-theme light|dark`, `<hostname>-clean`.
+4. Real builds: `<hostname>-build [test|switch|boot] [light|dark]` (`test` default, self-escalates via sudo, theme defaults by time of day). Also `<hostname>-update`, `<hostname>-clean`; `<hostname>-theme` and theme specialisations exist only when `mynixos.theme.schedule` is set (dark = base system, light = specialisation).
 5. Docs are generated from option metadata: regenerate after changing option names/descriptions/defaults with `nix build .#docs && cp -rf result/* ./docs/ && rm -f result` (use `path:.#docs` while new files are untracked). Never hand-edit `docs/`.
 6. Reclaim after heavy work: `nix store gc` (safe; frees ~20 GiB via overlay/hardlinks). Re-check `df -h /`, `free -h`.
 7. No concurrent heavy Nix commands.
@@ -42,6 +42,7 @@ This file should only be updated sparingly in the case of genuine project-scoped
 - `nix eval` exit `137` / empty `--raw` output -> OOM. `nix store gc`, retry lighter.
 - `/` >=95% -> store filled RAM. `nix store gc`.
 - Long "copying path ... from cache.nixos.org" streaks -> materialising a large closure.
+- `nix eval …config.assertions --json` fails with `attribute 'cycle' missing` on any host: upstream nixpkgs message-string artifact, not a real filesystem cycle. Check with `--apply 'filter (a: !a.assertion)'`.
 
 ## Lint
 

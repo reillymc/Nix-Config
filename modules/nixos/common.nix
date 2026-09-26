@@ -6,6 +6,11 @@
 {
   networking.hostName = hostname;
 
+  hardware.enableRedistributableFirmware = true;
+  systemd.network.wait-online.enable = false;
+  time.timeZone = "Europe/London";
+  users.mutableUsers = false;
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -16,7 +21,6 @@
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
-  nix.optimise.automatic = true;
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   # Select internationalisation properties.
@@ -34,10 +38,7 @@
   };
   i18n.inputMethod.enable = false;
 
-  services.fwupd.enable = true;
-
   security.sudo.extraConfig = ''
     Defaults lecture = never
   '';
-
 }

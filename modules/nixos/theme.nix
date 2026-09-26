@@ -26,15 +26,12 @@ in
       };
     };
     default = { };
-    description = "Configuration for automatically switching system theme.";
+    description = "Configuration for automatically switching system theme. Both `lightTime` and `darkTime` must be set for the theme specialisation and timers to be created; leave unset on hosts without a desktop theme.";
   };
 
   config = {
-    specialisation.light.configuration = {
-      home-manager.extraSpecialArgs.theme = "light";
-    };
-    specialisation.dark.configuration = {
-      home-manager.extraSpecialArgs.theme = "dark";
+    specialisation = lib.mkIf isScheduled {
+      light.configuration.home-manager.extraSpecialArgs.theme = "light";
     };
 
     systemd.services.activateDesiredSystemTheme = lib.mkIf isScheduled {

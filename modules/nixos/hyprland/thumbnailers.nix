@@ -1,17 +1,21 @@
 {
+  config,
+  lib,
   pkgs,
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [
-    ffmpeg-headless
-    ffmpegthumbnailer
-    gdk-pixbuf
-    libheif
-    libheif.out
-  ];
+  config = lib.mkIf config.mynixos.hyprland.enable {
+    environment.systemPackages = with pkgs; [
+      ffmpeg-headless
+      ffmpegthumbnailer
+      gdk-pixbuf
+      libheif
+      libheif.out
+    ];
 
-  environment.pathsToLink = [
-    "share/thumbnailers"
-  ];
+    environment.pathsToLink = [
+      "share/thumbnailers"
+    ];
+  };
 }

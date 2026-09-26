@@ -32,6 +32,8 @@ in
           hostConfig = ../../../hosts/mist/configuration.nix;
           tapId = "microvm4";
           mac = "02:00:00:00:00:05";
+          mem = 14336;
+          vcpu = 4;
         })
       ];
 
@@ -83,7 +85,8 @@ in
       CPUWeight = 50;
       IOWeight = 50;
       Nice = 5;
-      TimeoutStopSec = "20s";
+      MemoryMax = "18G";
+      TimeoutStopSec = "60s";
     };
   };
   systemd.services."microvm-virtiofsd@mist" = {

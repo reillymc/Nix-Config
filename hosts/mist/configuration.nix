@@ -92,10 +92,14 @@
     22
   ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    max-jobs = 2;
+    cores = 2;
+  };
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   age.identityPaths = [
@@ -105,7 +109,7 @@
 
   systemd.settings.Manager = {
     # fast shutdowns/reboots! https://mas.to/@zekjur/113109742103219075
-    DefaultTimeoutStopSec = "5s";
+    DefaultTimeoutStopSec = "30s";
   };
 
   # Inotify limits for hot-reload tooling (webpack, watchers, etc.)
@@ -120,7 +124,7 @@
 
   mynixos.docker.enable = true;
 
-  systemd.services.docker.serviceConfig.TimeoutStopSec = "3s";
+  systemd.services.docker.serviceConfig.TimeoutStopSec = "30s";
 
   programs.nix-ld.enable = true; # Required for vscode-server to work
   programs.zsh.enable = true; # Required for vscode-server to work

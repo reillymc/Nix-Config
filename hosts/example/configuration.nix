@@ -16,10 +16,7 @@ in
     ../../modules/nixos/common.nix
   ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  services.fwupd.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.example-user = {

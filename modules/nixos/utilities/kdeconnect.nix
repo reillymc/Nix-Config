@@ -1,11 +1,17 @@
 {
+  config,
+  lib,
   pkgs,
   ...
 }:
 {
-  programs.kdeconnect.enable = true;
+  options.mynixos.kdeconnect.enable = lib.mkEnableOption "KDE Connect";
 
-  environment.systemPackages = with pkgs; [
-    kdePackages.kdeconnect-kde # required to provide kdeconnctd which is started with hyprland
-  ];
+  config = lib.mkIf config.mynixos.kdeconnect.enable {
+    programs.kdeconnect.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      kdePackages.kdeconnect-kde # required to provide kdeconnctd which is started with hyprland
+    ];
+  };
 }

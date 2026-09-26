@@ -1,12 +1,16 @@
 {
   config,
+  lib,
   pkgs,
   hostname,
   ...
 }:
 let
-  determineThemeSpecialisation = ''
-    determine_theme_specialisation() {
+  schedule = config.mynixos.theme.schedule;
+  isScheduled = schedule.lightTime != null && schedule.darkTime != null;
+
+  determineTheme = ''
+    determine_theme() {
       local requested_theme="''${1:-}"
 
       if [[ "$requested_theme" == light || "$requested_theme" == dark ]]; then
@@ -14,26 +18,61 @@ let
         return
       fi
 
-      local current
-      current=$(date +%H%M)
-      current=$((10#$current))
+      ${
+        if isScheduled then
+          ''
+            local current
+            current=$(date +%H%M)
+            current=$((10#$current))
 
-      local start="${config.mynixos.theme.schedule.lightTime}"
-      local end="${config.mynixos.theme.schedule.darkTime}"
+            local start="${schedule.lightTime}"
+            local end="${schedule.darkTime}"
 
-      start="''${start/:/}"
-      end="''${end/:/}"
+            start="''${start/:/}"
+            end="''${end/:/}"
 
-      start=$((10#$start))
-      end=$((10#$end))
+            start=$((10#$start))
+            end=$((10#$end))
 
-      if (( current >= start && current < end )); then
-        echo light
-      else
-        echo dark
-      fi
+            if (( current >= start && current < end )); then
+              echo light
+            else
+              echo dark
+            fi
+          ''
+        else
+          ''
+            # No theme schedule on this host; dark is the only theme.
+            echo dark
+          ''
+      }
     }
   '';
+
+  switchCommand =
+    if isScheduled then
+      ''
+        theme=$(determine_theme "''${2:-}")
+
+        if [[ "$theme" == light ]]; then
+          nixos-rebuild "$action" \
+            --flake ${config.mynixos.configDir}#${hostname} \
+            --specialisation light
+        else
+          nixos-rebuild "$action" \
+            --flake ${config.mynixos.configDir}#${hostname}
+        fi
+      ''
+    else
+      ''
+        if [[ -n "''${2:-}" ]]; then
+          echo "This host has no theme schedule; omit the theme argument." >&2
+          exit 1
+        fi
+
+        nixos-rebuild "$action" \
+          --flake ${config.mynixos.configDir}#${hostname}
+      '';
 
   system-build = pkgs.writeShellApplication {
     name = "${hostname}-build";
@@ -50,17 +89,13 @@ let
         exec sudo "$0" "$@"
       fi
 
-      ${determineThemeSpecialisation}
+      ${determineTheme}
 
       action="''${1:-test}"
 
       case "$action" in
         switch|test)
-          specialisation=$(determine_theme_specialisation "''${2:-}")
-
-          nixos-rebuild "$action" \
-            --flake ${config.mynixos.configDir}#${hostname} \
-            --specialisation "$specialisation"
+          ${switchCommand}
           ;;
         boot)
           if [[ -n "''${2:-}" ]]; then
@@ -107,16 +142,24 @@ let
         exec sudo "$0" "$@"
       fi
 
-      ${determineThemeSpecialisation}
+      ${determineTheme}
 
-      specialisation=$(determine_theme_specialisation "''${1:-}")
+      theme=$(determine_theme "''${1:-}")
 
-      case "$specialisation" in
-        light|dark) ;;
-        *) echo "Invalid theme: $specialisation" >&2; exit 1 ;;
+      case "$theme" in
+        light)
+          system="/nix/var/nix/profiles/system/specialisation/light"
+          ;;
+        dark)
+          system="/nix/var/nix/profiles/system"
+          ;;
+        *)
+          echo "Invalid theme: $theme" >&2
+          exit 1
+          ;;
       esac
 
-      "/nix/var/nix/profiles/system/specialisation/''${specialisation}/bin/switch-to-configuration" switch
+      "$system/bin/switch-to-configuration" switch
     '';
   };
 
@@ -141,7 +184,7 @@ in
   environment.systemPackages = [
     system-clean
     system-build
-    system-theme
     system-update
-  ];
+  ]
+  ++ lib.optionals isScheduled [ system-theme ];
 }

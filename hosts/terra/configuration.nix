@@ -25,6 +25,31 @@ let
     };
     via.enable = true;
     utilities.iosSideloaderEnv.enable = true;
+    microvm = {
+      host.externalInterface = "wlp11s0";
+      vms.mist = {
+        hostConfig = ../mist/configuration.nix;
+        mem = 14336;
+        vcpu = 4;
+        vsockCid = 5;
+        identity.file = ../../secrets/mist/age-identity.age;
+        shares = [
+          {
+            tag = "workspace";
+            source = "/home/reilly/Projects";
+            mountPoint = "/home/dev/Projects";
+          }
+        ];
+        volumes = [
+          {
+            mountPoint = "/var";
+            image = "var.img";
+            size = 73728; # 72 GiB
+          }
+        ];
+        limits.memoryMax = "18G";
+      };
+    };
     ly.enable = true;
     theme.schedule = {
       lightTime = "07:00";
@@ -81,8 +106,7 @@ in
     ./hardware-configuration.nix
     ../../modules/nixos/default.nix
     ../../modules/nixos/common.nix
-    ../../modules/nixos/microvm/host.nix
-    ../../modules/nixos/microvm/microvm.nix
+    ../../modules/nixos/microvm/vms.nix
     ./secrets.nix
   ];
 

@@ -1,14 +1,11 @@
 {
-  config,
   inputs,
-  lib,
   pkgs,
   ...
 }:
 {
   imports = [
     inputs.home-manager.nixosModules.default
-    ../../modules/nixos/microvm/role.nix
     ../../modules/nixos/utilities/docker.nix
     ./secrets.nix
   ];
@@ -18,17 +15,6 @@
   home-manager.users.dev = import ./home.nix;
 
   nixpkgs.hostPlatform = "x86_64-linux";
-
-  # Standalone-eval placeholders, only active when built as a regular host
-  # (no hardware-config). When deployed as a microvm guest on terra
-  # filesystem comes from microvm shares/volumes and grub is unused.
-  fileSystems."/" = lib.mkIf (!config.mynixos.microvm.guest.enable) {
-    device = "/dev/vda";
-    fsType = "ext4";
-  };
-  boot.loader.grub.devices = lib.mkIf (!config.mynixos.microvm.guest.enable) [
-    "/dev/vda"
-  ];
 
   networking.hostName = "mist";
 
@@ -103,7 +89,6 @@
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   age.identityPaths = [
-    "/run/host-keys/age-identity"
     "/etc/ssh/ssh_host_ed25519_key"
   ];
 

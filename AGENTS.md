@@ -36,6 +36,7 @@ This file should only be updated sparingly in the case of genuine project-scoped
 - Co-locate `options` with the config they describe (repo convention; `modules/home-manager/options/` no longer exists).
 - A module declaring `options` must put its config under an explicit `config = { ... }`, otherwise: "Module ... has an unsupported attribute `home'...".
 - Format touched files with `nixfmt`; the repo is nixfmt-formatted, so unrelated lines should not change.
+- Hosts import their generated `hardware-configuration.nix` from `configuration.nix` (NixOS convention); only mist is composed as a microvm guest.
 
 ## Symptoms
 

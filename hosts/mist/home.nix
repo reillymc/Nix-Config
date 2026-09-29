@@ -1,9 +1,16 @@
 {
+  lib,
   pkgs,
   ...
 }:
 
 let
+  # Scan staged changes for secrets before every commit on mist. Uses the
+  # store path for gitleaks (not $PATH) so it also runs under GUI git clients.
+  gitleaks-pre-commit = pkgs.writeShellScript "gitleaks-pre-commit" ''
+    exec ${lib.getExe pkgs.gitleaks} git --staged --redact --no-banner
+  '';
+
   git-project = pkgs.writeShellApplication {
     name = "git-project";
 
@@ -494,6 +501,7 @@ in
       alias.project = "!git-project";
       push.autoSetupRemote = true;
     };
+    hooks.pre-commit = gitleaks-pre-commit;
   };
 
   programs.npm = {
@@ -513,7 +521,10 @@ in
 
   home.stateVersion = "26.05";
 
-  home.packages = [ git-project ];
+  home.packages = [
+    git-project
+    pkgs.gitleaks
+  ];
 
   programs.home-manager.enable = true;
 

@@ -118,13 +118,54 @@ let
     name = "${hostname}-update";
 
     runtimeInputs = [
+      pkgs.coreutils
       pkgs.nix
+      pkgs.nvd
     ];
 
     text = ''
       set -euo pipefail
 
-      nix flake update --flake ${config.mynixos.configDir}
+      flake=${config.mynixos.configDir}
+      host=${hostname}
+
+      ${determineTheme}
+
+      nix flake update --flake "$flake"
+
+      theme=$(determine_theme)
+
+      rm -f "$flake/result"
+      nix build "$flake#nixosConfigurations.$host.config.system.build.toplevel" \
+        --out-link "$flake/result"
+
+      system="$flake/result"
+      if [[ "$theme" == light ]]; then
+        system="$flake/result/specialisation/light"
+      fi
+
+      current=$(readlink -f /run/current-system)
+      new=$(readlink -f "$system")
+
+      if [[ "$current" == "$new" ]]; then
+        echo "System closure is already up to date"
+        exit 0
+      fi
+
+      nvd diff "$current" "$new"
+
+      echo
+      if [[ -t 0 ]]; then
+        read -r -p "Apply this update with ${hostname}-build (test)? [y/N] " answer
+        case "$answer" in
+          [yY] | [yY][eE][sS])
+            "${hostname}-build" test
+            exit 0
+            ;;
+        esac
+      fi
+
+      echo "Run '${hostname}-build' to apply the update."
     '';
   };
 

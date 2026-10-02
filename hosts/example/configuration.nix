@@ -5,6 +5,10 @@
 let
   mynixos = {
     hyprland.enable = true;
+
+    # State is persisted via impermanence (imported below); backup is opt-in
+    # via `mynixos.state.backup.enable'.
+    state.directories = [ "/var/lib/example" ];
   };
 in
 {
@@ -12,6 +16,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
+    inputs.impermanence.nixosModules.impermanence # required by the state options
     ../../modules/nixos/default.nix
     ../../modules/nixos/common.nix
   ];

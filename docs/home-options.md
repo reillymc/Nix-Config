@@ -801,8 +801,11 @@ true
 
 
 
-Options forwarded verbatim to ` services.restic.backups.daily' (e.g.  `repositoryFile’, ` passwordFile',  `environmentFile’, ` repository',  `passwordCommand’)\. Baked defaults (` initialize',  `pruneOpts’,
-` checkOpts',  `timerConfig’, ` exclude') are overridden by keys set here.  `paths’ is derived from \`myhome\.state’ and is always forced\.
+Options forwarded verbatim to ` services.restic.backups.daily' (e.g.  `repositoryFile’, ` passwordFile',  `environmentFile’, ` repository',  `passwordCommand’)\. Baked defaults set ` initialize = true',  `pruneOpts’, ` checkOpts', and  `timerConfig’\. Keys
+set here override the corresponding baked default; the list-valued
+` pruneOpts' and  `exclude’ are appended to the baked lists rather
+than replacing them, so a caller can widen retention or exclusions
+but not drop a baked entry\. ` paths' is derived from  `myhome\.state’ and is always forced; ` exclude' additionally merges each entry's  `backup\.exclude’\.
 
 
 
@@ -826,10 +829,10 @@ attribute set
 
 
 
-Directories (relative to ` home.homeDirectory') to persist via impermanence and back up via  `myhome\.state\.backup’\.
+Directories to persist via impermanence and back up via
+\`myhome\.state\.backup’\.
 
-Each entry is either a path string or an attribute set accepting
-` directory',  `persist’, and \`backup’\.
+Paths are relative to ` home.homeDirectory'. Each entry is either a string path or an attribute set accepting  `directory’, ` persist', and  `backup’\.
 
 
 
@@ -853,10 +856,10 @@ list of (string or (submodule))
 
 
 
-Files (relative to ` home.homeDirectory') to persist via impermanence and back up via  `myhome\.state\.backup’\.
+Files to persist via impermanence and back up via
+\`myhome\.state\.backup’\.
 
-Each entry is either a path string or an attribute set accepting
-` file',  `persist’, and \`backup’\.
+Paths are relative to ` home.homeDirectory'. Each entry is either a string path or an attribute set accepting  `file’, ` persist', and  `backup’\.
 
 
 
@@ -880,9 +883,9 @@ list of (string or (submodule))
 
 
 
-Store-level impermanence options forwarded verbatim to
-` home.persistence.main' ( `persistentStoragePath’, ` hideMounts',  `allowTrash’, ` enable', ...).  `persistentStoragePath’ defaults to
-\`“/persist”'\.
+Store-level impermanence options (e\.g\. ` persistentStoragePath',  `hideMounts’, ` allowTrash',  `enable’) forwarded to the host’s
+persistence store\. ` persistentStoragePath' defaults to  `“/persist”'\.
+The impermanence module must be imported for this to take effect\.
 
 
 
@@ -899,6 +902,38 @@ attribute set
 
 *Declared by:*
  - [modules/home-manager/state](../modules/home-manager/state)
+
+
+
+## myhome\.steam\.enable
+
+
+
+Whether to enable Steam state persistence and backups\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+*Declared by:*
+ - [modules/home-manager/steam\.nix](../modules/home-manager/steam.nix)
 
 
 

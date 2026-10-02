@@ -6,6 +6,7 @@
     ./healthchecks.nix
     ./hyprland
     ./notify.nix
+    ./steam.nix
     ./unfree-packages.nix
     ./firefox
     ./state

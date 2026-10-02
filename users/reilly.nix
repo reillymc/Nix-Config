@@ -9,6 +9,7 @@
   home.homeDirectory = "/home/reilly";
 
   myhome.vscode.enable = true;
+  myhome.steam.enable = true;
 
   myhome.web-apps = {
     enable = true;
@@ -158,17 +159,6 @@
         backup.enable = false;
       }
       {
-        directory = ".local/share/Steam";
-        backup.enable = false;
-      }
-      # The steamapps tree is persisted as part of `.local/share/Steam' above;
-      # only the Proton prefixes are worth backing up, so this entry opts out of
-      # persistence to avoid a redundant nested bind mount.
-      {
-        directory = ".local/share/Steam/steamapps/compatdata";
-        persist.enable = false;
-      }
-      {
         directory = ".local/share/systemd/timers";
         backup.enable = false;
       }
@@ -187,10 +177,6 @@
       {
         directory = ".ssh";
         persist.mode = "0700";
-      }
-      {
-        directory = ".steam";
-        backup.enable = false;
       }
       {
         directory = ".var";

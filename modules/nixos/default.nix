@@ -12,6 +12,7 @@
     ./healthchecks.nix
     ./hyprland
     ./services
+    ./state
     ./theme.nix
     ./utilities
     ./scripts.nix

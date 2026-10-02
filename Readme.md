@@ -29,6 +29,10 @@ Custom options are documented within [NixOS Options](./docs/nixos-options.md) an
 
 The following command can be used to update the docs with modified options `nix build .#docs && cp -rf result/* ./docs/ && rm result`.
 
+### State
+
+User and system state is persisted via [impermanence](https://github.com/nix-community/impermanence) and backed up via restic. Declare entries under `myhome.state` (per user) or `mynixos.state` (system); both are in the generated docs. The impermanence module must be imported by the host (the flake does this for all listed hosts) and backup is opt-in via `myhome.state.backup.enable`. See [hosts/example](./hosts/example) for a minimal example.
+
 ## Secrets
 
 Secrets are encrypted using [agenix](https://github.com/ryantm/agenix). They are encrypted with a system key, usually located at `/etc/ssh/ssh_host_ed25519_key.pub` and a user/admin key, usually `~/.ssh/id_ed25519.pub`.

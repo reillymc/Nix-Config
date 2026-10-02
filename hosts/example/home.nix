@@ -12,6 +12,17 @@
   home.username = "example";
   home.homeDirectory = "/home/example";
 
+  # State entries are persisted via impermanence and backed up via restic.
+  # Backup is opt-in via `myhome.state.backup.enable'; `backup.enable' on an
+  # entry opts it out of the backup.
+  myhome.state.directories = [
+    "Documents"
+    {
+      directory = ".config/example";
+      backup.enable = false;
+    }
+  ];
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.

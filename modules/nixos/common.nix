@@ -41,4 +41,11 @@
   security.sudo.extraConfig = ''
     Defaults lecture = never
   '';
+
+  # Prevent heavy nix builds starving desktop/user resources,
+  # keeping the system usable.
+  systemd.services.nix-daemon.serviceConfig = {
+    Nice = 10;
+    IOWeight = 20;
+  };
 }

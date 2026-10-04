@@ -239,8 +239,8 @@ in
               {
                 type = "spring";
                 mass = 1;
-                stiffness = 25;
-                dampening = 9;
+                stiffness = 27.5;
+                dampening = 9.5;
               }
             ];
           }
@@ -250,8 +250,8 @@ in
               {
                 type = "spring";
                 mass = 1;
-                stiffness = 80;
-                dampening = 16;
+                stiffness = 72;
+                dampening = 15.5;
               }
             ];
           }
@@ -658,7 +658,7 @@ in
           hl.bind(mod .. " + SHIFT + ALT + code:1" .. i, hl.dsp.window.move({ workspace = i + 1, follow = false }))
         end
 
-        hl.bind(mod .. " + CTRL + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
+        hl.bind(mod .. " + G", hl.dsp.window.float({ action = "toggle" }))
         hl.bind(mod .. " + V", function()
           local clipboardWindows = hl.get_windows({ class = "com.my.clipboard" })
           if #clipboardWindows > 0 then
@@ -704,24 +704,24 @@ in
         -- Custom binds
         hl.bind(mod .. " + C", hl.dsp.exec_cmd("${search}/bin/search"))
         hl.bind(mod .. " + SHIFT + F", hl.dsp.window.fullscreen())
-        hl.bind(mod .. " + F", hl.dsp.window.fullscreen_state({ internal = 1, client = 1 }))
+        hl.bind(mod .. " + F", hl.dsp.window.fullscreen_state({ internal = 1, client = 1, action = "toggle" }))
         hl.bind(mod .. " + ALT + F", hl.dsp.window.fullscreen_state({ internal = -1, client = 2 }))
         hl.bind(mod .. " + ESCAPE", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
         hl.bind(mod .. " + CTRL + ESCAPE", hl.dsp.exec_cmd("powerMenu"))
 
-        -- Tap SUPER to open the launcher; holding it cancels the pending open
-        local superCancelled = false
+        -- Tap SUPER to open the launcher; holding it past 250ms cancels the pending open
+        local superTimer = nil
 
         hl.bind(mod .. " + SUPER_L", function()
-          superCancelled = false
+          superTimer = hl.timer(function()
+            superTimer = nil
+          end, { timeout = 250, type = "oneshot" })
         end, { ignore_mods = true })
 
         hl.bind(mod .. " + SUPER_L", function()
-          superCancelled = true
-        end, { long_press = true, ignore_mods = true })
-
-        hl.bind(mod .. " + SUPER_L", function()
-          if not superCancelled then
+          if superTimer then
+            superTimer:set_enabled(false)
+            superTimer = nil
             hl.exec_cmd("launcher")
           end
         end, { release = true })
@@ -775,12 +775,12 @@ in
         end)
         hl.bind(mod .. " + SHIFT + L", hl.dsp.layout("swapwithmaster master"))
 
-         hl.bind(mod .. " + z", function()
-           hl.config({ cursor = { zoom_factor = hl.get_config("cursor:zoom_factor") + 0.08 } })
-         end)
-         hl.bind(mod .. " + SHIFT + z", function()
-           hl.config({ cursor = { zoom_factor = 1.0 } })
-         end)
+        hl.bind(mod .. " + minus", function()
+          hl.config({ cursor = { zoom_factor = hl.get_config("cursor:zoom_factor") - 0.08 } })
+        end)
+        hl.bind(mod .. " + equal", function()
+          hl.config({ cursor = { zoom_factor = hl.get_config("cursor:zoom_factor") + 0.08 } })
+        end)
       '';
     };
 
@@ -824,7 +824,7 @@ in
           animations = {
             enabled = true;
             animation = [
-              "fadeIn, 1, 20, linear"
+              "fadeIn, 1, 16, linear"
               "fadeOut, 1, 4, linear"
             ];
           };

@@ -113,10 +113,6 @@
       "Resources"
       "Videos"
       {
-        directory = ".config/goa-1.0";
-        backup.enable = false;
-      }
-      {
         directory = ".config/libreoffice";
         backup.enable = false;
       }

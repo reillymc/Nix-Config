@@ -11,6 +11,7 @@
     ./hardware
     ./healthchecks.nix
     ./hyprland
+    ./online-accounts
     ./services
     ./state
     ./theme.nix

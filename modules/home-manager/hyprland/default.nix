@@ -76,10 +76,6 @@ in
   config = lib.mkIf mynixos.hyprland.enable {
     myhome.state.directories = [
       {
-        directory = ".local/share/keyrings";
-        backup.enable = false;
-      }
-      {
         directory = ".config/kdeconnect";
         backup.enable = false;
       }

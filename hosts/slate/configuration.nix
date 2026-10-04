@@ -13,6 +13,7 @@ let
   mynixos = {
     steam.enable = true;
     hyprland.enable = true;
+    online-accounts.enable = true;
     kdeconnect.enable = true;
     docker.enable = true;
     nautilus.enable = true;

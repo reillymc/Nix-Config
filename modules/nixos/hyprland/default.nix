@@ -21,11 +21,6 @@
       displayManager.defaultSession = "hyprland-uwsm";
       gnome.core-apps.enable = true;
       gnome.sushi.enable = true;
-
-      # Required for calendar
-      gnome.evolution-data-server.enable = true;
-      gnome.gnome-online-accounts.enable = true;
-      gnome.gnome-keyring.enable = true;
     };
 
     environment.gnome.excludePackages = with pkgs; [

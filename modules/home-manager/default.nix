@@ -6,6 +6,7 @@
     ./healthchecks.nix
     ./hyprland
     ./notify.nix
+    ./online-accounts
     ./steam.nix
     ./unfree-packages.nix
     ./firefox

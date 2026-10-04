@@ -34,6 +34,8 @@ let
   defaultBasePrefs = {
     "browser.aboutConfig.showWarning" = false;
     "browser.startup.page" = 3;
+    "browser.search.separatePrivateDefault.enabled" = true;
+    "browser.search.separatePrivateDefault.featureGate" = true;
     "sidebar.verticalTabs" = true;
     "browser.uiCustomization.state" = {
       placements = {

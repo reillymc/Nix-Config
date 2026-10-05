@@ -48,10 +48,18 @@ rec {
         --fail
         --silent
         --show-error
-        --max-time 10
+        --connect-timeout 5
+        --max-time 15
+        --retry-delay 5
+        --retry-connrefused
       )
-      # Start pings are ordered before the hooked service, so don't retry them.
-      [ "$event" = "start" ] || curl_args+=( --retry 3 )
+      # Start pings are ordered before the hooked service: bound their total
+      # retry window so an unreachable Healthchecks cannot stop the service.
+      if [ "$event" = "start" ]; then
+        curl_args+=( --retry 5 --retry-max-time 45 )
+      else
+        curl_args+=( --retry 8 --retry-max-time 240 )
+      fi
       if [ -n "$body" ]; then
         curl_args+=( --data-binary "@$body" )
       fi

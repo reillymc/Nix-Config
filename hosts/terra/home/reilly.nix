@@ -24,6 +24,7 @@
     libreoffice
     prismlauncher
     gocryptfs
+    imagemagick
   ];
 
   age = {

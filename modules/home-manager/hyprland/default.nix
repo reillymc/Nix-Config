@@ -174,6 +174,7 @@ in
           ecosystem = {
             no_update_news = true;
             no_donation_nag = true;
+            enforce_permissions = true;
           };
 
           group = {
@@ -594,6 +595,14 @@ in
         hl.on("hyprland.start", function()
           hl.exec_cmd("uwsm app -- kdeconnectd")
         end)
+
+        -- Permissions (require a Hyprland restart to change; see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Permissions/)
+        hl.permission({ binary = "/nix/store/[a-z0-9]{32}-grim-[^/]*/bin/grim", type = "screencopy", mode = "allow" })
+        hl.permission({ binary = "/nix/store/[a-z0-9]{32}-hyprpicker-[^/]*/bin/hyprpicker", type = "screencopy", mode = "allow" })
+        hl.permission({ binary = "/nix/store/[a-z0-9]{32}-xdg-desktop-portal-hyprland-[^/]*/libexec/[.]xdg-desktop-portal-hyprland-wrapped", type = "screencopy", mode = "allow" })
+        hl.permission({ binary = "/nix/store/[a-z0-9]{32}-obs-studio-[^/]*/bin/.*", type = "screencopy", mode = "allow" }) -- wlrobs on slate
+        hl.permission({ binary = "/nix/store/[a-z0-9]{32}-hyprlock-[^/]*/bin/hyprlock", type = "screencopy", mode = "allow" })
+        hl.permission({ binary = ".*", type = "plugin", mode = "deny" })
 
         -- Float, resize and center windows whose title matches the configured list
         local popupHeightPct = ${toString popupHeightPercent}

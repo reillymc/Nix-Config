@@ -250,10 +250,10 @@ in
 
   services.udev.extraRules = ''
     # Disable wakeup for all USB devices
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", TEST=="power/wakeup", ATTR{power/wakeup}="disabled"
 
     # Re-enable NuPhy receiver
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="19f5", ATTR{idProduct}=="3247", ATTR{power/wakeup}="enabled"
+    ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="19f5", ATTR{idProduct}=="3247", TEST=="power/wakeup", ATTR{power/wakeup}="enabled"
 
     # Create stable symlinks for GPU cards so AQ_DRM_DEVICES can reference them
     # Integrated GPU (Granite Ridge) -> /dev/dri/amd-igpu

@@ -454,6 +454,38 @@ true
 
 
 
+## mynixos\.online-accounts\.enable
+
+
+
+Whether to enable GNOME Online Accounts (CalDAV/CardDAV) with Evolution Data Server\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+*Declared by:*
+ - [modules/nixos/online-accounts](../modules/nixos/online-accounts)
+
+
+
 ## mynixos\.spotify\.enable
 
 

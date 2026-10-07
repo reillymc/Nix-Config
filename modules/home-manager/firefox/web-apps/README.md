@@ -51,3 +51,4 @@ Deployed via enterprise autoconfig (`extraPrefsFiles` → `mozilla.cfg`): a fram
 - `document-element-inserted` must be observed in the content process, never the parent.
 - `browser.uiCustomization.state` widget ids are sanitized addon ids: lowercase, `@`/`.` → `_`, plus `-browser-action`. Pre-place them in `unified-extensions-area`.
 - Escape JS template literals in `''` strings as `''${…}`;
+- uBO caches `browser.storage.managed` locally and refreshes it only after the startup read, so `3rdparty` policy changes take effect on the next full launch (relaunch the app once more).

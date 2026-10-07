@@ -79,6 +79,10 @@
         ""
         "! Hide most relevant on subscriptions page"
         "www.youtube.com##ytd-browse[page-subtype=\"subscriptions\"] ytd-rich-section-renderer"
+        ""
+        "! Hide related videos on (new) layout"
+        "www.youtube.com##.ytd-watch-next-secondary-results-renderer.style-scope > .ytd-item-section-renderer.style-scope"
+        "www.youtube.com##.you-chat-entrypoint-button.ytSideRailViewModelButton.ytSpecButtonViewModelHost"
       ];
     };
   };

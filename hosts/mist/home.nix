@@ -428,6 +428,10 @@ let
   };
 in
 {
+  imports = [
+    ../../modules/home-manager/development/git.nix
+  ];
+
   home.username = "dev";
   home.homeDirectory = "/home/dev";
 
@@ -489,18 +493,7 @@ in
   };
 
   programs.git = {
-    enable = true;
-    settings = {
-      user = {
-        name = "reillymc";
-        email = "dev@reillymc.com";
-      };
-      help = {
-        autocorrect = "prompt";
-      };
-      alias.project = "!git-project";
-      push.autoSetupRemote = true;
-    };
+    settings.alias.project = "!git-project";
     hooks.pre-commit = gitleaks-pre-commit;
   };
 

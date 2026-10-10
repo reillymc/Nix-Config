@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   config,
+  secrets,
   ...
 }:
 let
@@ -33,7 +34,7 @@ let
         mem = 14336;
         vcpu = 4;
         vsockCid = 5;
-        identity.file = ../../secrets/mist/age-identity.age;
+        identity.file = secrets.guests.mist.age-identity;
         shares = [
           {
             tag = "workspace";
@@ -228,8 +229,14 @@ in
       theme = "dark"; # Base system theme; light is a specialisation
     };
     users = {
-      "reilly" = import ./home/reilly.nix;
-      "guest" = import ./home/guest.nix;
+      "reilly" = {
+        _module.args.secrets = secrets.users.reilly;
+        imports = [ ./home/reilly.nix ];
+      };
+      "guest" = {
+        _module.args.secrets = secrets.users.guest;
+        imports = [ ./home/guest.nix ];
+      };
     };
   };
   inherit mynixos;

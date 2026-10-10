@@ -157,19 +157,20 @@
         "nixpkgs": "nixpkgs"
       }
     },
-    "systems": {
+    "secrets": {
+      "flake": false,
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
+        "lastModified": 1791579052,
+        "narHash": "sha256-AYaYs0rWPrQU5j5lxTvy6QuxWPK0VzBEB1yMR1mOrHY=",
+        "ref": "refs/heads/main",
+        "rev": "aa201ccb8746e02bc6437b78589e15b0bfa13045",
+        "revCount": 2,
+        "type": "git",
+        "url": "ssh://git@github.com/reillymc/Nix-Secrets.git"
       },
       "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
+        "type": "git",
+        "url": "ssh://git@github.com/reillymc/Nix-Secrets.git"
       }
     },
     "spectrum": {

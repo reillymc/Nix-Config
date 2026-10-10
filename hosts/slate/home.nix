@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  secrets,
   ...
 }:
 
@@ -53,9 +54,9 @@
   age = {
     secretsDir = "${config.home.homeDirectory}/.local/share/agenix";
     secrets = {
-      "restic-backup/env".file = ../../secrets/slate/reilly/restic-backup/env.age;
-      "restic-backup/password".file = ../../secrets/slate/reilly/restic-backup/password.age;
-      "restic-backup/repo".file = ../../secrets/slate/reilly/restic-backup/repo.age;
+      "restic-backup/env".file = secrets.restic-backup.env;
+      "restic-backup/password".file = secrets.restic-backup.password;
+      "restic-backup/repo".file = secrets.restic-backup.repo;
     };
   };
 

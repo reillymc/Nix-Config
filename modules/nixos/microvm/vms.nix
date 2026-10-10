@@ -1,5 +1,6 @@
 {
   config,
+  hostname,
   inputs,
   lib,
   ...
@@ -52,9 +53,10 @@ let
     };
 
   makeVm =
-    vm:
+    name: vm:
     (import ./microvm-base.nix) {
-      inherit lib inputs;
+      inherit lib inputs name;
+      secrets = (import inputs.secrets).${hostname}.guests.${name};
       inherit (vm)
         hostConfig
         tapId
@@ -285,7 +287,7 @@ in
       }
     ];
 
-    microvm.vms = lib.mapAttrs (_: makeVm) cfg;
+    microvm.vms = lib.mapAttrs makeVm cfg;
 
     age.secrets = lib.mapAttrs' (
       _: vm:

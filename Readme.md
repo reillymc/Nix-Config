@@ -35,16 +35,13 @@ User and system state is persisted via [impermanence](https://github.com/nix-com
 
 ## Secrets
 
-Secrets are encrypted using [agenix](https://github.com/ryantm/agenix). They are encrypted with a system key, usually located at `/etc/ssh/ssh_host_ed25519_key.pub` and a user/admin key, usually `~/.ssh/id_ed25519.pub`.
-
-Edit a user secret from the [secrets](./secrets) folder with `agenix -e $HOSTNAME/{secret}.age`
-Edit a system secret from the [secrets](./secrets) folder with `sudo EDITOR=nano agenix -e  $HOSTNAME/{secret}.age -i /etc/ssh/ssh_host_ed25519_key`
+Secrets live in a separate private repository, consumed as a flake input (and overridden to reference the local clone directly).
 
 ## Development
 
 [statix](https://github.com/oppiliappan/statix) is used to lint the nix code in this project. Run with `nix run nixpkgs#statix check` or `nix run nixpkgs#statix fix`
 
-When actively iterating, use `{hostname}-test` command to rebuild and activate without clogging up bootloader. Once ready, commit and run `{hostname}-rebuild`.`
+When actively iterating, use `<hostname>-build` / `<hostname>-build test` to rebuild and activate without touching the bootloader. Once ready, commit and run `<hostname>-build switch`.
 
 ## Tools
 

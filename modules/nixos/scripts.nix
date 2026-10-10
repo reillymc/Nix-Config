@@ -57,10 +57,14 @@ let
         if [[ "$theme" == light ]]; then
           nixos-rebuild "$action" \
             --flake ${config.mynixos.configDir}#${hostname} \
+            --override-input secrets "path:$secrets_dir" \
+            --no-update-lock-file \
             --specialisation light
         else
           nixos-rebuild "$action" \
-            --flake ${config.mynixos.configDir}#${hostname}
+            --flake ${config.mynixos.configDir}#${hostname} \
+            --override-input secrets "path:$secrets_dir" \
+            --no-update-lock-file
         fi
       ''
     else
@@ -71,7 +75,9 @@ let
         fi
 
         nixos-rebuild "$action" \
-          --flake ${config.mynixos.configDir}#${hostname}
+          --flake ${config.mynixos.configDir}#${hostname} \
+          --override-input secrets "path:$secrets_dir" \
+          --no-update-lock-file
       '';
 
   system-build = pkgs.writeShellApplication {
@@ -79,6 +85,7 @@ let
 
     runtimeInputs = [
       pkgs.coreutils
+      pkgs.glibc.bin
       pkgs.nixos-rebuild
     ];
 
@@ -90,6 +97,16 @@ let
       fi
 
       ${determineTheme}
+
+      secrets_user="''${SUDO_USER:-root}"
+      secrets_home="$(getent passwd "$secrets_user" | cut -d: -f6 || true)"
+      secrets_dir="$secrets_home/Projects/Nix-Secrets"
+
+      if [[ -z "$secrets_home" || ! -d "$secrets_dir" ]]; then
+        echo "error: no secrets clone for user '$secrets_user' (expected $secrets_dir)" >&2
+        echo "clone it with: git clone git@github.com:reillymc/Nix-Secrets.git \"\$HOME/Projects/Nix-Secrets\"" >&2
+        exit 1
+      fi
 
       action="''${1:-test}"
 
@@ -104,7 +121,9 @@ let
           fi
 
           nixos-rebuild boot \
-            --flake ${config.mynixos.configDir}#${hostname}
+            --flake ${config.mynixos.configDir}#${hostname} \
+            --override-input secrets "path:$secrets_dir" \
+            --no-update-lock-file
           ;;
         *)
           echo "Usage: $0 [switch|test|boot] [light|dark]" >&2
@@ -128,8 +147,15 @@ let
 
       flake=${config.mynixos.configDir}
       host=${hostname}
+      secrets_dir="$HOME/Projects/Nix-Secrets"
 
       ${determineTheme}
+
+      if [[ ! -d "$secrets_dir" ]]; then
+        echo "error: secrets clone not found at $secrets_dir" >&2
+        echo "clone it with: git clone git@github.com:reillymc/Nix-Secrets.git \"\$HOME/Projects/Nix-Secrets\"" >&2
+        exit 1
+      fi
 
       nix flake update --flake "$flake"
 
@@ -137,7 +163,9 @@ let
 
       rm -f "$flake/result"
       nix build "$flake#nixosConfigurations.$host.config.system.build.toplevel" \
-        --out-link "$flake/result"
+        --out-link "$flake/result" \
+        --override-input secrets "path:$secrets_dir" \
+        --no-update-lock-file
 
       system="$flake/result"
       if [[ "$theme" == light ]]; then

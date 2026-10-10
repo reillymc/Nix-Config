@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   config,
+  secrets,
   ...
 }:
 let
@@ -197,7 +198,10 @@ in
       theme = "dark"; # Base system theme; light is a specialisation
     };
     users = {
-      "reilly" = import ./home.nix;
+      "reilly" = {
+        _module.args.secrets = secrets.users.reilly;
+        imports = [ ./home.nix ];
+      };
     };
   };
 

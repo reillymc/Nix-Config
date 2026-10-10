@@ -2,6 +2,7 @@
   config,
   inputs,
   pkgs,
+  secrets,
   ...
 }:
 {
@@ -30,9 +31,9 @@
   age = {
     secretsDir = "${config.home.homeDirectory}/.local/share/agenix";
     secrets = {
-      "restic-backup/env".file = ../../../secrets/terra/reilly/restic-backup/env.age;
-      "restic-backup/password".file = ../../../secrets/terra/reilly/restic-backup/password.age;
-      "restic-backup/repo".file = ../../../secrets/terra/reilly/restic-backup/repo.age;
+      "restic-backup/env".file = secrets.restic-backup.env;
+      "restic-backup/password".file = secrets.restic-backup.password;
+      "restic-backup/repo".file = secrets.restic-backup.repo;
     };
   };
 

@@ -1,6 +1,10 @@
 {
+  secrets,
+  ...
+}:
+{
   age.secrets."opencode-go/api-key" = {
-    file = ../../secrets/mist/opencode-go-api-key.age;
+    file = secrets.opencode-go-api-key;
     path = "/home/dev/.config/opencode/api-key";
     owner = "dev";
     group = "dev";

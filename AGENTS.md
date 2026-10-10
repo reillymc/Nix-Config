@@ -23,7 +23,8 @@ This file should only be updated sparingly in the case of genuine project-scoped
    - `nix eval .#nixosConfigurations.<host>.config.home-manager.users.<user>.assertions` (look for `"assertion":false`)
    - `nix eval .#nixosConfigurations.<host>.config.home-manager.users.<user>.<option>`
    - e.g. `...users.<user>.services.restic.backups.daily.paths`
-   - Standard users to check: `terra/reilly`, `terra/guest`, `slate/reilly`, `mist/dev` (0 failing assertions).
+   - Standard users to check: `terra/reilly`, `terra/guest`, `slate/reilly`; mist's guest: `.#nixosConfigurations.terra.config.microvm.vms.mist.config.config.home-manager.users.dev.assertions` (0 failing assertions).
+   - Leaf evals need `--override-input secrets path:$HOME/Projects/Nix-Secrets` (see Secrets); in the mist guest use `/home/dev/Projects/Nix-Secrets`.
    - Flakes ignore untracked files: after adding or moving files use `path:.#...` (or stage them).
    - Options carrying removed-option shims (impermanence `home.persistence.main.{directories,files}`) error when serialised; inspect with `--apply 'xs: map (x: x.directory) xs'` or rely on assertions.
 4. Real builds: `<hostname>-build [test|switch|boot] [light|dark]` (`test` default, self-escalates via sudo, theme defaults by time of day). Also `<hostname>-update`, `<hostname>-clean`; `<hostname>-theme` and theme specialisations exist only when `mynixos.theme.schedule` is set (dark = base system, light = specialisation).
@@ -37,6 +38,12 @@ This file should only be updated sparingly in the case of genuine project-scoped
 - A module declaring `options` must put its config under an explicit `config = { ... }`, otherwise: "Module ... has an unsupported attribute `home'...".
 - Format touched files with `nixfmt`; the repo is nixfmt-formatted, so unrelated lines should not change.
 - Hosts import their generated `hardware-configuration.nix` from `configuration.nix` (NixOS convention); only mist is composed as a microvm guest.
+
+## Secrets
+
+- Ciphertext lives in the private `reillymc/Nix-Secrets` repo, cloned per user at `$HOME/Projects/Nix-Secrets` (mist guest: `/home/dev/Projects/Nix-Secrets`); the flake's `secrets` input is never fetched because every build/eval passes `--override-input secrets path:...` (wrappers do this automatically). See that repo's README for layout and rotation workflow.
+- `secrets` is host-scoped in NixOS modules (`(import inputs.secrets).<hostname>`); home-manager users receive their slice via `_module.args.secrets`; microvm guests receive `<host>.guests.<name>` via the VM `specialArgs`; missing scopes fail eval by design.
+- `<host>-update` runs `nix flake update` without the override (fetches the repo as the invoking user); build paths pass `--no-update-lock-file` so a `path:` override is never written into `flake.lock`.
 
 ## Symptoms
 

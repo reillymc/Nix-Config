@@ -11,7 +11,10 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
+    };
+    secrets = {
+      url = "git+ssh://git@github.com/reillymc/Nix-Secrets.git";
+      flake = false;
     };
     impermanence = {
       url = "github:nix-community/impermanence";
@@ -47,7 +50,6 @@
         # "example" # Example host, can be removed or replaced
         "terra"
         "slate"
-        "mist"
       ];
     in
     {
@@ -58,6 +60,7 @@
             inherit inputs;
             inherit hostname;
             inherit nixpkgs-unstable;
+            secrets = (import inputs.secrets).${hostname};
           };
           modules = [
             ./hosts/${hostname}/configuration.nix

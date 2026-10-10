@@ -1,6 +1,8 @@
 {
   lib,
   inputs,
+  name,
+  secrets,
   hostConfig,
   tapId,
   mac,
@@ -71,7 +73,10 @@ let
 in
 {
   inherit autostart;
-  specialArgs = { inherit inputs; };
+  specialArgs = {
+    inherit inputs secrets;
+    hostname = name;
+  };
   config = {
     imports = [
       inputs.microvm.nixosModules.microvm

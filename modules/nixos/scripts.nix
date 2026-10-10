@@ -157,7 +157,7 @@ let
         exit 1
       fi
 
-      nix flake update --flake "$flake"
+      nix flake update --flake "$flake" "$@"
 
       theme=$(determine_theme)
 
@@ -183,16 +183,6 @@ let
       nvd diff "$current" "$new"
 
       echo
-      if [[ -t 0 ]]; then
-        read -r -p "Apply this update with ${hostname}-build (test)? [y/N] " answer
-        case "$answer" in
-          [yY] | [yY][eE][sS])
-            "${hostname}-build" test
-            exit 0
-            ;;
-        esac
-      fi
-
       echo "Run '${hostname}-build' to apply the update."
     '';
   };

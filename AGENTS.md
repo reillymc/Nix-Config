@@ -27,7 +27,7 @@ This file should only be updated sparingly in the case of genuine project-scoped
    - Leaf evals need `--override-input secrets path:$HOME/Projects/Nix-Secrets` (see Secrets); in the mist guest use `/home/dev/Projects/Nix-Secrets`.
    - Flakes ignore untracked files: after adding or moving files use `path:.#...` (or stage them).
    - Options carrying removed-option shims (impermanence `home.persistence.main.{directories,files}`) error when serialised; inspect with `--apply 'xs: map (x: x.directory) xs'` or rely on assertions.
-4. Real builds: `<hostname>-build [test|switch|boot] [light|dark]` (`test` default, self-escalates via sudo, theme defaults by time of day). Also `<hostname>-update`, `<hostname>-clean`; `<hostname>-theme` and theme specialisations exist only when `mynixos.theme.schedule` is set (dark = base system, light = specialisation).
+4. Real builds: `<hostname>-build [test|switch|boot] [light|dark]` (`test` default, self-escalates via sudo, theme defaults by time of day). Also `<hostname>-update [input...]` (no args updates all inputs; e.g. `<hostname>-update secrets` refreshes just that lock node), `<hostname>-clean`; `<hostname>-theme` and theme specialisations exist only when `mynixos.theme.schedule` is set (dark = base system, light = specialisation).
 5. Docs are generated from option metadata: regenerate after changing option names/descriptions/defaults with `nix build .#docs && cp -rf result/* ./docs/ && rm -f result` (use `path:.#docs` while new files are untracked). Never hand-edit `docs/`.
 6. Reclaim after heavy work: `nix store gc` (safe; frees ~20 GiB via overlay/hardlinks). Re-check `df -h /`, `free -h`.
 7. No concurrent heavy Nix commands.
@@ -43,7 +43,7 @@ This file should only be updated sparingly in the case of genuine project-scoped
 
 - Ciphertext lives in the private `reillymc/Nix-Secrets` repo, cloned per user at `$HOME/Projects/Nix-Secrets` (mist guest: `/home/dev/Projects/Nix-Secrets`); the flake's `secrets` input is never fetched because every build/eval passes `--override-input secrets path:...` (wrappers do this automatically). See that repo's README for layout and rotation workflow.
 - `secrets` is host-scoped in NixOS modules (`(import inputs.secrets).<hostname>`); home-manager users receive their slice via `_module.args.secrets`; microvm guests receive `<host>.guests.<name>` via the VM `specialArgs`; missing scopes fail eval by design.
-- `<host>-update` runs `nix flake update` without the override (fetches the repo as the invoking user); build paths pass `--no-update-lock-file` so a `path:` override is never written into `flake.lock`.
+- `<host>-update [input...]` runs `nix flake update` without the override (fetches the repo as the invoking user; e.g. `<host>-update secrets` refreshes just that node); build paths pass `--no-update-lock-file` so a `path:` override is never written into `flake.lock`.
 
 ## Symptoms
 
